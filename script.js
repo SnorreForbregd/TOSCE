@@ -70,6 +70,7 @@ function Roleblock(Roleblocker, Target) {
 // 9 - Dead
 
 function Target(CPU, Attacking, Visiting = true) {
+    let Cpu;
     for(let i=0; i<CPU.Role.Target.Length;i++) 
     {
         switch (CPU.Role.Target[i]) {
@@ -83,11 +84,11 @@ function Target(CPU, Attacking, Visiting = true) {
                 CPU.Target[i] = CPUList.findIndex((cpu, Ind) => {return (cpu.State == 0 && (cpu.State == 0 && (Ind > CPUList.indexOf(CPU)) != -1) ? (Ind > CPUList.indexOf(CPU)) : true )})
             break
             case 3:
-                let Cpu = CPUList.findIndex((cpu, Ind) => {return (cpu.State == 0 && (cpu.State == 0 && (Ind > CPUList.indexOf(CPU)) != -1) ? (Ind > CPUList.indexOf(CPU)) : true )})
+                Cpu = CPUList.findIndex((cpu, Ind) => {return (cpu.State == 0 && (cpu.State == 0 && (Ind > CPUList.indexOf(CPU)) != -1) ? (Ind > CPUList.indexOf(CPU)) : true )})
                 CPU.Target[i] = CPUList.findIndex((cpu, Ind) => {return (cpu.State == 0 && cpu.Role.Team != CPU.Role.Team && (cpu.State == 0 && cpu.Role.Team != CPU.Role.Team && (Ind > CPUList.indexOf(Cpu)) != -1) ? (Ind > CPUList.indexOf(Cpu)) : true )})
             break
             case 4:
-                let Cpu = CPUList.findIndex((cpu, Ind) => {return (cpu.State == 0 && (cpu.State == 0 && (Ind > CPUList.indexOf(CPU)) != -1) ? (Ind > CPUList.indexOf(CPU)) : true )})
+                Cpu = CPUList.findIndex((cpu, Ind) => {return (cpu.State == 0 && (cpu.State == 0 && (Ind > CPUList.indexOf(CPU)) != -1) ? (Ind > CPUList.indexOf(CPU)) : true )})
                 CPU.Target[i] = CPUList.findIndex((cpu, Ind) => {return (cpu.State == 0 && (cpu.State == 0 && (Ind > CPUList.indexOf(Cpu)) != -1) ? (Ind > CPUList.indexOf(Cpu)) : true )})
             break
             case 5:

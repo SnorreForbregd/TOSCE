@@ -287,7 +287,7 @@ function CyclePromArray(Arr) {
                 return role.Name == Arr[0];
             })]
         }
-        break;
+        return;
     });
 }
 

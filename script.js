@@ -1,7 +1,7 @@
 const NightActions = ["Werepup", "Herman", "Eskimo", "Lifeguard 1", "Lifeguard 2", "Washer", "Cooler", "Jailor", "Pirate", "Huntrustiff", "Suicide Bomber", "Assisting Dog", "Idiot", "Medusa", "Poisoner Saver", "Veteran", "Werewolf", "Transporter", "Coven Leader", "Hypnotist", "Security Guard", "Anarchist", "Ambusher", "Frenzied Thrall", "Escort", "Consort", "Thief", "Snorre", "Clown", "Necromancer", "Digger", "Robber", "Amnesiac", "FBI", "General", "King", "Queen", "Retributionist", "Armorer", "Bodyguard", "Police", "Survivor", "Vigilante", "Killager", "Villager", "Villargeter", "Werewolf", "Crusader", "Armorer", "Eskimo", "Guardian Angel", "Kristian", "Mikael", "Polar Bear", "Washer", "Bodyguard", "Doctor", "Immunist", "Pestilence Hunter H", "Police", "Potion Master", "Trapper", "Waller", "Hypnotist", "Cooler", "Worker", "Trapper", "Clown", "Bulleter", "Amneshiff", "Amnescriff", "Framer", "Unframer", "Remover", "Consigliere", "Identifier", "Investigator", "Journalist", "Lookout", "Ole Bjørn", "Pestilence Hunter R", "Potion Master", "Sheriff", "Spy", "Status Checker", "Tracker", "Arsonist", "Incinerator", "RAGE", "Jailor", "Writer", "Hunter Hunter", "Combo Hunter", "Coven Hunter", "Crazy Hunter", "Crazy Knight Hunter", "Creator Hunter", "Dog Mauler", "FBI Hunter", "Firefighter", "Freezer Hunter", "Mafia Hunter", "Pestilence Hunter H", "Pestilence Hunter K", "Pestilence Hunter R", "Poisoner Hunter", "Police Hunter", "SK Hunter", "Stupido Hunter", "Terrorist Hunter", "Vampire Hunter", "Werewolf Hunter", "Worker", "Scared", "Jester", "Nikkiller", "Elias", "Drage", "Huntrustiff", "Pestilence Hunter K", "Vigilante", "Soldier", "Police", "Killager", "Librarian", "Pestilence", "Pirate", "Stupido", "Herman", "Token", "Assassin Dog", "Johannes", "Oliver", "Poisoner", "Hex Master", "Godfather", "Mafioso", "Murderer", "Serial Killer", "Hex Master", "Medusa", "Necromancer", "Potion Master", "Dracula", "Vampire", "Crazy King", "Crazy", "Targeter", "Poisoner", "Pollutifier", "Arsonist", "Gasthrower", "Freezer", "Polar Bear", "Jailwolf", "Sniper", "Tankman", "Agent", "Agent ZK", "Terrorist", "Grenadethrower", "Werewolf", "Knight", "Archer", "Jailor", "Grenadethrower", "Coven Leader", "INCINERATE", "Janitor", "Jesper", "Mafiturner", "Amnescriff", "Amneshiff", "Amnesiac", "Retributionist"];
 let RoleList = [];
 let CPUList = [];
-let GlobalMods = {PosionerSaver: false, Mikael: false, Snorre: false, AssistingDog: false, Nightmare: false, NightmareTrigger: false, DayNumber: 0, Day: false}
+let GlobalMods = {PosionerSaver: false, Mikael: false, Snorre: false, AssistingDog: false, Nightmare: false, NightmareTrigger: false, DayNumber: 1, Day: false}
 let PromLists = [
     ["Mafioso", "SK Hunter", "Ambusher", "Consigliere", "Consort", "Framer", "Hypnotist", "Janitor", "Mafiturner", "Unframer", "MafVillager"],
     ["Arsonist", "Freezer Hunter", "Gasthrower", "Incinerator", "Washer"],
@@ -21,7 +21,7 @@ let PromLists = [
 ]
 
 function RunNight() {
-    GlobalMods.Nightmare = GlobalMods.NightmareTrigger ? true : false
+    GlobalMods.Nightmare = GlobalMods.NightmareTrigger
     GlobalMods.NightmareTrigger = false
     Promote()
     WinCheck()
@@ -30,10 +30,15 @@ function RunNight() {
     
     });
     Reset()
+    Promote()
     WinCheck()
 }
 function RunDay() {
-
+DayNumber++
+//Amne-folket blir om til rolle
+//Daylight killer angriper om eksisterende
+//Mayor stemmer om eksisterende
+//Utstemming av sus om eksisterende
 }
 
 function Reset() {
@@ -55,7 +60,15 @@ function TestProperties(Attacker, Target) {
 }
 
 function Roleblock(Roleblocker, Target) {
-
+    if (Target.Role.Rage) {
+        Attack(Target, Roleblocker, true)
+    }
+    else if (Target.Role.RoleblockImmune) {
+        return;
+    }
+    else {
+        Target.Props.Roleblocked = true
+    }
 }
 
 // 0 - Target Self
@@ -69,7 +82,7 @@ function Roleblock(Roleblocker, Target) {
 // 8 - Control Target
 // 9 - Dead
 
-function Target(CPU, Attacking, Visiting = true) {
+function Target(CPU, Attacking = true, Visiting = true) {
     let Cpu;
     for(let i=0; i<CPU.Role.Target.Length;i++) 
     {
@@ -145,7 +158,20 @@ function Target(CPU, Attacking, Visiting = true) {
         else if (CPU.Target[i].Role.Name == "Suicide Bomber" && CPU.Target[i].Props.Alert)
         {
             Attack(CPU.Target[i], CPU, true)
-        }    
+        } 
+        else if (CPU.Target[i].Props.Ambushed && CPU.Role.ImmuneVal < 1){
+            CPU.State = 1
+        }   
+        else if (CPU.Target[i].Props.Ambushed && CPU.Role.Hunter == "Mafia"){
+            Attack(CPU, CPUList.Find((AmbusherAmbush) => {AmbusherAmbush.Role.Name == "Ambusher"}), true)
+            return
+        }
+        else if (CPU.Target[i].Props.Crusaded && Attacking){
+            Attack(CPUList.Find((CrusaderProtect) => {CrusaderProtect.Role.Name == "Crusader"}), CPU, true)
+        }
+        else if (CPU.Target[i].Role.Hunter == CPU.Target[i].Team){
+            Attack(CPU, CPU.Target[i], true)
+        }
         else return
     if (CPU.Role.Name != "Targeter")
     {
@@ -185,7 +211,7 @@ function Promote() {
             }).Role = RoleList.find((roleByName) => {
                 return roleByName.Name == "Bodyguard"
             })
-        }
+        }   
 
         if (!(CPUList.some((cpuEntry) => {
             return (cpuEntry.Role.Team == "Vampires" && cpuEntry.State == 0)

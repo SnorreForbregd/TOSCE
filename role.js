@@ -1,5 +1,5 @@
 class Role {
-    constructor(name, team, attack, immunity, targetImmunity, target, countdown, roleblockimmune) {
+    constructor(name, team, attack, immunity, targetImmunity, target, countdown, roleblockimmune, rage) {
         this.Name = name;
         this.Team = team;
         this.Attack = attack;
@@ -8,5 +8,6 @@ class Role {
         this.Target = target;
         this.CountDown = countdown;
         this.RoleblockImmune = roleblockimmune
+        this.Rage = rage;
     }
 }

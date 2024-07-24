@@ -9,6 +9,9 @@ class Props {
       this.Ambushed = false;
       this.Crusaded = false;
       this.Trapped = false;
+      this.Transported = false;
+      this.Secured = false;
+      this.VotableDeath = true;
     
     }
   }

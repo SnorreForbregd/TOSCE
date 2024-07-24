@@ -12,6 +12,12 @@ class Props {
       this.Transported = false;
       this.Secured = false;
       this.VotableDeath = true;
-    
+      this.ERampaged = false;
+      this.PRampaged = false;
+      this.WRampaged = false;
+      this.VisitERampaged = false;
+      this.VisitPRampaged = false;
+      this.VisitWRampaged = false;
+      this.Anarchy = false;
     }
   }

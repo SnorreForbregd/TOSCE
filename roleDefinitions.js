@@ -3,16 +3,16 @@ requires("./role.js")
 // Liste Hvor vi putter inn alle roller
 let RoleList = [];
 
-// RoleList.push(new Role(Name [string], Team [string], Attack [integer], Immunity [integer], TargetImmunity [integer], TargetType [integer], Countdown [integer], RoleblockImmune [bool], Rage [bool], ControlImmune [bool], ControlImmuneEffect [bool], Unique [bool]));
+// RoleList.push(new Role(Name [string], Team [string], Type (string), Attack [integer], Immunity [integer], TargetImmunity [integer], TargetType [array([integer])], Countdown [integer], RoleblockImmune [bool], Rage [bool], ControlImmune [bool], ControlImmuneEffect [bool], Unique [bool]));
 
-RoleList.push(new Role("Bodyguard", "Town", "Protective", 7, 0, 6, 4, 1, false, false, false, false, false))
-RoleList.push(new Role("Crusader", "Town", "Protective", 1, 0, 4, 4, 1, false, false, false, false, false))
-RoleList.push(new Role("Dayriff", "Town", "Investigative", 0, 0, 0, 7, 1, false, false, false, true, false))
-RoleList.push(new Role("Doctor", "Town", "Protective", 0, 0, 6, 4, 1, false, false, false, false, false));
-RoleList.push(new Role("Escort", "Town", "Support", 0, 0, 0, 2, 1, true, false, false, false, false))
-RoleList.push(new Role("Haunter", "Town", "Killing", 7, 0, 0, 2, 1, false, false, true, true, false))
-RoleList.push(new Role("Huntrustiff", "Town", "Killing", 1, 0, 0, 7, 1, false, false, false, false)) //unique?
-RoleList.push(new Role("Immunist", "Town", "Protective", 0, 0, 7, 4, 1, false, false, false, false, false))
+RoleList.push(new Role("Bodyguard", "Town", "Protective", 7, 0, 6, [4], 1, false, false, false, false, false))
+RoleList.push(new Role("Crusader", "Town", "Protective", 1, 0, 4, [4], 1, false, false, false, false, false))
+RoleList.push(new Role("Dayriff", "Town", "Investigative", 0, 0, 0, [7], 1, false, false, false, true, false))
+RoleList.push(new Role("Doctor", "Town", "Protective", 0, 0, 6, [4], 1, false, false, false, false, false));
+RoleList.push(new Role("Escort", "Town", "Support", 0, 0, 0, [2], 1, true, false, false, false, false))
+RoleList.push(new Role("Haunter", "Town", "Killing", 7, 0, 0, [2], 1, false, false, true, true, false))
+RoleList.push(new Role("Huntrustiff", "Town", "Killing", 1, 0, 0, [7], 1, false, false, false, false)) //unique?
+RoleList.push(new Role("Immunist", "Town", "Protective", 0, 0, 7, [4], 1, false, false, false, false, false))
 RoleList.push(new Role("Investigator"))
 RoleList.push(new Role("Jailor"))
 RoleList.push(new Role("Journalist"))
@@ -26,7 +26,7 @@ RoleList.push(new Role("Pestilence Hunter R"))
 RoleList.push(new Role("Retributionist"))
 RoleList.push(new Role("Revengetaker"))
 RoleList.push(new Role("Security Guard"))
-RoleList.push(new Role("Sheriff", "Town", 0, 0, 0, 7, 1, false, false, false, false, false))
+RoleList.push(new Role("Sheriff", "Town", 0, 0, 0, [7], 1, false, false, false, false, false))
 RoleList.push(new Role("Spy"))
 RoleList.push(new Role("Statuschecker"))
 RoleList.push(new Role("Tracker"))

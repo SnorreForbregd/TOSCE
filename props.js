@@ -19,5 +19,7 @@ class Props {
       this.VisitPRampaged = false;
       this.VisitWRampaged = false;
       this.Anarchy = false;
+      this.Walled = false;
+      this.Bulletproof = false;
     }
   }

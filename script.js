@@ -376,7 +376,13 @@ function CyclePromArray(Arr) {
     });
 }
 
-function Attack(Attacker, Target, FromVisit = false, Votable = true) {
+function Attack(Attacker, Target, FromVisit = false, Votable = true, Ranged = false, Shooting = false) {
+    if (Ranged && Target.Props.Walled){
+        return;
+    }
+    if (Shooting && Target.Props.Bulletproof){
+        return;
+    }
     let AttackVal = Attacker.Role.Attack;
     let ImmuneVal = Target.Immunity;
     let BaseImmuneVal = Target.Role.Immunity;

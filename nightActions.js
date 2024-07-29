@@ -3,6 +3,11 @@ function NightActionFunc(CPUList, NightActionList) {
     UpdatedNightActionList.forEach(entry => {
         let CPU = CPUList.Find((cpu) => {cpu.Role.Name == entry})
         switch(entry) {
+        //Target(CPU, Attacking = true, Visiting = true)
+        //Attack(Attacker, Target, FromVisit = false, Votable = true, Ranged = false, Shooting = false)
+            case "Bodyguard":
+                
+            break;
             case "Sheriff":
                 //Sheriff nightaction
             break;

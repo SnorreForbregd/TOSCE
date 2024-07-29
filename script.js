@@ -22,6 +22,7 @@ let PromLists = [
     ["Vampire", "Werewolf Hunter", "Frenzied Thrall"],
     ["Werewolf", "Dog Mauler", "Firefighter", "Poisoner Hunter"]
 ]
+let VoteList = []
 
 
 function RunGame() {
@@ -134,6 +135,7 @@ function Target(CPU, Attacking = true, Visiting = true) {
             default:
             break
         }
+        OriginalTarget = Target[i]
         if (CPU.Role.Name != "Targeter") {
             if (CPU.Target[i].Props.Transported) {
                 CPU.Target[i] = CPUList.indexOf(CPUList.Find((Transported) => {Transported.Props.Transported && Transported != CPU.Target[i]}))
@@ -146,7 +148,7 @@ function Target(CPU, Attacking = true, Visiting = true) {
             }
         }
     if (Visiting && CPU.Role.Target[i] != 9)
-    // Husk Rampage, Idiot, Anarchist, Jailor, Døde folk, Ambusher, Crusader
+    // Husk Anarchist, Jailor, Døde folk
     {
         if (CPU.Target[i].Role.Name == "Veteran" && CPU.Target[i].Props.Alert && CPU.role.AttackVal <= 4)
         {
@@ -419,6 +421,9 @@ function Attack(Attacker, Target, FromVisit = false, Votable = true, Ranged = fa
         Attack(CPUList[Target.ProtectedBy], Attacker, true, false)
     }
     if (Target.State == 1) {
+        if (Votable){
+            Target.Props,VoteableDeath = true
+        }
         switch(Target.Role.Name) {
             case("Nighter" || "Jester" || "Magicmaker" || "Revengetaker"):
                 Attack(Target, Attacker, true, false)

@@ -21,5 +21,6 @@ class Props {
       this.Anarchy = false;
       this.Walled = false;
       this.Bulletproof = false;
+      this.Jailed = false;
     }
   }

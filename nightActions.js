@@ -6,7 +6,29 @@ function NightActionFunc(CPUList, NightActionList) {
         //Target(CPU, Attacking = true, Visiting = true)
         //Attack(Attacker, Target, FromVisit = false, Votable = true, Ranged = false, Shooting = false)
             case "Bodyguard":
-                
+                if (CPU.Props.Roleblocked == false){
+                    if (CPU.Role.Countdown == 1){
+                        CPU.Props.Bulletproof = true
+                        CPU.Role.Countdown = 0
+                    }
+                    else {
+                        (Target(CPU, false))
+                        if (CPU.Target[0].Props.Jailed == false){
+                            CPU.Target[0].Role.Immunity = CPU.Role.TargetImmunity
+                            CPU.Target[0].ProtectedBy = CPUList.indexOf(CPU)
+                        }
+                        
+                    }
+                }
+                    
+            break;
+            case "Crusader":
+                if (CPU.Props.Roleblocked == false){
+                    Target(CPU, false)
+                    if (CPU.Target[0].Props.Jailed == false){
+                        CPU.Target[0].Props.Crusaded = true
+                    }
+                }
             break;
             case "Sheriff":
                 //Sheriff nightaction

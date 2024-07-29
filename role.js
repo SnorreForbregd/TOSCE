@@ -1,8 +1,10 @@
 class Role {
-    constructor(name, team, type, attack, immunity, targetImmunity, target, countdown, roleblockimmune, rage, controlimmune, controleffectimmune, unique) {
+    constructor(name, team, hunter, type, suspicious, attack, immunity, targetImmunity, target, countdown, roleblockimmune, rage, controlimmune, controleffectimmune, unique) {
         this.Name = name;
         this.Team = team;
-        this.Type = type; //Killing, Protective, Investigative, Support, Deception, Evil, Benign, Chaos
+        this.Hunter = hunter;
+        this.Type = type; //Killing, Protective, Investigative, Support, Deception, Evil, Benign, Chaos, Hunting
+        this.Suspicious = suspicious
         this.Attack = attack;
         this.Immunity = immunity;
         this.TI = targetImmunity;

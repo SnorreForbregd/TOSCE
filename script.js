@@ -50,6 +50,7 @@ DayNumber++
 //Amne-folket blir om til rolle
 //Daylight killer angriper om eksisterende
 //Mayor stemmer om eksisterende
+//Dayriff sjekker om eksisterende
 //Utstemming av sus om eksisterende
 }
 
@@ -93,7 +94,8 @@ function Roleblock(Roleblocker, Target) {
 // 6 - Target Next Non-Team
 // 7 - Target Next
 // 8 - Control Target
-// 9 - Dead
+// 9 - Dead Team
+//10 - Dead
 
 function Target(CPU, Attacking = true, Visiting = true) {
     let Cpu;
@@ -135,7 +137,7 @@ function Target(CPU, Attacking = true, Visiting = true) {
             default:
             break
         }
-        OriginalTarget = Target[i]
+        OriginalTarget = Target[i] 
         if (CPU.Role.Name != "Targeter") {
             if (CPU.Target[i].Props.Transported) {
                 CPU.Target[i] = CPUList.indexOf(CPUList.Find((Transported) => {Transported.Props.Transported && Transported != CPU.Target[i]}))
@@ -146,6 +148,7 @@ function Target(CPU, Attacking = true, Visiting = true) {
             if (CPU.Target[i].Props.Secured) {
                 CPU.Target[i] = CPUList.indexOf(CPUList.Find((SecurityGuard) => {SecurityGuard.Role.Name == "Security Guard"}))
             }
+        // Lookout må legges inn her
         }
     if (Visiting && CPU.Role.Target[i] != 9)
     // Husk Anarchist, Jailor, Døde folk

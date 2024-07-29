@@ -36,9 +36,7 @@ function RunNight() {
     GlobalMods.Nightmare = GlobalMods.NightmareTrigger
     GlobalMods.NightmareTrigger = false
 
-    NightActions.forEach(NARole => {
-    //Investigatives lagrer informasjon
-    });
+    NightActionFunc(CPUList, NightActions)
     Reset()
     Promote()
     WinCheck()
@@ -74,7 +72,7 @@ function Roleblock(Roleblocker, Target) {
         return;
     }
     if (Target.Role.Rage) {
-        Attack(Target, Roleblocker, true,)
+        Attack(Target, Roleblocker, false, false, true, false)
     }
     if(Target.Role.Name == "Nikkiller") {
         Target.Role.Target[2] = -1
@@ -150,12 +148,12 @@ function Target(CPU, Attacking = true, Visiting = true) {
     {
         if (CPU.Target[i].Role.Name == "Veteran" && CPU.Target[i].Props.Alert && CPU.role.AttackVal <= 4)
         {
-            Attack(CPU.Target[i], CPU, true, false)
+            Attack(CPU.Target[i], CPU, false, true, true, false)
             
         }
         else if (CPU.Target[i].Role.Name == "Poisoner" && GlobalMods.PosionerSaver && CPU.role.AttackVal <= 4 && CPU.Role.Hunter != "Poisoners")
         {
-            Attack(CPUList.Find((PoisonerSaverProtect) => {PoisonerSaverProtect.Role.Name == "Poisoner Saver"}), CPU, true, false);
+            Attack(CPUList.Find((PoisonerSaverProtect) => {PoisonerSaverProtect.Role.Name == "Poisoner Saver"}), CPU, false, false, true, false);
             
         }
         else if (CPU.Target[i].Team == "Creators" && CPU.Target[i].Role.Name != "Snorre" && GlobalMods.Snorre && CPU.Role.RoleblockImmune && CPU.Role.Hunter != "Creators")
@@ -165,47 +163,47 @@ function Target(CPU, Attacking = true, Visiting = true) {
         }
         else if (CPU.Target[i].Role.Name == "Pestilence" && CPU.Role.Hunter != "Pestilence" && CPU.Role.AttackVal <= 6)
         {
-            Attack(CPU.Target[i], CPU, true)
+            Attack(CPU.Target[i], CPU, false, false, true, false)
             
         }
         else if (CPU.Target[i].Role.Name == "Werewolf" && CPU.Role.Hunter != "Werewolves" && CPU.Role.AttackVal <= 4 && CPU.Target[i].Props.Alert)
         {
-            Attack(CPU.Target[i], CPU, true)
+            Attack(CPU.Target[i], CPU, false, false, true, false)
             
         }
         else if (CPU.Target[i].Role.Name == "Elias" && CPU.Role.Hunter != "Creators" && CPU.Role.AttackVal <= 5 && CPU.Target[i].Role.CountDown == 0)
         {
-            Attack(CPU.Target[i], CPU, true)
+            Attack(CPU.Target[i], CPU, false, false, true, false)
             
         }
         else if (CPU.Target[i].Role.Name == "Suicide Bomber" && CPU.Target[i].Props.Alert)
         {
-            Attack(CPU.Target[i], CPU, true, false)
+            Attack(CPU.Target[i], CPU, false, false, true, false)
         }
         else if (CPU.Target[i].Props.Ambushed && CPU.Role.Team != "Mafia"){
-            Attack(CPUList.Find((AmbusherAmbush) => {AmbusherAmbush.Role.Name == "Ambusher"}), CPU, true, false)
+            Attack(CPUList.Find((AmbusherAmbush) => {AmbusherAmbush.Role.Name == "Ambusher"}), CPU, false, false, true, false)
             CPU.Target[i].Props.Ambushed = false;
             if (CPU.State != 1) return;
         }
         else if (CPU.Target[i].Props.Thralled && CPU.Role.Team != "Vampires"){
-            Attack(CPUList.Find((AmbusherAmbush) => {AmbusherAmbush.Role.Name == "Frenzied Thrall"}), CPU, true, false)
+            Attack(CPUList.Find((AmbusherAmbush) => {AmbusherAmbush.Role.Name == "Frenzied Thrall"}), CPU, false, false, true, false)
             if (CPU.State != 1) return;
         }    
         else if (CPU.Target[i].Props.Crusaded && CPU.Role.AttackVal <= 4){
-            Attack(CPUList.Find((CrusaderProtect) => {CrusaderProtect.Role.Name == "Crusader"}), CPU, true, false)
+            Attack(CPUList.Find((CrusaderProtect) => {CrusaderProtect.Role.Name == "Crusader"}), CPU, false, false, true, false)
             CPU.Target[i].Props.Crusaded = false;
         }
         else if (CPU.Target[i].Role.Hunter == CPU.Role.Team){
             if (CPU.Target[i].Role.Team == "Town" || CPU.Target[i].Role.Team == "Police" || CPU.Target[i].Role.Team == "FBI" || CPU.Target[i].Role.Team == "Combo"){
-                Attack(CPU.Target[i], CPU, true, false)
+                Attack(CPU.Target[i], CPU, false, false, true, false)
             }
             else {
-                Attack(CPU.Target[i], CPU, true)
+                Attack(CPU.Target[i], CPU, false, false, true, false)
             }
         }
         else if (CPU.Target[i].Props.ERampage){
             if (GlobalMods.ERampageTrigger){
-                Attack(CPUList.Find((EliasRampage) => {EliasRampage.Role.Name == "Elias"}), CPU, true)
+                Attack(CPUList.Find((EliasRampage) => {EliasRampage.Role.Name == "Elias"}), CPU, false, false, true, false)
             }
             else {
                 CPU.Props.VisitERampage = true
@@ -214,7 +212,7 @@ function Target(CPU, Attacking = true, Visiting = true) {
         }
         else if (CPU.Target[i].Props.PRampage){
             if (GlobalMods.PRampageTrigger){
-                Attack(CPUList.Find((PestilenceRampage) => {PestilenceRampage.Role.Name == "Pestilence"}), CPU, true)
+                Attack(CPUList.Find((PestilenceRampage) => {PestilenceRampage.Role.Name == "Pestilence"}), CPU, false, false, true, false)
             }
             else {
                 CPU.Props.VisitPRampage = true
@@ -223,7 +221,7 @@ function Target(CPU, Attacking = true, Visiting = true) {
         }
         else if (CPU.Target[i].Props.WRampage){
             if (GlobalMods.WRampageTrigger){
-                Attack(CPUList.Find((WerewolfRampage) => {WerewolfRampage.Role.Name == "Werewolf"}), CPU, true)
+                Attack(CPUList.Find((WerewolfRampage) => {WerewolfRampage.Role.Name == "Werewolf"}), CPU, false, false, true, false)
             }
             else {
                 CPU.Props.VisitWRampage = true
@@ -376,7 +374,7 @@ function CyclePromArray(Arr) {
     });
 }
 
-function Attack(Attacker, Target, FromVisit = false, Votable = true, Ranged = false, Shooting = false) {
+function Attack(Attacker, Target, Ranged = false, Shooting = false, FromVisit = false, Votable = true) {
     if (Ranged && Target.Props.Walled){
         return;
     }
@@ -392,12 +390,12 @@ function Attack(Attacker, Target, FromVisit = false, Votable = true, Ranged = fa
         AttackVal = 7
     }
     else if (Target.Role.Hunter == Attacker.Role.Team) {
-        if (Target.Role.Team == "Town" || Target.Role.Team == "Police" || Target.Role.Team == "FBI" || Target.Role.Team == "Comco"){
-            Attack(Target, Attacker, true, false);
+        if (Target.Role.Team == "Town" || Target.Role.Team == "Police" || Target.Role.Team == "FBI" || Target.Role.Team == "Combo"){
+            Attack(Target, Attacker, false, false, true, false);
             return
         }
         else {
-            Attack(Target, Attacker, true)
+            Attack(Target, Attacker, false, false, true, false)
         }
     }
     if (FromVisit) {
@@ -415,19 +413,19 @@ function Attack(Attacker, Target, FromVisit = false, Votable = true, Ranged = fa
     } else if (AttackVal > ImmuneVal && TestProperties(Attacker, Target)) {
         Target.State = 1
     } else {
-        Attack(Attacker, CPUList[Target.ProtectedBy], true) // Her må fikses
-        Attack(CPUList[Target.ProtectedBy], Attacker, true, false)
+        Attack(Attacker, CPUList[Target.ProtectedBy], false, false, true) // Her må fikses
+        Attack(CPUList[Target.ProtectedBy], Attacker, false, false, true, false)
     }
     if (Target.State == 1) {
         switch(Target.Role.Name) {
             case("Nighter" || "Jester" || "Magicmaker" || "Revengetaker"):
-                Attack(Target, Attacker, true, false)
+                Attack(Target, Attacker, false, false, true, false)
             break;
             case("Nightmare"):
                 NightmareTrigger = true;
             break;
             case("Haunter"):
-                Attack(Target, Target.Target[0], false, false)
+                Attack(Target, Target.Target[0], false, false, false, false)
             break;
             case("FBI"):
                 let newArr = CPUList.slice(0, CPUList.indexOf(Target))
@@ -435,7 +433,7 @@ function Attack(Attacker, Target, FromVisit = false, Votable = true, Ranged = fa
                 let fullArr = endArr.concat(newArr)
                 let PotentialTarget = CPUList.indexOf(fullArr.find((CpU) => {return CpU.Role.Team != "Town" && CpU.Role.Team != "FBI" && CpU.Role.Team != "Police" && CpU.Role.Team != "Combo" && CpU.State == 0}))
                 if (PotentialTarget != -1) {
-                    Attack(Target, PotentialTarget, false, false)
+                    Attack(Target, PotentialTarget, false, false, false, false)
                 }
             break;
             case("Godfather"):

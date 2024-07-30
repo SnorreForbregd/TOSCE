@@ -1,5 +1,6 @@
 class Props {
     constructor() {
+      this.Action = 1;
       this.Doused = false;
       this.Poisoned = false;
       this.Hexed = false;

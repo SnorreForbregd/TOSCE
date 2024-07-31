@@ -54,6 +54,12 @@ DayNumber++
 //Utstemming av sus om eksisterende
 }
 
+function Necronomicon() {
+
+
+
+}
+
 function Reset() {
 
 
@@ -71,6 +77,7 @@ function TestProperties(Attacker, Target) {
     return true;
 }
 
+//Her må det fikses noe med Elias og Nikkiller, som kun har rage på natten de angriper
 function Roleblock(Roleblocker, Target) {
     if (Target.Role.RoleblockImmune) {
         return;
@@ -97,6 +104,7 @@ function Roleblock(Roleblocker, Target) {
 // 9 - Dead Team
 //10 - Dead
 
+//Hex Master og Poisoner må ha egen type targeting
 function Target(CPU, Attacking = true, Visiting = true) {
     let Cpu;
     for(let i=0; i<CPU.Role.Target.Length;i++) 
@@ -150,7 +158,7 @@ function Target(CPU, Attacking = true, Visiting = true) {
             }
         // Lookout må legges inn her
         }
-    if (Visiting && CPU.Role.Target[i] != 9)
+    if (Visiting && CPU.Role.Target[i] < 9)
     // Husk Anarchist, Jailor, Døde folk
     {
         if (CPU.Target[i].Role.Name == "Veteran" && CPU.Target[i].Props.Alert && CPU.role.AttackVal <= 4)
@@ -158,6 +166,11 @@ function Target(CPU, Attacking = true, Visiting = true) {
             Attack(CPU.Target[i], CPU, true, false)
             
         }
+        else if (CPU.Target[i].Role.Name == "Medusa" && CPU.Target[i].Props.Alert && CPU.role.AttackVal <= 4)
+            {
+                Attack(CPU.Target[i], CPU, true, false)
+                
+            }
         else if (CPU.Target[i].Role.Name == "Poisoner" && GlobalMods.PosionerSaver && CPU.role.AttackVal <= 4 && CPU.Role.Hunter != "Poisoners")
         {
             Attack(CPUList.Find((PoisonerSaverProtect) => {PoisonerSaverProtect.Role.Name == "Poisoner Saver"}), CPU, true, false);

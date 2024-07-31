@@ -60,6 +60,18 @@ function NightActionFunc(CPUList, NightActionList) {
                     }
                 }
             break;
+            case "Escort":
+                if (CPU.Props.Roleblocked == false) {
+                    Target(CPU, false)
+                    if (CPU.Target[0].Props.Jailed == false) {
+                        Roleblock(CPU, CPU.Target[0])
+                    }
+                }
+            break;
+            case "Haunter":
+                if (CPU.Props.Roleblocked == false)
+                    Target(CPU, false, false)
+            break;
             case "Sheriff":
                 //Sheriff nightaction
             break;

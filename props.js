@@ -12,7 +12,7 @@ class Props {
       this.Trapped = false;
       this.Transported = false;
       this.Secured = false;
-      this.VotableDeath = true;
+      this.VotableDeath = false;
       this.ERampaged = false;
       this.PRampaged = false;
       this.WRampaged = false;
@@ -24,5 +24,8 @@ class Props {
       this.Bulletproof = false;
       this.Jailed = false;
       this.Suicidal = false;
+      this.Necronomicon = false;
+      this.Necromanced = false;
+      this.GuardianAngeled = false;
     }
   }

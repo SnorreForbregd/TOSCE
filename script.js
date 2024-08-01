@@ -103,6 +103,7 @@ function Roleblock(Roleblocker, Target) {
 // 8 - Control Target
 // 9 - Dead Team
 //10 - Dead
+//11 - Next behind (Robber)
 
 //Hex Master og Poisoner må ha egen type targeting
 function Target(CPU, Attacking = true, Visiting = true) {

@@ -72,6 +72,29 @@ function NightActionFunc(CPUList, NightActionList) {
                 if (CPU.Props.Roleblocked == false)
                     Target(CPU, false, false)
             break;
+            case "Jailor":
+                    if (CPU.Props.Action == 1) {
+                        Target(CPU, false, false)
+                        CPU.Target[0].Role.Immunity = 6
+                        CPU.Target[0].Props.Roleblocked = true
+                        CPU.Target[0].Props.Jailed = true
+                        CPU.Props.Action = 2
+                    }
+                    else if (CPU.Props.Action == 2) {
+                        if (CPU.Role.Countdown > 0 && CPU.Props.Roleblocked == false) {
+                            Check = CPU.Target[0].State
+                            Attack (CPU, CPU.Target[0], false, false)
+                            if (Check != CPU.Target[0].State && CPU.Target[0].Role.Good) {
+                                CPU.Role.Countdown = 0
+                            }
+                            CPU.Role.Countdown = CPU.Role.Countdown - 1
+                            CPU.Props.Action = 3
+                        }
+                    }
+                    else if (CPU.Props.Action == 3, CPU.Target[0].State == 0 && CPU.Target[0].Role.Rage) {
+                        Attack (CPU.Target[0], CPU, true)
+                    }
+            break;
             case "Sheriff":
                 //Sheriff nightaction
             break;

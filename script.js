@@ -3,7 +3,7 @@ const NightActions = ["Werepup", "Herman", "Eskimo", "Lifeguard 1", "Lifeguard 2
 // Liste over CPUer i et spill
 let CPUList = [];
 // Globale variabler
-let GlobalMods = {GameEnded: false, ERampageTrigger: false, PRampageTrigger: false, WRampageTrigger: false,  PosionerSaver: false, Mikael: false, Snorre: false, AssistingDog: false, Nightmare: false, NightmareTrigger: false, DayNumber: 1, Day: true}
+let GlobalMods = {GameEnded: false, ERampageTrigger: false, PRampageTrigger: false, WRampageTrigger: false, GRampageTrigger: false, PosionerSaver: false, Mikael: false, Snorre: false, AssistingDog: false, Bulleter: false, Nightmare: false, NightmareTrigger: false, DayNumber: 1, Day: true}
 // Arrays med promotion-rekkefølge
 let PromLists = [
     ["Mafioso", "SK Hunter", "Ambusher", "Consigliere", "Consort", "Framer", "Hypnotist", "Janitor", "Mafiturner", "Unframer", "MafVillager"],
@@ -249,6 +249,14 @@ function Target(CPU, Attacking = true, Visiting = true) {
             }
             return;
         }
+        else if (CPU.Target[i].Props.GRampage){
+            if (GlobalMods.GRampageTrigger){
+                Attack(CPUList.Find((GrenadethrowerRampage) => {GrenadethrowerRampage.Role.Name == "Grenadethrower"}), CPU, true)
+            }
+            else {
+                CPU.Props.VisitWRampage = true
+            }
+            return;
         }
         else return
     if (CPU.Role.Name != "Targeter")
@@ -478,4 +486,5 @@ function Attack(Attacker, Target, FromVisit = false, Votable = true, Ranged = fa
             break;
         }
     }
+}
 }

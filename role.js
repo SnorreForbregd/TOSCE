@@ -1,5 +1,5 @@
 class Role {
-    constructor(name, team, hunter, type, suspicious, attack, immunity, targetImmunity, target, countdown, roleblockimmune, rage, controlimmune, controleffectimmune, unique) {
+    constructor(name, team, hunter, type, suspicious, attack, immunity, targetImmunity, target, countdown, roleblockimmune, rage, controlimmune, controleffectimmune, unique, good) {
         this.Name = name;
         this.Team = team;
         this.Hunter = hunter;
@@ -15,5 +15,6 @@ class Role {
         this.ControlImmune = controlimmune
         this.ControlEffectImmune = controleffectimmune
         this.Unique = unique
+        this.Good = good
     }
 }

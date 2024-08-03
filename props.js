@@ -16,9 +16,11 @@ class Props {
       this.ERampaged = false;
       this.PRampaged = false;
       this.WRampaged = false;
+      this.GRampaged = false;
       this.VisitERampaged = false;
       this.VisitPRampaged = false;
       this.VisitWRampaged = false;
+      this.VisitGRampaged = false;
       this.Anarchy = false;
       this.Walled = false;
       this.Bulletproof = false;

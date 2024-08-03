@@ -84,7 +84,7 @@ function NightActionFunc(CPUList, NightActionList) {
                         if (CPU.Role.Countdown > 0 && CPU.Props.Roleblocked == false) {
                             Check = CPU.Target[0].State
                             Attack (CPU, CPU.Target[0], false, false)
-                            if (Check != CPU.Target[0].State && CPU.Target[0].Role.Good) {
+                            if (Check != CPU.Target[0].State && CPU.Target[0].Role.Team == "Town") {
                                 CPU.Role.Countdown = 0
                             }
                             CPU.Role.Countdown = CPU.Role.Countdown - 1
@@ -101,6 +101,24 @@ function NightActionFunc(CPUList, NightActionList) {
             case "Werewolf":
                 //Werewolf nightaction
             break;
+            case "Bulleter":
+                if (CPU.Props.Roleblocked == false) {
+                    GlobalMods.Bulleter = true
+                }
+            break;
+            case "Terrorist":       // Må muligens ta hånd om amne-folk og bulleter
+                CPU.Role.Countdown = CPU.Role.Countdown + 1
+                if (GlobalMods.Bulleter) {
+                    CPU.Role.Countdown = CPU.Role.Countdown + 1
+                }
+                if (CPU.Props.Roleblocked == false && GlobalMods.Nightmare == false) {
+                    while (CPU.Role.Countdown > 0) {
+                        Target (CPU)
+                        Attack (CPU, CPU.Target[0], false, true, true, true)
+                        CPU.Role.Countdown = CPU.Role.Countdown - 1
+                    }
+                }
+            break; 
             case "Johannes":
                 if (CPU.Props.Roleblocked == false && GlobalMods.Nightmare == false){
                     Target(CPU, true);

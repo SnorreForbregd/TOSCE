@@ -72,6 +72,19 @@ function NightActionFunc(CPUList, NightActionList) {
                 if (CPU.Props.Roleblocked == false)
                     Target(CPU, false, false)
             break;
+            case "Huntrustiff":
+                if (CPU.Props.Action == 1 && CPU.Props.Roleblocked == false) {
+                    Target (CPU, false, false)
+                    if (CPU.Target[0].Role.Good == false) {
+                        CPU.Props.CheckCheck = true
+                    }
+                    CPU.Props.Action = 2
+                }
+                else if (CPU.Props.Action == 2 && CPU.Props.CheckCheck && CPU.Props.Roleblocked == false && GlobalMods.Nightmare == false) {
+                    //Huntrustiff må targete samme person som de forsøkte tidligere, men fremdeles sjekke for visiting
+                }
+
+            break;
             case "Jailor":
                     if (CPU.Props.Action == 1) {
                         Target(CPU, false, false)
@@ -106,14 +119,14 @@ function NightActionFunc(CPUList, NightActionList) {
                     GlobalMods.Bulleter = true
                 }
             break;
-            case "Terrorist":       // Må muligens ta hånd om amne-folk og bulleter
+            case "Terrorist":       // Må muligens ta hånd om amne-folk og bulleter. Hvordan Terrorist targeter flere personer?
                 CPU.Role.Countdown = CPU.Role.Countdown + 1
                 if (GlobalMods.Bulleter) {
                     CPU.Role.Countdown = CPU.Role.Countdown + 1
                 }
                 if (CPU.Props.Roleblocked == false && GlobalMods.Nightmare == false) {
                     while (CPU.Role.Countdown > 0) {
-                        Target (CPU)
+                        Target (CPU)       // Her må det ses på hva som skjer hvis target returnerer som NULL
                         Attack (CPU, CPU.Target[0], false, true, true, true)
                         CPU.Role.Countdown = CPU.Role.Countdown - 1
                     }

@@ -29,5 +29,7 @@ class Props {
       this.Necronomicon = false;
       this.Necromanced = false;
       this.GuardianAngeled = false;
+      this.TargetPlaceholder = null;
+      this.CheckCheck = false;
     }
   }

@@ -445,7 +445,7 @@ RoleStats = {
 40 - PBRampaged
 41 - VisitPBRampaged
 42 - Sculpted
-43 - Blank because i f-ed up
+43 - Bitten by dracula
 44 - Poisoned
 45 - Trapped
 46 - Trapped by
@@ -699,7 +699,7 @@ WerewolfKilling = ["Werewolf", "Jailwolf", "Werepup"]
 
 AmneList = ["Amnescriff", "Amneshiff", "Amnesiac"]
 
-InvestList = ["Huntrustiff", "Identifier", "Journalist", "Lookout", "Pestilence_hunter_R", "Statuschecker", "Sheriff", "Tracker"]
+InvestList = [ "Identifier", "Journalist", "Pestilence_hunter_R", "Statuschecker", "Sheriff"]
 
 NonVisitList = ["Sniper", "Archer", "Murderer", "Assassin_dog"]
 
@@ -997,14 +997,14 @@ def UpdateYoungest(): #Updates who is the current youngest vampire (the one that
     21 - Nights until dying of hunger
     22 - Countdown used for when you are allowed to bite
     23 - Usual
-    34 - Dracula-bitten or not
+    43 - Dracula-bitten or not (statuses)
     36 - Youngest-number
     Original vampire has Youngest-number 4. 1,2,3 is reserved for potential Amne
     '''
     Current = ""
     for role in RoleSequence:
         RoleStats[role][31] = False
-        if RoleStats[role][1] and RoleStats[role][0] == "Vampire" and not RoleStats[role][34]:
+        if RoleStats[role][1] and RoleStats[role][0] == "Vampire" and not RoleStatuses[role][43]:
             if Current == "" or RoleStats[role][36] > RoleStats[Current][36]:
                 Current = role
 
@@ -1031,8 +1031,7 @@ def FindTargetLib(Role): #Finds a target for librarian
 
 def CreateListIdentifier(Role): #Creates list of list in 38 for identifier
     for role in RoleSequence:
-        if role != Role:
-            RoleStats[Role][38].append([role, 0])
+        RoleStats[Role][38].append([role, 0])
 
 def Control(Role): #Returns true if the given Role is controlled in any way
     if RoleStatuses[Role][29] or (RoleStatuses[Role][35] != False and RoleStatuses[Role][35] < Night):
@@ -1043,46 +1042,56 @@ def Control(Role): #Returns true if the given Role is controlled in any way
 def AppendToVoteList():
     for role in RoleSequence:
         if not RoleStatuses[role][34] and RoleStats[role][1]:
-            if RoleStats[role][0] == "Huntrustiff" and RoleStatuses[role][47] != [] and (RoleStats[RoleStatuses[role][47][1]][4] != RoleStats[role][4] or (CheckFramed(RoleStatuses[role][47][1]) and RoleStats[role][4] != "Mafia")):
+
+            if RoleStats[role][0] == "Huntrustiff" and RoleStatuses[role][47] != [] and (RoleStats[RoleStatuses[role][47][1]][4] != RoleStats[role][4] or (CheckFramed(RoleStatuses[role][47][1]) and RoleStats[role][4] != "Mafia")) and RoleStats[RoleStatuses[role][47][1]][1]:
                 VoteList.append((RoleStatuses[role][47][1], LinkPerson(role), RoleStats[role][0]))
                 VoteList2.append((RoleStatuses[role][47][1], LinkPerson(role), RoleStats[role][0]))
 
-            elif RoleStats[role][0] == "Identifier" and RoleStats[role][34] and (RoleStats[RoleStats[role][26][0]][4] != RoleStats[role][4] or (CheckFramed(RoleStats[role][26][0]) and RoleStats[role][4] != "Mafia")):
-                VoteList.append((RoleStats[role][26][0], LinkPerson(role), RoleStats[role][0]))
-                VoteList2.append((RoleStats[role][26][0], LinkPerson(role), RoleStats[role][0]))
+            elif RoleStats[role][0] == "Identifier" and RoleStats[role][34] and (RoleStats[RoleStats[role][26][0]][4] != RoleStats[role][4] or (CheckFramed(RoleStats[role][26][0]) and RoleStats[role][4] != "Mafia")) and RoleStats[RoleStats[role][36][0]][1]:
+                VoteList.append((RoleStats[role][36][0], LinkPerson(role), RoleStats[role][0]))
+                VoteList2.append((RoleStats[role][36][0], LinkPerson(role), RoleStats[role][0]))
+                RoleStats[role][34] = False
+            elif RoleStats[role][0] == "Identifier":
                 RoleStats[role][34] = False
 
-            elif RoleStats[role][0] == "Journalist" and RoleStats[role][34] and (RoleStats[RoleStats[role][26][0]][4] != RoleStats[role][4] or (CheckFramed(RoleStats[role][26][0]) and RoleStats[role][4] != "Mafia")):
-                VoteList.append((RoleStats[role][26][0], LinkPerson(role), RoleStats[role][0]))
-                VoteList2.append((RoleStats[role][26][0], LinkPerson(role), RoleStats[role][0]))
+            elif RoleStats[role][0] == "Journalist" and RoleStats[role][34] and (RoleStats[RoleStats[role][26][0]][4] != RoleStats[role][4] or (CheckFramed(RoleStats[role][26][0]) and RoleStats[role][4] != "Mafia")) and RoleStats[RoleStats[role][36][0]][1]:
+                VoteList.append((RoleStats[role][36][0], LinkPerson(role), RoleStats[role][0]))
+                VoteList2.append((RoleStats[role][36][0], LinkPerson(role), RoleStats[role][0]))
+                RoleStats[role][34] = False
+            elif RoleStats[role][0] == "Journalist":
                 RoleStats[role][34] = False
 
             elif RoleStats[role][0] == "Lookout" and RoleStats[role][29] != []:
-                Target = RoleStats[role][29][0]
-                print("Trying to append to votelist", RoleStatuses[Target][0])
-                if not RoleStats[Target][1] and RoleStatuses[Target][0] and len(RoleStats[role][29]) == 2 and RoleStats[RoleStats[role][29][1]][4] != RoleStats[role][4]:
-                    VoteList.append((RoleStats[role][29][1], LinkPerson(role), RoleStats[role][0]))
-                    VoteList2.append((RoleStats[role][29][1], LinkPerson(role), RoleStats[role][0]))
+                Target = RoleStats[role][36][0]
+                if not RoleStats[Target][1] and RoleStatuses[Target][0] and len(RoleStats[role][29]) == 2 and RoleStats[RoleStats[role][29][1]][4] != RoleStats[role][4] and RoleStats[RoleStats[role][36][0]][1]:
+                    VoteList.append((RoleStats[role][36][0], LinkPerson(role), RoleStats[role][0]))
+                    VoteList2.append((RoleStats[role][36][0], LinkPerson(role), RoleStats[role][0]))
 
-            elif RoleStats[role][0] == "Pestilence_hunter_R" and RoleStats[role][34] and (RoleStats[RoleStats[role][26][0]][4] != RoleStats[role][4] or (CheckFramed(RoleStats[role][26][0]) and RoleStats[role][4] != "Mafia")):
-                VoteList.append((RoleStats[role][26][0], LinkPerson(role), RoleStats[role][0]))
-                VoteList2.append((RoleStats[role][26][0], LinkPerson(role), RoleStats[role][0]))
+            elif RoleStats[role][0] == "Pestilence_hunter_R" and RoleStats[role][34] and (RoleStats[RoleStats[role][26][0]][4] != RoleStats[role][4] or (CheckFramed(RoleStats[role][26][0]) and RoleStats[role][4] != "Mafia")) and RoleStats[RoleStats[role][36][0]][1]:
+                VoteList.append((RoleStats[role][36][0], LinkPerson(role), RoleStats[role][0]))
+                VoteList2.append((RoleStats[role][36][0], LinkPerson(role), RoleStats[role][0]))
+                RoleStats[role][34] = False
+            elif RoleStats[role][0] == "Pestilence_hunter_R":
                 RoleStats[role][34] = False
 
-            elif RoleStats[role][0] == "Sheriff" and RoleStats[role][34] and (RoleStats[RoleStats[role][26][0]][4] != RoleStats[role][4] or (CheckFramed(RoleStats[role][26][0]) and RoleStats[role][4] != "Mafia")):
-                VoteList.append((RoleStats[role][26][0], LinkPerson(role), RoleStats[role][0]))
-                VoteList2.append((RoleStats[role][26][0], LinkPerson(role), RoleStats[role][0]))
+            elif RoleStats[role][0] == "Sheriff" and RoleStats[role][34] and (RoleStats[RoleStats[role][26][0]][4] != RoleStats[role][4] or (CheckFramed(RoleStats[role][26][0]) and RoleStats[role][4] != "Mafia")) and RoleStats[RoleStats[role][36][0]][1]:
+                VoteList.append((RoleStats[role][36][0], LinkPerson(role), RoleStats[role][0]))
+                VoteList2.append((RoleStats[role][36][0], LinkPerson(role), RoleStats[role][0]))
+                RoleStats[role][34] = False
+            elif RoleStats[role][0] == "Sheriff":
                 RoleStats[role][34] = False
 
-            elif RoleStats[role][0] == "Statuschecker" and RoleStats[role][34] and (RoleStats[RoleStats[role][26][0]][4] != RoleStats[role][4] or (CheckFramed(RoleStats[role][26][0]) and RoleStats[role][4] != "Mafia")):
-                VoteList.append((RoleStats[role][26][0], LinkPerson(role), RoleStats[role][0]))
-                VoteList2.append((RoleStats[role][26][0], LinkPerson(role), RoleStats[role][0]))
+            elif RoleStats[role][0] == "Statuschecker" and RoleStats[role][34] and (RoleStats[RoleStats[role][26][0]][4] != RoleStats[role][4] or (CheckFramed(RoleStats[role][26][0]) and RoleStats[role][4] != "Mafia")) and RoleStats[RoleStats[role][36][0]][1]:
+                VoteList.append((RoleStats[role][36][0], LinkPerson(role), RoleStats[role][0]))
+                VoteList2.append((RoleStats[role][36][0], LinkPerson(role), RoleStats[role][0]))
+                RoleStats[role][34] = False
+            elif RoleStats[role][0] == "Statuschecker":
                 RoleStats[role][34] = False
 
-            elif RoleStats[role][0] == "Tracker" and RoleStats[role][29] != [] and RoleStats[RoleStats[role][29][0]][4] != RoleStats[role][4]:
-                if len(RoleStats[role][29]) == 2 and not RoleStats[RoleStats[role][29][1]][1] and RoleStatuses[RoleStats[role][29][1]][0] and RoleStats[RoleStats[role][29][0]][1]:
-                    VoteList.append((RoleStats[role][29][0], LinkPerson(role), RoleStats[role][0]))
-                    VoteList2.append((RoleStats[role][29][0], LinkPerson(role), RoleStats[role][0]))
+            elif RoleStats[role][0] == "Tracker" and RoleStats[role][29] != [] and RoleStats[RoleStats[role][36][0]][4] != RoleStats[role][4]:
+                if len(RoleStats[role][29]) == 2 and not RoleStats[RoleStats[role][29][1]][1] and RoleStatuses[RoleStats[role][29][1]][0] and RoleStats[RoleStats[role][36][0]][1]:
+                    VoteList.append((RoleStats[role][36][0], LinkPerson(role), RoleStats[role][0]))
+                    VoteList2.append((RoleStats[role][36][0], LinkPerson(role), RoleStats[role][0]))
 
 def GiveNecronomicon():
     for role in RoleSequence:
@@ -1126,7 +1135,40 @@ def ResetGame(): #Resets all players after a night
     Jester = False
     AssistingDog = False
     Bulleter = False
-    
+
+
+def ResetEntirely():
+    global CPUGame, Nightmare, NightmareTrigger, ERampageTrigger, WRampageTrigger, PRampageTrigger, GRampageTrigger, PBRampageTrigger, PoisonerSaver, Snorre, PlayersAlive, DrawCount, Night, Day, Jester, AssistingDog, Bulleter, PlayerRevived, Win, PestilenceInGame, DrageTrigger, RoleStats, VoteList, PromoteList, TurnList
+    '''
+    Resets the entire game to scratch. Used for playing multiple times in a row
+    ''' 
+    CPUGame = True
+    NightmareTrigger = False
+    Nightmare = False
+    ERampageTrigger = False
+    WRampageTrigger = False
+    PRampageTrigger = False
+    GRampageTrigger = False
+    PBRampageTrigger = False
+    PoisonerSaver = False
+    Snorre = False
+    PlayersAlive = 0
+    DrawCount = 0
+    PlayerRevived = False
+    Day = 1
+    Night = 0
+    Win = False
+    Jester = False
+    AssistingDog = False
+    Bulleter = False
+    PestilenceInGame = False
+    DrageTrigger = 0
+    VoteList = []
+    TurnList = []
+    PromoteList = []
+    RoleStats = copy.deepcopy(TotalRoleStats)
+    for i in RoleStatuses.keys():
+        RoleStatuses[i] = copy.deepcopy(Template)
 
 def ResetPlayer(Role): #Resets the given player
     RoleStats[Role][23] = TotalRoleStats[RoleStats[Role][0]][23]
@@ -1146,17 +1188,19 @@ def runDay(): #Runs the day
     global VoteList2
     global PlayersAlive
     global DrawCount
+    global PlayerRevived
     Check = PestilenceInGame
     PestilenceInGame = False
     Day += 1
     print(f"Day {Day}")
-    input()
+    #input()
     AliveList = AlivePlayers()
     if PlayersAlive == len(AliveList) and PlayerRevived == False:
         DrawCount += 1
     else:
         PlayersAlive = len(AliveList)
         DrawCount = 0
+    PlayerRevived = False
 
 
     if isInGame("Pestilence"):
@@ -1239,8 +1283,8 @@ def RunTurn(): #Turns players into vampires based on turnlist
     global TurnList
     for turn in TurnList:
         for i in range(0, 39):
-            if i != 22 and i != 27 and i != 34 and RoleStats[turn[0]][1]:
-                RoleStats[turn[0]][i] = TotalRoleStats["Vampire"][i]
+            if i != 22 and i != 26 and i != 27 and i != 34 and RoleStats[turn[0]][1]:
+                RoleStats[turn[0]][i] = copy.deepcopy(TotalRoleStats["Vampire"][i])
         RoleStats[turn[0]][36] = turn[1]
     TurnList = []
 
@@ -1688,10 +1732,10 @@ def endGame(Winner):
     WinList = []
     if Winner == "Draw":
         print("The game is a draw")
-        input()
+        #input()
     else:
         print(f"The game is over! {Winner} won!")
-        input()
+        #input()
         if Winner == "Town":
             for role in RoleSequence:
                 if RoleStats[role][4] in GoodList:
@@ -1703,7 +1747,7 @@ def endGame(Winner):
         print("The following won:")
         for win in WinList:
             print(win)
-        input()
+        #input()
     ConditionWinList = []
     for role in RoleSequence:
         if RoleStats[role][30]:
@@ -1729,7 +1773,7 @@ def endGame(Winner):
             print(win)
     print("These players were alive at the end:")
     print(AlivePlayers())
-    input()
+    #input()
     return
     
     
@@ -1849,7 +1893,7 @@ def Attack(Attacker, Defender, FromVisit = False, Votable = True, Ranged = False
             elif isInGame("Mafioso", True):
                 for Amne in AmneList:
                     if RoleStats[Amne][0] == "Mafioso":
-                        PromoteList.append(Amne, "Godfather")
+                        PromoteList.append((Amne, "Godfather"))
                         break
 
         if RoleStats[Defender][0] == "Crazy_king":
@@ -1858,7 +1902,7 @@ def Attack(Attacker, Defender, FromVisit = False, Votable = True, Ranged = False
             elif isInGame("Crazy", True):
                 for Amne in AmneList:
                     if RoleStats[Amne][0] == "Crazy":
-                        PromoteList.append(Amne, "Crazy_king")
+                        PromoteList.append((Amne, "Crazy_king"))
                         break
 
         if CPUGame:
@@ -1884,6 +1928,9 @@ def Attack(Attacker, Defender, FromVisit = False, Votable = True, Ranged = False
                 if RoleStats[role][1] and RoleStats[role][19] == False:
                     Attack(Defender, role, False, False)
                     break
+        
+        elif RoleStats[Defender][0] in InvestList:
+            RoleStats[Defender][34] = False
 
 
 def Roleblock(Roleblocker, Target):
@@ -1926,28 +1973,28 @@ def Turn(Role, Target, Dracula = False):
             RoleStats[Target][22] = 2
             RoleStats[Target][4] = "Vampires"
             if Dracula:
-                RoleStats[Target][34] = True
+                RoleStatuses[Target][43] = True
             return True
 
 
 
 
-def FindTarget(Role, num = None, next = None):
+def FindTarget(Role, num = None, next = None, IgnoreControl = False):
     '''
     Finds a target for a role. If it is a CPU-game, this function will be ran
     before every role does their action. The targeting is based on Target-type
     in the main dictionary.
     '''
-
-    if RoleStatuses[Role][29] and not RoleStats[Role][17]:
-        RoleStats[Role][26].append(RoleStats[RoleStatuses[Role][30]][26][1])
-        return
-        
-    if RoleStatuses[Role][35] != False and RoleStatuses[Role][35] < Night and not RoleStats[Role][17] and RoleStatuses[Role][36] != "" and RoleStats[RoleStatuses[Role][36]][26] != []:
-        RoleStats[Role][26].append(RoleStats[RoleStatuses[Role][36]][26][0])
-        RoleStatuses[Role][35] = False
-        RoleStatuses[Role][36] = ""
-        return
+    if not IgnoreControl:
+        if RoleStatuses[Role][29] and not RoleStats[Role][17]:
+            RoleStats[Role][26].append(RoleStats[RoleStatuses[Role][30]][26][1])
+            return
+            
+        if RoleStatuses[Role][35] != False and RoleStatuses[Role][35] < Night and not RoleStats[Role][17] and RoleStatuses[Role][36] != "" and RoleStats[RoleStatuses[Role][36]][26] != []:
+            RoleStats[Role][26].append(RoleStats[RoleStatuses[Role][36]][26][0])
+            RoleStatuses[Role][35] = False
+            RoleStatuses[Role][36] = ""
+            return
     
     if CPUGame:
         TargetType = RoleStats[Role][13]
@@ -2103,13 +2150,15 @@ def ExecuteTarget(Role, Target, Attacking = True, Visiting = True, IgnoreTrans =
             for i in RoleSequence:
                 if i != Target and RoleStatuses[i][11]:
                     Target, Rampage = ExecuteTarget(Role, i, Attacking, Visiting, True)
-                    break
+                    return Target, Rampage
         
         if RoleStats[Target][0] == "Idiot" and RoleStatuses[Target][13]:
             Target, Rampage = ExecuteTarget(Role, RoleStats[Target][26][0], Attacking, Visiting, True)
+            return Target, Rampage
 
         if RoleStatuses[Target][12]:
             Target, Rampage = ExecuteTarget(Role, "Security_guard", Attacking, Visiting, True)
+            return Target, Rampage
         
     if RoleStats[Role][4] == "Mafia" and RoleStats[Target][0] == "Murderer" and RoleStats[Role][0] != "Murderer":
         for role in RoleSequence:
@@ -2264,7 +2313,7 @@ def runGame(List): #Runs the game
     # print("The following players are in the game:")
     # for name in PlayerSequence:
     #     print(name)
-    input()
+    #input()
     if isInGame("Guardian_angel"):
         FindTargetGA(LinkRoles("Guardian_angel"))
     if isInGame("Librarian"):
@@ -2658,7 +2707,7 @@ def Coven_leader_F(Role): #(0,0,2) CEI
     elif RoleStats[Role][23] == 0:
         if RoleStats[Role][34] and RoleStats[RoleStats[Role][26][0]][1]:
             Attack(Role, RoleStats[Role][26][0], True)
-            RoleStats[Role][34]= False
+        RoleStats[Role][34]= False
 
 def FBI_hunter_F(Role): #(0,0,0)
     if RoleStats[Role][1] and not CheckRoleblock(Role):
@@ -3084,7 +3133,7 @@ def Polar_bear_F(Role): #(0,0,2)
             elif isInGame("Freezer", True):
                 for Amne in AmneList:
                     if RoleStats[Amne][0] == "Freezer":
-                        RoleStats[Amne][39] = True
+                        RoleStatuses[Amne][39] = True
     elif RoleStats[Role][23] == 0:
         if RoleStats[Role][1] and not CheckRoleblock(Role) and Night%3 == 0:
             if RoleStats[Role][26] != []:
@@ -3287,7 +3336,7 @@ def Hypnotist_F(Role): #(0,0,1) CEI
             if CPUGame:
                 FindTarget(Role, [1])
             Target, Rampage = ExecuteTarget(Role, RoleStats[Role][26][0], False)
-            if CheckAction(Role, Target) and  not RoleStats[Target][29] and not RoleStats[Target][35]:
+            if CheckAction(Role, Target) and  not RoleStatuses[Target][29] and not RoleStatuses[Target][35]:
                 RoleStatuses[Target][35] = Night
                 RoleStatuses[Target][36] = Role
                 RoleStats[Role][34] = True
@@ -3430,9 +3479,13 @@ def General_F(Role): #(0,0,0)
                         FindTarget(Role)
 
 def Identifier_F(Role): #(0,0,0)
+    RoleStats[Role][36] = []
     RoleStats[Role][34] = False
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
+            FindTarget(Role, None, None, True)
+            RoleStats[Role][36] = RoleStats[Role][26]
+            RoleStats[Role][26] = []
             FindTarget(Role)
         Target, Rampage = ExecuteTarget(Role, RoleStats[Role][26][0], False)
         if CheckAction(Role, Target):
@@ -3440,6 +3493,7 @@ def Identifier_F(Role): #(0,0,0)
                 if RoleStats[Role][38][i][0] == Target:
                     List = RoleStats[Role][38][i]
                     break
+            print(List)
             if not RoleStatuses[Role][34]:
                 if List[1] == 0:
                     if RoleStats[Target][9] == "Neutral" and not CheckFramed(Target):
@@ -3748,13 +3802,14 @@ def Dayriff_F(Role): #(0,0,0) CEI
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
-        Target = RoleStats[Role][26][0]
-        RoleStats[Role][24].append(RoleStats[Role][26][0])
-        if RoleStats[Target][11]:
-            VoteList.append((Target, LinkPerson(Role), "Dayriff"))
-            VoteList2.append((Target, LinkPerson(Role), "Dayriff"))
-        RoleStats[Role][28].append(RoleStats[Target][11])
-        RoleStats[Role][27].append([Target, RoleStats[Target][11]])
+        if RoleStats[Role][26][0] != 1:
+            Target = RoleStats[Role][26][0]
+            RoleStats[Role][24].append(RoleStats[Role][26][0])
+            if RoleStats[Target][11]:
+                VoteList.append((Target, LinkPerson(Role), "Dayriff"))
+                VoteList2.append((Target, LinkPerson(Role), "Dayriff"))
+            RoleStats[Role][28].append(RoleStats[Target][11])
+            RoleStats[Role][27].append([Target, RoleStats[Target][11]])
 
 def Doctor_F(Role): #(1,0,1)
     if RoleStats[Role][23] == 1:
@@ -3880,8 +3935,13 @@ def Jailor_F(Role): #(3,0,2) CEI
             Attack(RoleStats[Role][26][0], Role, True)
 
 def Journalist_F(Role): #(1,0,0)
+    RoleStats[Role][34] = False
+    RoleStats[Role][36] = []
     if RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][21] > 0:
         if CPUGame:
+            FindTarget(Role, None, None, True)
+            RoleStats[Role][36] = RoleStats[Role][26]
+            RoleStats[Role][26] = []
             FindTarget(Role)
         Target, Rampage = ExecuteTarget(Role, RoleStats[Role][26][0], False)
         if CheckAction(Role, Target):
@@ -3892,13 +3952,16 @@ def Journalist_F(Role): #(1,0,0)
                 RoleStats[Role][34] = True
 
 def Lookout_F(Role): #(0,0,0)
+    RoleStats[Role][36] = []
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
+            FindTarget(Role, None, None, True)
+            RoleStats[Role][36] = RoleStats[Role][26]
+            RoleStats[Role][26] = []
             FindTarget(Role)
         Target, Rampage = ExecuteTarget(Role, RoleStats[Role][26][0], False, False)
         if CheckAction(Role, Target):
             RoleStats[Role][29] = [Target]
-    print("Lookout", RoleStats[Role][29])
 
 def Mayor_F(Role): #(0,0,0) CEI
     if RoleStats[Role][1]:
@@ -3957,10 +4020,15 @@ def Pestilence_hunter_K_F(Role): #(3,0,1)
                     RoleStats[Role][21] = 0
 
 def Pestilence_hunter_R_F(Role): #(0,0,1)
+    RoleStats[Role][36] = []
+    RoleStats[Role][34] = False
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         if RoleStats[Role][1] and not CheckRoleblock(Role) and not PestilenceInGame:
             if CPUGame:
+                FindTarget(Role, None, None, True)
+                RoleStats[Role][36] = RoleStats[Role][26]
+                RoleStats[Role][26] = []
                 FindTarget(Role)
             Target, Rampage = ExecuteTarget(Role, RoleStats[Role][26][0], False)
             if CheckAction(Role, Target):
@@ -4002,8 +4070,13 @@ def Security_guard_F(Role): #(0,0,0)
             RoleStatuses[Target][12] = True
 
 def Sheriff_F(Role): #(0,0,0)
+    RoleStats[Role][36] = []
+    RoleStats[Role][34] = False
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
+            FindTarget(Role, None, None, True)
+            RoleStats[Role][36] = RoleStats[Role][26]
+            RoleStats[Role][26] = []
             FindTarget(Role)
         Target, Rampage = ExecuteTarget(Role, RoleStats[Role][26][0], False)
         if CheckAction(Role, Target):
@@ -4024,8 +4097,13 @@ def Spy_F(Role): #(0,0,0)
             RoleStats[Role][27].append([Target, RoleStats[Target][8]])
 
 def Statuschecker_F(Role): #(0,0,0)
+    RoleStats[Role][36] = []
+    RoleStats[Role][34] = False
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
+            FindTarget(Role, None, None, True)
+            RoleStats[Role][36] = RoleStats[Role][26]
+            RoleStats[Role][26] = []
             FindTarget(Role)
         Target, Rampage = ExecuteTarget(Role, RoleStats[Role][26][0], False)
         if CheckAction(Role, Target):
@@ -4036,8 +4114,12 @@ def Statuschecker_F(Role): #(0,0,0)
             RoleStats[Role][27].append([Target, [RoleStats[Target][9], RoleStats[Target][10]]])
 
 def Tracker_F(Role): #(0,0,0)
+    RoleStats[Role][36] = []
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
+            FindTarget(Role, None, None, True)
+            RoleStats[Role][36] = RoleStats[Role][26]
+            RoleStats[Role][26] = []
             FindTarget(Role)
         Target, Rampage = ExecuteTarget(Role, RoleStats[Role][26][0], False, False)
         if CheckAction(Role, Target):
@@ -4099,9 +4181,6 @@ def Veteran_F(Role): #(3,0,0) CEI
         RoleStats[Role][21] -= 1
 
 def Vigilante_F(Role): #(1,0,1)
-    if RoleStats[Role][34]:
-        RoleStats[Role][34] = False
-        Attack(Role, None, False, False, False, False, False, False, None, True)
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         if RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][21] > 0 and RoleStats[Role][22] == 0 and not Control(Role):
@@ -4109,6 +4188,9 @@ def Vigilante_F(Role): #(1,0,1)
             RoleStatuses[Role][5] = True
             RoleStats[Role][22] = 1
     elif RoleStats[Role][23] == 0:
+        if RoleStats[Role][34]:
+            RoleStats[Role][34] = False
+            Attack(Role, None, False, False, False, False, False, False, None, True)
         if not RoleStats[Role][22] == 1 and not CheckRoleblock(Role) and (RoleStats[Role][21] == 0 or Control(Role)) and RoleStats[Role][1] and not Nightmare:
             if CPUGame:
                 FindTarget(Role)
@@ -4311,8 +4393,12 @@ def Pestilence_F(Role): #(0,0,1)
             RoleStats[Role][21] = 0
 
 #mainMenu()
-List = ['Guardian_angel', 'Consort', 'Frenzied_thrall', 'Haunter', 'Bulleter', 'Stupido_hunter', 'Washer', 'Vampire', 'Nightmare', 'Amneshiff', 'Security_guard', 'Magicmaker', 'Hex_master', 'Dayriff', 'Unframer', 'Tankman', 'Identifier', 'Remover', 'Hunter_hunter', 'Huntrustiff', 'Tracker', 'Knight', 'Medium', 'Worker', 'Police_hunter', 'Sculpturer', 'Drage', 'Poisoner', 'Creator_hunter', 'Polar_bear', 'Arsonist', 'Ole_bjorn', 'Idiot', 'Sniper', 'Snorre', 'Werewolf', 'Journalist', 'Pirate', 'General', 'Transporter', 'Mafiturner', 'Pestilence_hunter_R', 'Janitor', 'Waller', 'Jailor', 'Killager', 'Pestilence', 'Jailwolf', 'Coven_leader', 'Oliver', 'Crazy_hunter', 'Digger', 'Coven_hunter', 'Doctor', 'Veteran', 'Escort', 'Mayor', 'Elias', 'Token', 'Crazy_king', 'Thief', 'Immunist', 'Police', 'Villargeter', 'Vampire_hunter', 'Firefighter', 'Assassin_dog', 'Writer', 'Daylight_killer', 'Amnesiac', 'Jesper', 'Incinerator', 'Mafioso', 'Revengetaker', 'Agent', 'Assisting_dog', 'Soldier', 'Johannes', 'FBI_hunter', 'Consigliere', 'Eskimo', 'Bodyguard', 'Mafia_hunter', 'Medusa', 'Vigilante', 'Investigator', 'Werepup', 'Ambusher', 'Murderer', 'Crazy_knight_hunter', 'Freezer', 'Herman', 'Pestilence_hunter_K', 'Librarian', 'Clown', 'FBI', 'Statuschecker', 'Dog_mauler', 'Cooler', 'Scared', 'Grenadethrower', 'Mikael', 'Retributionist', 'Hypnotist', 'Necromancer', 'Pestilence_hunter_H', 'Robber', 'Dracula', 'Nighter', 'Mayorguarder', 'Stupido', 'Archer', 'Targeter', 'Queen', 'Godfather', 'Crusader', 'Crazy', 'Terrorist_hunter', 'Werewolf_hunter', 'SK_hunter', 'Armorer', 'Terrorist', 'Ingenting', 'Combo_hunter', 'Poisoner_hunter', 'King', 'Jester', 'Lifeguard1', 'Serial_killer', 'Trapper', 'Poisoner_saver', 'Gasthrower', 'Lifeguard2', 'Freezer_hunter', 'Spy', 'Kristian', 'Survivor', 'Framer', 'Nikkiller', 'Lookout', 'Potion_master', 'Sheriff', 'Amnescriff', 'Villager', 'Pollutifier', 'Agent_ZK', 'Suicide_bomber']
-#List = r.sample(RoleList, 147)
-print(List)
-runGame(List)
+Listlol = ["Hypnotist", "Framer", "Vigilante", "Tracker", "Sheriff", "Medium", "Journalist", "Doctor", "Pestilence_hunter_H", "Mafioso", "Villager"]
+List = ['Mafiturner', 'Jailor', 'Dog_mauler', 'Medusa', 'Snorre', 'Werepup', 'Doctor', 'Archer', 'Freezer', 'King', 'Herman', 'Poisoner_hunter', 'Huntrustiff', 'Vampire_hunter', 'Agent', 'Immunist', 'Consigliere', 'Villargeter', 'Johannes', 'Polar_bear', 'Ambusher', 'Janitor', 'Clown', 'Mikael', 'Kristian', 'Robber', 'Hex_master', 'Eskimo', 'Stupido_hunter', 'Drage', 'Crazy_king', 'Elias', 'Godfather', 'Investigator', 'Transporter', 'Bulleter', 'General', 'Trapper', 'Lifeguard1', 'Medium', 'FBI_hunter', 'Police', 'Digger', 'Werewolf', 'Pollutifier', 'Writer', 'Oliver', 'Serial_killer', 'Murderer', 'Hunter_hunter', 'Haunter', 'Terrorist', 'Hypnotist', 'Vigilante', 'Werewolf_hunter', 'Sheriff', 'Mayor', 'Worker', 'FBI', 'Librarian', 'Vampire', 'Combo_hunter', 'Daylight_killer', 'Mafia_hunter', 'Remover', 'Journalist', 'Assassin_dog', 'Statuschecker', 'Retributionist', 'Jesper', 'Survivor', 'Incinerator', 'Tankman', 'Sculpturer', 'Jailwolf', 'Bodyguard', 'Ole_bjorn', 'Stupido', 'Grenadethrower', 'Pestilence', 'Police_hunter', 'Freezer_hunter', 'Amnesiac', 'Nikkiller', 'Armorer', 'Jester', 'Guardian_angel', 'Amnescriff', 'Terrorist_hunter', 'Tracker', 'Washer', 'Scared', 'Identifier', 'Lifeguard2', 'Nightmare', 'Assisting_dog', 'Crazy', 'SK_hunter', 'Crazy_hunter', 'Mayorguarder', 'Pestilence_hunter_K', 'Magicmaker', 'Pirate', 'Revengetaker', 'Dracula', 'Coven_leader', 'Framer', 'Security_guard', 'Cooler', 'Nighter', 'Knight', 'Sniper', 'Lookout', 'Crusader', 'Poisoner_saver', 'Coven_hunter', 'Poisoner', 'Consort', 'Arsonist', 'Villager', 'Agent_ZK', 'Necromancer', 'Pestilence_hunter_R', 'Creator_hunter', 'Mafioso', 'Amneshiff', 'Token', 'Soldier', 'Crazy_knight_hunter', 'Killager', 'Gasthrower', 'Suicide_bomber', 'Waller', 'Pestilence_hunter_H', 'Dayriff', 'Veteran', 'Spy', 'Potion_master', 'Queen', 'Targeter', 'Frenzied_thrall', 'Ingenting', 'Firefighter', 'Escort', 'Thief', 'Unframer', 'Idiot']
+for i in range(100):
+    List = r.sample(RoleList, 147)
+    print(List)
+    runGame(List)
+    ResetEntirely()
+#runGame(List)
 print("The code is finished")

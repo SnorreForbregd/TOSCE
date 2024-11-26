@@ -131,7 +131,7 @@ TotalRoleStats = {
     "Ole_bjorn" : ["Ole_bjorn", True, 0, 0, "Creators", False, "", False, "Investigating", "Neutral", "Evil", True, ["Ole_bjorn", "Journalist", "Consigliere"], [7], False, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Oliver" : ["Oliver", True, 3, 0, "Creators", False, "", False, "Killing", "Neutral", "Killing", True, ["Oliver", "Identifier", "Pirate", "Werepup"], [7], False, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Snorre" : ["Snorre", True, 0, 0, "Creators", False, "", False, "Supporting", "Neutral", "Evil", True, ["Token", "Agent_ZK", "Snorre", "Polar_bear"], [0], False, False, True, True, False, False, False, 3, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
-    "Assassin_dog" : ["Assassin_dog", True, 3, 0, "Dogs", False, "", False, "Killing", "Neutral", "Killing", False, ["Sniper", "Archer", "Murderer", "Assassin_dog"], [1], False, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
+    "Assassin_dog" : ["Assassin_dog", True, 3, 0, "Dogs", False, "", False, "Killing", "Neutral", "Killing", False, ["Sniper", "Archer", "Murderer", "Assassin_dog"], [7], False, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Assisting_dog" : ["Assisting_dog", True, 0, 0, "Dogs", False, "", False, "Supporting", "Neutral", "Evil", True, ["Haunter", "Crazy", "Assisting_dog"], [0], False, False, True, True, False, False, False, 3, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Digger" : ["Digger", True, 0, 0, "Dogs", False, "", False, "Supporting", "Neutral", "Evil", True, ["Nightmare", "Targeter", "Trapper", "Digger"], [7], False, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Herman" : ["Herman", True, 2, 1, "Dogs", False, "", False, "Killing", "Neutral", "Killing", True, ["Statuschecker", "Herman", "Werewolf"], [7], False, False, False, False, False, False, False, 1, 0, 1, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
@@ -157,7 +157,7 @@ TotalRoleStats = {
     "Consigliere" : ["Consigliere", True, 0, 0, "Mafia", False, "", False, "Investigating", "Mafia", "Support", True, ["Ole_bjorn", "Journalist", "Consigliere"], [7], False, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Consort" : ["Consort", True, 0, 0, "Mafia", False, "", False, "Supporting", "Mafia", "Support", True, ["Escort", "Consort", "Thief"], [1], True, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Framer" : ["Framer", True, 0, 0, "Mafia", False, "", False, "Supporting", "Mafia", "Deception", True, ["Framer", "Unframer", "Robber"], [4], False, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
-    "Godfather" : ["Godfather", True, 2, 1, "Mafia", False, "", False, "Killing", "Mafia", "Killing", False, ["FBI", "Godfather", "Dracula"], [1], False, False, False, False, True, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
+    "Godfather" : ["Godfather", True, 2, 2, "Mafia", False, "", False, "Killing", "Mafia", "Killing", False, ["FBI", "Godfather", "Dracula"], [1], False, False, False, False, True, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Hypnotist" : ["Hypnotist", True, 0, 0, "Mafia", False, "", False, "Supporting", "Mafia", "Deception", True, ["Hypnotist", "Coven_leader", "Remover"], [0], True, False, True, True, False, False, False, 0, 0, 1, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Janitor" : ["Janitor", True, 0, 0, "Mafia", False, "", False, "Supporting", "Mafia", "Deception", True, ["Sheriff", "Investigator", "Janitor"], [0], False, False, False, False, False, False, False, 3, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Mafioso" : ["Mafioso", True, 1, 0, "Mafia", False, "", False, "Killing", "Mafia", "Killing", True, ["Vigilante", "Terrorist", "Mafioso"], [1], False, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
@@ -287,7 +287,7 @@ RoleStats = {
     "Ole_bjorn" : ["Ole_bjorn", True, 0, 0, "Creators", False, "", False, "Investigating", "Neutral", "Evil", True, ["Ole_bjorn", "Journalist", "Consigliere"], [7], False, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Oliver" : ["Oliver", True, 3, 0, "Creators", False, "", False, "Killing", "Neutral", "Killing", True, ["Oliver", "Identifier", "Pirate", "Werepup"], [7], False, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Snorre" : ["Snorre", True, 0, 0, "Creators", False, "", False, "Supporting", "Neutral", "Evil", True, ["Token", "Agent_ZK", "Snorre", "Polar_bear"], [0], False, False, True, True, False, False, False, 3, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
-    "Assassin_dog" : ["Assassin_dog", True, 3, 0, "Dogs", False, "", False, "Killing", "Neutral", "Killing", False, ["Sniper", "Archer", "Murderer", "Assassin_dog"], [1], False, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
+    "Assassin_dog" : ["Assassin_dog", True, 3, 0, "Dogs", False, "", False, "Killing", "Neutral", "Killing", False, ["Sniper", "Archer", "Murderer", "Assassin_dog"], [7], False, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Assisting_dog" : ["Assisting_dog", True, 0, 0, "Dogs", False, "", False, "Supporting", "Neutral", "Evil", True, ["Haunter", "Crazy", "Assisting_dog"], [0], False, False, True, True, False, False, False, 3, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Digger" : ["Digger", True, 0, 0, "Dogs", False, "", False, "Supporting", "Neutral", "Evil", True, ["Nightmare", "Targeter", "Trapper", "Digger"], [7], False, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Herman" : ["Herman", True, 2, 1, "Dogs", False, "", False, "Killing", "Neutral", "Killing", True, ["Statuschecker", "Herman", "Werewolf"], [7], False, False, False, False, False, False, False, 1, 0, 1, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
@@ -313,7 +313,7 @@ RoleStats = {
     "Consigliere" : ["Consigliere", True, 0, 0, "Mafia", False, "", False, "Investigating", "Mafia", "Support", True, ["Ole_bjorn", "Journalist", "Consigliere"], [7], False, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Consort" : ["Consort", True, 0, 0, "Mafia", False, "", False, "Supporting", "Mafia", "Support", True, ["Escort", "Consort", "Thief"], [1], True, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Framer" : ["Framer", True, 0, 0, "Mafia", False, "", False, "Supporting", "Mafia", "Deception", True, ["Framer", "Unframer", "Robber"], [4], False, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
-    "Godfather" : ["Godfather", True, 2, 1, "Mafia", False, "", False, "Killing", "Mafia", "Killing", False, ["FBI", "Godfather", "Dracula"], [1], False, False, False, False, True, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
+    "Godfather" : ["Godfather", True, 2, 2, "Mafia", False, "", False, "Killing", "Mafia", "Killing", False, ["FBI", "Godfather", "Dracula"], [1], False, False, False, False, True, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Hypnotist" : ["Hypnotist", True, 0, 0, "Mafia", False, "", False, "Supporting", "Mafia", "Deception", True, ["Hypnotist", "Coven_leader", "Remover"], [0], True, False, True, True, False, False, False, 0, 0, 1, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Janitor" : ["Janitor", True, 0, 0, "Mafia", False, "", False, "Supporting", "Mafia", "Deception", True, ["Sheriff", "Investigator", "Janitor"], [0], False, False, False, False, False, False, False, 3, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Mafioso" : ["Mafioso", True, 1, 0, "Mafia", False, "", False, "Killing", "Mafia", "Killing", True, ["Vigilante", "Terrorist", "Mafioso"], [1], False, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
@@ -1312,7 +1312,7 @@ def Promote():
                 PromoteList.append((role, "King"))
 
             elif RoleStats[role][0] == "Lifeguard2" and "Queen" not in RoleList:
-                PromoteList.append((role, "King"))
+                PromoteList.append((role, "Queen"))
 
             elif RoleStats[role][0] == "Stupido_hunter" and "Soldier" not in RoleList and "Sniper" not in RoleList and "Tankman" not in RoleList:
                 PromoteList.append((role, "Soldier"))
@@ -2146,7 +2146,7 @@ def ExecuteTarget(Role, Target, Attacking = True, Visiting = True, IgnoreTrans =
         elif RoleStats[Target][0] == "Werewolf" and RoleStatuses[Target][13] and (RoleStats[Role][2] <= 4 or Attacking == False) and RoleStats[Role][6] != "Werewolves" and not RoleStatuses[Role][39]:
             Attack(Target, Role, True)
 
-        elif RoleStats[Target][0] == "Pestilence" and not RoleStatuses[Role][39]:
+        elif RoleStats[Target][0] == "Pestilence" and not RoleStatuses[Role][39] and RoleStats[Role][6] != "Pestilences":
             Attack(Target, Role, True)
 
         elif RoleStats[Target][0] == "Elias" and RoleStatuses[Target][13] and (RoleStats[Role][2] <= 5 or Attacking == False) and RoleStats[Role][6] != "Creators" and not RoleStatuses[Role][39]:
@@ -2319,9 +2319,9 @@ def mainMenu():
             runGame(CPUList)
         elif Ans == "2":
             CPUList = r.sample(RoleList, Amount)
-            print(Test0)
+            print(SpamTest)
             input()
-            runGame(Test0)
+            runGame(SpamTest)
 
 Test0 = ['Haunter', 'Ambusher', 'Agent', 'Security_guard', 'Werewolf', 'Consigliere', 'Pirate', 'SK_hunter', 'Thief', 'Sniper',
           'Retributionist', 'Mafioso', 'Arsonist', 'Frenzied_thrall', 'Crazy_hunter', 'Coven_hunter', 'Mayor', 'Jailwolf',
@@ -2360,6 +2360,25 @@ Test14 = ["Armorer", "Librarian", "Arsonist", "Identifier", "Nighter", "Herman",
 
 '''Following are all of the functions for the roles. Prepare yourself'''
 
+SpamTest = ['Crazy', 'Unframer', 'Dayriff', 'Soldier', 'Investigator', 'Grenadethrower', 'Revengetaker', 'Pestilence_hunter_R', 
+            'Johannes', 'Security_guard', 'Terrorist', 'Armorer', 'Stupido', 'Crazy_king', 'Suicide_bomber', 'Frenzied_thrall', 
+            'Pestilence', 'Poisoner', 'Crusader', 'Hypnotist', 'Crazy_hunter', 'Sheriff', 'Token', 'Coven_leader', 'Kristian', 
+            'Vampire', 'Robber', 'Oliver', 'Killager', 'Villager', 'Firefighter', 'Thief', 'Creator_hunter', 'Ingenting', 
+            'Vigilante', 'Hex_master', 'Idiot', 'Incinerator', 'SK_hunter', 'Lifeguard2', 'Nightmare', 'General', 'Hunter_hunter', 
+            'Consort', 'King', 'Knight', 'Police_hunter', 'Daylight_killer', 'Eskimo', 'Escort', 'Mafia_hunter', 'Jailwolf', 
+            'Doctor', 'Framer', 'Spy', 'Terrorist_hunter', 'Agent', 'Tracker', 'Agent_ZK', 'Freezer_hunter', 'Ole_bjorn', 
+            'Nikkiller', 'Pestilence_hunter_H', 'Writer', 'Snorre', 'Drage', 'Transporter', 'Mafiturner', 'Arsonist', 'Godfather', 
+            'Polar_bear', 'Huntrustiff', 'Magicmaker', 'Stupido_hunter', 'Mayor', 'Herman', 'Retributionist', 'Immunist', 'Elias', 
+            'Lifeguard1', 'Combo_hunter', 'Mayorguarder', 'Werewolf', 'Janitor', 'Medusa', 'Poisoner_saver', 'Villargeter', 
+            'Murderer', 'Freezer', 'Worker', 'Dracula', 'Ambusher', 'Amneshiff', 'Veteran', 'Werewolf_hunter', 'Washer', 'Sniper', 
+            'Tankman', 'Journalist', 'Amnesiac', 'Serial_killer', 'Medium', 'Consigliere', 'Clown', 'Trapper', 'Bulleter', 
+            'Guardian_angel', 'Amnescriff', 'Waller', 'Jester', 'Potion_master', 'Mafioso', 'Cooler', 'Librarian', 'Bodyguard', 
+            'Dog_mauler', 'Werepup', 'FBI_hunter', 'Pirate', 'Poisoner_hunter', 'Jailor', 'Pestilence_hunter_K', 'FBI', 'Remover', 
+            'Queen', 'Pollutifier', 'Archer', 'Vampire_hunter', 'Necromancer', 'Police', 'Gasthrower', 'Scared', 'Assisting_dog', 
+            'Coven_hunter', 'Survivor', 'Assassin_dog', 'Jesper', 'Crazy_knight_hunter', 'Targeter', 'Lookout', 'Haunter', 'Mikael', 
+            'Digger', 'Statuschecker', 'Nighter', 'Identifier', 'Sculpturer']
+#Used for brute-force testing a bunch of games
+
 def Arsonist_F(Role): #(1,0,2)
     if RoleStats[Role][23] == 2:
         RoleStats[Role][23] = 1
@@ -2382,7 +2401,7 @@ def Arsonist_F(Role): #(1,0,2)
             if CheckAction(Role, Target):
                 Check = NonLethalAttack(Role, Target)
                 if not Check:
-                    print(f"{Target} doused")
+                    print(f"{RoleStats[Target][0]} doused")
                     RoleStatuses[Target][26] = True
             RoleStats[Role][21] = 0
         RoleStats[Role][23] = 0
@@ -2568,7 +2587,7 @@ def Pirate_F(Role): #(0,0,1) CEI
                         RoleStats[Role][34] = True
     
     elif RoleStats[Role][23] == 0:
-        if RoleStats[Role][34]:
+        if RoleStats[Role][34] and RoleStats[Role][1]:
             Attack(Role, RoleStats[Role][26][0], False, False)
             if not RoleStats[RoleStats[Role][26][0]][1]:
                 RoleStats[Role][21] += 1
@@ -2734,7 +2753,7 @@ def Potion_master_F(Role): #(2,0,2)
 
 def Crazy_F(Role): #(0,0,0)
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare:
-        if isInGame("Crazy_king", True, True) and RoleStats[LinkRoles("Crazy_king", None, True)][24][0] == Role and not Control(Role):
+        if isInGame("Crazy_king", False, True) and RoleStats[LinkRoles("Crazy_king", None, True)][24] == [Role] and not Control(Role):
             RoleStats[Role][26] = [RoleStats[LinkRoles("Crazy_king", None, True)][26][0]]
         elif CPUGame:
             FindTarget(Role)
@@ -2965,7 +2984,7 @@ def Token_F(Role): #(0,0,0)
 
 def Agent_F(Role): #(0,0,0)
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare:
-        if isInGame("FBI", True, True) and RoleStats[LinkRoles("FBI", None, True)][24][0] == Role and not Control(Role):
+        if isInGame("FBI", False, True) and RoleStats[LinkRoles("FBI", None, True)][24] == [Role] and not Control(Role):
             RoleStats[Role][26] = [RoleStats[LinkRoles("FBI", None, True)][26][0]]
         elif CPUGame:
             FindTarget(Role)
@@ -3108,9 +3127,9 @@ def Terrorist_hunter_F(Role): #(0,0,0)
 
 def Archer_F(Role, Attacked = False): #(0,0,0)
     if (RoleStats[Role][1] or Attacked) and not CheckRoleblock(Role) and not Nightmare and not RoleStats[Role][34]:
-        if isInGame("Queen", False, True) and RoleStats[LinkRoles("Queen", None, True)][24][0] == Role and not Control(Role) and RoleStats[LinkRoles("King", None, True)][26] != []:
+        if isInGame("Queen", False, True) and RoleStats[LinkRoles("Queen", None, True)][24] == [Role] and not Control(Role) and RoleStats[LinkRoles("King", None, True)][26] != []:
             RoleStats[Role][26] = [RoleStats[LinkRoles("Queen", None, True)][26][0]]
-        elif isInGame("King", False, True) and RoleStats[LinkRoles("King", None, True)][24][0] == Role and not Control(Role) and RoleStats[LinkRoles("King", None, True)][26] != []:
+        elif isInGame("King", False, True) and RoleStats[LinkRoles("King", None, True)][24] == [Role] and not Control(Role) and RoleStats[LinkRoles("King", None, True)][26] != []:
             RoleStats[Role][26] = [RoleStats[LinkRoles("King", None, True)][26][0]]
         elif CPUGame:
             FindTarget(Role)
@@ -3144,9 +3163,9 @@ def King_F(Role): #(0,0,0)
         
 def Knight_F(Role): #(0,0,0)
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare:
-        if isInGame("King", False, True) and RoleStats[LinkRoles("King", None, True)][24][0] == Role and not Control(Role) and RoleStats[LinkRoles("King", None, True)][26] != []:
+        if isInGame("King", False, True) and RoleStats[LinkRoles("King", None, True)][24] == [Role] and not Control(Role) and RoleStats[LinkRoles("King", None, True)][26] != []:
             RoleStats[Role][26] = [RoleStats[LinkRoles("King", None, True)][26][0]]
-        elif isInGame("Queen", False, True) and RoleStats[LinkRoles("Queen", None, True)][24][0] == Role and not Control(Role) and RoleStats[LinkRoles("King", None, True)][26] != []:
+        elif isInGame("Queen", False, True) and RoleStats[LinkRoles("Queen", None, True)][24] == [Role] and not Control(Role) and RoleStats[LinkRoles("King", None, True)][26] != []:
             RoleStats[Role][26] = [RoleStats[LinkRoles("Queen", None, True)][26][0]]
         elif CPUGame:
             FindTarget(Role)
@@ -3299,7 +3318,7 @@ def Janitor_F(Role): #(3,0,0)
             
 def Mafioso_F(Role): #(0,0,0)
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare:
-        if isInGame("Godfather", True, True) and RoleStats[LinkRoles("Godfather", None, True)][24][0] == Role and not Control(Role):
+        if isInGame("Godfather", False, True) and RoleStats[LinkRoles("Godfather", None, True)][24] == [Role] and not Control(Role):
             RoleStats[Role][26] = [RoleStats[LinkRoles("Godfather", None, True)][26][0]]
         elif CPUGame:
             FindTarget(Role)
@@ -3377,7 +3396,7 @@ def Poisoner_F(Role): #(0,0,1)
                 Check = NonLethalAttack(Role, Target)
                 if not Check:
                     RoleStatuses[Target][44] = True
-                    print(f"{Target} poisoned")
+                    print(f"{RoleStats[Target][0]} poisoned")
 
 def Poisoner_saver_F(Role): #(3,0,0) CEI
     global PoisonerSaver
@@ -3485,7 +3504,7 @@ def Sniper_F(Role): #(0,0,0)
 
 def Soldier_F(Role): #(0,0,0)
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare and not RoleStats[Role][34]:
-        if isInGame("General", True, True) and RoleStats[LinkRoles("General", None, True)][24][0] == Role and not Control(Role):
+        if isInGame("General", False, True) and RoleStats[LinkRoles("General", None, True)][24] == [Role] and not Control(Role):
             RoleStats[Role][26] = [RoleStats[LinkRoles("General", None, True)][26][0]]
         elif CPUGame:
             FindTarget(Role)
@@ -4092,7 +4111,7 @@ def Vigilante_F(Role): #(1,0,1)
             RoleStatuses[Role][5] = True
             RoleStats[Role][22] = 1
     elif RoleStats[Role][23] == 0:
-        if not RoleStats[Role][22] == 1 and not CheckRoleblock(Role) and (RoleStats[Role][21] == 0 or Control(Role)) and RoleStats[Role][1]:
+        if not RoleStats[Role][22] == 1 and not CheckRoleblock(Role) and (RoleStats[Role][21] == 0 or Control(Role)) and RoleStats[Role][1] and not Nightmare:
             if CPUGame:
                 FindTarget(Role)
             Target, Rampage = ExecuteTarget(Role, RoleStats[Role][26][0], False)
@@ -4294,5 +4313,5 @@ def Pestilence_F(Role): #(0,0,1)
             RoleStats[Role][21] = 0
 
 #mainMenu()
-runGame(Test0)
+runGame(SpamTest)
 print("The code is finished")

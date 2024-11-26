@@ -2,9 +2,13 @@
 
 import random as r
 import copy
+from time import sleep
+import sys
 
 
 CPUGame = True
+DebugGame = False
+Cycles = 0
 NightmareTrigger = False
 Nightmare = False
 ERampageTrigger = False
@@ -1149,7 +1153,8 @@ def runDay(): #Runs the day
     PestilenceInGame = False
     Day += 1
     print(f"Day {Day}")
-    input()
+    if (not DebugGame):
+        input()
     AliveList = AlivePlayers()
     if PlayersAlive == len(AliveList) and PlayerRevived == False:
         DrawCount += 1
@@ -1686,10 +1691,12 @@ def endGame(Winner):
     WinList = []
     if Winner == "Draw":
         print("The game is a draw")
-        input()
+        if (not DebugGame):
+            input()
     else:
         print(f"The game is over! {Winner} won!")
-        input()
+        if (not DebugGame):
+            input()
         if Winner == "Town":
             for role in RoleSequence:
                 if RoleStats[role][4] in GoodList:
@@ -1701,7 +1708,8 @@ def endGame(Winner):
         print("The following won:")
         for win in WinList:
             print(win)
-        input()
+        if (not DebugGame):
+            input()
     ConditionWinList = []
     for role in RoleSequence:
         if RoleStats[role][30]:
@@ -1715,7 +1723,7 @@ def endGame(Winner):
     
     VillargeterList = []
     for role in RoleSequence:
-        if RoleStats[role][0] == "Villargeter":
+        if RoleStats[role][0] == "Villargeter" and RoleStats[role][1]:
             VillargeterList.append(role)
 
     if len(VillargeterList) == 1 and len(ConditionWinList) == 0:
@@ -1727,7 +1735,8 @@ def endGame(Winner):
             print(win)
     print("These players were alive at the end:")
     print(AlivePlayers())
-    input()
+    if (not DebugGame):
+        input()
     return
     
     
@@ -2255,7 +2264,8 @@ def runGame(List): #Runs the game
     print("The following players are in the game:")
     for name in PlayerSequence:
         print(name)
-    input()
+    if (not DebugGame):
+        input()
     if isInGame("Guardian_angel"):
         FindTargetGA(LinkRoles("Guardian_angel"))
     if isInGame("Librarian"):
@@ -2295,20 +2305,22 @@ def runGame(List): #Runs the game
 
 def mainMenu():
     global CPUGame
+    global DebugGame
     print("Town of salem, chaos edition.")
     print("What do you wish to play?")
     print('''
 1 - CPU-game
-2 - Real game''')
+2 - Real game
+3 - Debug Game''')
     Ans = input()
     if Ans == "1":
         CPUGame = True
         Amount = int(input("How many CPUs? "))
-        print("Do you want to input your own CPUs or just pick randomly?")
-        print('''
+        Ans = input('''
+Do you want to input your own CPUs or just pick randomly?
 1 - Input CPUs
-2 - Pick randomly''')
-        Ans = input()
+2 - Pick randomly'''
+)
         if Ans == "1":
             CPUList = []
             for i in range(Amount):
@@ -2322,6 +2334,20 @@ def mainMenu():
             print(SpamTest)
             input()
             runGame(SpamTest)
+    if Ans == "3":
+        global Cycles
+        Cycles = int(input("How many cycles do you want to run?\n"))
+        sys.stdout = open('./log.txt', 'w')
+        CPUGame = True
+        DebugGame = True
+        for i in range(Cycles):
+            print("STARTING GAME")
+            print(f"Cycle {i+1}")
+            DebugTest = r.sample(RoleList, len(RoleList))
+            print(DebugTest)
+            runGame(DebugTest)
+            sleep(0.5)
+
 
 Test0 = ['Haunter', 'Ambusher', 'Agent', 'Security_guard', 'Werewolf', 'Consigliere', 'Pirate', 'SK_hunter', 'Thief', 'Sniper',
           'Retributionist', 'Mafioso', 'Arsonist', 'Frenzied_thrall', 'Crazy_hunter', 'Coven_hunter', 'Mayor', 'Jailwolf',
@@ -2380,6 +2406,8 @@ SpamTest = ['Crazy', 'Unframer', 'Dayriff', 'Soldier', 'Investigator', 'Grenadet
 #Used for brute-force testing a bunch of games
 
 def Arsonist_F(Role): #(1,0,2)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 2:
         RoleStats[Role][23] = 1
         if RoleStats[Role][21] == 0 and not CheckRoleblock(Role) and RoleStats[Role][1] and not Control(Role) and not isInGame("Incinerator", True):
@@ -2416,6 +2444,8 @@ def Arsonist_F(Role): #(1,0,2)
             RoleStats[Role][21] = 1
 
 def Gasthrower_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if not CheckRoleblock(Role) and RoleStats[Role][1]:
         NextList = []
         for role in RoleSequence:
@@ -2432,6 +2462,8 @@ def Gasthrower_F(Role): #(0,0,0)
                 RoleStatuses[Target][26] = True
 
 def Incinerator_F(Role): #(0,0,1) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 1:
         if not CheckRoleblock(Role) and RoleStats[Role][1]:
             if CPUGame:
@@ -2448,6 +2480,8 @@ def Incinerator_F(Role): #(0,0,1) CEI
                     RoleStatuses[role][26] = False
 
 def Freezer_hunter_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -2457,6 +2491,8 @@ def Freezer_hunter_F(Role): #(0,0,0)
             Attack(Role, Target, False, False)
 
 def Washer_F(Role): #(0,0,1) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         for role in RoleSequence:
@@ -2474,6 +2510,8 @@ def Washer_F(Role): #(0,0,1) CEI
                 RoleStatuses[Target][7] = max(RoleStatuses[Target][7], 4)
 
 def Amnescriff_F(Role): #(0,0,1) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         if RoleStats[Role][1] and not CheckRoleblock(Role):
@@ -2489,6 +2527,8 @@ def Amnescriff_F(Role): #(0,0,1) CEI
             PromoteList.append((Role, RoleStats[Role][29][0]))
 
 def Amneshiff_F(Role): #(0,0,1)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         if RoleStats[Role][1] and not CheckRoleblock(Role):
@@ -2504,6 +2544,8 @@ def Amneshiff_F(Role): #(0,0,1)
             PromoteList.append((Role, RoleStats[Role][29][0]))
 
 def Amnesiac_F(Role): #(0,0,1) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         if RoleStats[Role][1] and not CheckRoleblock(Role):
@@ -2518,6 +2560,8 @@ def Amnesiac_F(Role): #(0,0,1) CEI
             PromoteList.append((Role, RoleStats[Role][29][0]))
 
 def Creator_hunter_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -2527,6 +2571,8 @@ def Creator_hunter_F(Role): #(0,0,0)
             Attack(Role, Target, False, False)
 
 def Guardian_angel_F(Role): #(2,0,0) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if not CheckRoleblock(Role) and RoleStats[Role][21] > 0:
         if CPUGame:
             RoleStatuses[RoleStats[Role][24][0]][25] = True
@@ -2534,12 +2580,16 @@ def Guardian_angel_F(Role): #(2,0,0) CEI
             RoleStats[Role][21] -= 1
 
 def Jester_F(Role):
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if Jester:
         if CPUGame:
             FindTarget(Role)
         Attack(Role, RoleStats[Role][26][0], True, False)
 
 def Killager_F(Role): #(1,3,1)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         if RoleStats[Role][21] == 1 and not CheckRoleblock(Role) and RoleStats[Role][1] and not Control(Role) and RoleStats[Role][22] > 0:
@@ -2560,6 +2610,8 @@ def Killager_F(Role): #(1,3,1)
             RoleStats[Role][34] = False
 
 def Librarian_F(Role): #(0,0,0) #Target is at 24
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     AliveList = AlivePlayers()
     if RoleStats[Role][24][0] in AliveList and not CheckRoleblock(Role) and RoleStats[Role][1] and not Nightmare and not RoleStats[Role][30]:
         if CPUGame:
@@ -2572,6 +2624,8 @@ def Librarian_F(Role): #(0,0,0) #Target is at 24
                 RoleStats[Role][3] = 0
 
 def Pirate_F(Role): #(0,0,1) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         if RoleStats[Role][1] and not CheckRoleblock(Role):
@@ -2596,6 +2650,8 @@ def Pirate_F(Role): #(0,0,1) CEI
         RoleStats[Role][30]= True
 
 def Scared_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare:
         if CPUGame:
             FindTarget(Role)
@@ -2615,21 +2671,29 @@ def Scared_F(Role): #(0,0,0)
         RoleStats[Role][30] = True
 
 def Survivor_F(Role): #(4,0,0) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][21] > 0 and RoleStats[Role][22] == 0:
         RoleStatuses[Role][5] = True
         RoleStats[Role][21] -= 1
 
 def Villager_F(Role): #(3,0,0) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][21] > 0 and RoleStats[Role][22] == 0:
         RoleStats[Role][25] = 4
         RoleStats[Role][21] -= 1
 
 def Villargeter_F(Role): #(4,0,0) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][21] > 0 and RoleStats[Role][22] == 0:
         RoleStats[Role][25] = 4
         RoleStats[Role][21] -= 1
 
 def Writer_F(Role): #(0,0,0) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not RoleStats[Role][34] and not Nightmare:
         if CPUGame:
             FindTarget(Role)
@@ -2638,6 +2702,8 @@ def Writer_F(Role): #(0,0,0) CEI
             RoleStats[Role][34]= True
 
 def Coven_leader_F(Role): #(0,0,2) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 2:
         RoleStats[Role][23] = 1
         if RoleStats[Role][1] and not CheckRoleblock(Role):
@@ -2661,6 +2727,8 @@ def Coven_leader_F(Role): #(0,0,2) CEI
             Attack(Role, RoleStats[Role][26][0], True)
 
 def FBI_hunter_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -2670,6 +2738,8 @@ def FBI_hunter_F(Role): #(0,0,0)
             Attack(Role, Target)
 
 def Hex_master_F(Role): #(0,0,1)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         if RoleStats[Role][24] != [] and (Night%2 == 0 or RoleStats[Role][33]):
@@ -2693,6 +2763,8 @@ def Hex_master_F(Role): #(0,0,1)
                     RoleStats[Role][24].append(Target)
 
 def Medusa_F(Role): #(3,0,1)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         if not RoleStats[Role][33] and RoleStats[Role][21] > 0 and RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][22] == 0:
@@ -2709,9 +2781,13 @@ def Medusa_F(Role): #(3,0,1)
                     RoleStatuses[Target][32] = True
 
 def Necromancer_F(Role): #(0,0,0) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     pass
 
 def Potion_master_F(Role): #(2,0,2)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 0:
         if RoleStats[Role][33] or RoleStats[Role][21] == 0:
             if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare:
@@ -2752,6 +2828,8 @@ def Potion_master_F(Role): #(2,0,2)
                 RoleStats[Role][34] = True
 
 def Crazy_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare:
         if isInGame("Crazy_king", False, True) and RoleStats[LinkRoles("Crazy_king", None, True)][24] == [Role] and not Control(Role):
             RoleStats[Role][26] = [RoleStats[LinkRoles("Crazy_king", None, True)][26][0]]
@@ -2762,6 +2840,8 @@ def Crazy_F(Role): #(0,0,0)
             Attack(Role, Target)
 
 def Crazy_king_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare:
         if isInGame("Crazy", True, True) and not CheckRoleblock(LinkRoles("Crazy", None, True)):
             RoleStats[Role][24] = [LinkRoles("Crazy", None, True)]
@@ -2782,6 +2862,8 @@ def Crazy_king_F(Role): #(0,0,0)
                 Attack(Role, Target)
 
 def Crazy_knight_hunter_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -2791,6 +2873,8 @@ def Crazy_knight_hunter_F(Role): #(0,0,0)
             Attack(Role, Target)
 
 def Targeter_F(Role, Attacked = False): #(0,0,0) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if (RoleStats[Role][1] or Attacked) and not CheckRoleblock(Role) and not Nightmare and not RoleStats[Role][34]:
         if CPUGame:
             FindTarget(Role)
@@ -2800,6 +2884,8 @@ def Targeter_F(Role, Attacked = False): #(0,0,0) CEI
     RoleStats[Role][34] = False
 
 def Thief_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -2808,6 +2894,8 @@ def Thief_F(Role): #(0,0,0)
             Roleblock(Role, Target)
 
 def Elias_F(Role): #(0,0,1)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     global ERampageTrigger
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
@@ -2830,6 +2918,8 @@ def Elias_F(Role): #(0,0,1)
                         Attack(Role, role, True)
 
 def Jesper_F(Role): #(3,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][21] > 0:
         if CPUGame:
             FindTarget(Role)
@@ -2843,6 +2933,8 @@ def Jesper_F(Role): #(3,0,0)
                 RoleStats[Role][24].append(RoleStats[Role][26][0])
 
 def Johannes_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare:
         if CPUGame:
             FindTarget(Role)
@@ -2851,6 +2943,8 @@ def Johannes_F(Role): #(0,0,0)
             Attack(Role, Target)
 
 def Kristian_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -2867,6 +2961,8 @@ def Kristian_F(Role): #(0,0,0)
         RoleStats[Role][34] = False
 
 def Mikael_F(Role): #(3,0,0) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][21] > 0 and RoleStats[Role][22] == 0:
         RoleStats[Role][21] -= 1
         for role in RoleSequence:
@@ -2875,6 +2971,8 @@ def Mikael_F(Role): #(3,0,0) CEI
                 RoleStatuses[role][7] = 4
 
 def Ole_bjorn_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -2884,6 +2982,8 @@ def Ole_bjorn_F(Role): #(0,0,0)
             RoleStats[Role][24].append(Target)
 
 def Oliver_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     RoleStats[Role][24] = []
     if Night%2 == 0:
         RoleStats[Role][21] += 1
@@ -2900,6 +3000,8 @@ def Oliver_F(Role): #(0,0,0)
             return
 
 def Snorre_F(Role): #(3,0,0) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     global Snorre
     if RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][21] > 0 and RoleStats[Role][22] == 0:
         RoleStats[Role][21] -= 1
@@ -2907,6 +3009,8 @@ def Snorre_F(Role): #(3,0,0) CEI
         RoleStatuses[Role][13] = True
 
 def Assassin_dog_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare:
         if CPUGame:
             FindTarget(Role)
@@ -2921,12 +3025,16 @@ def Assassin_dog_F(Role): #(0,0,0)
                     Attack(Role, Target)
 
 def Assisting_dog_F(Role): #(3,0,0) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     global AssistingDog
     if RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][21] > 0:
         RoleStats[Role][21] -= 1
         AssistingDog = True
 
 def Digger_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         DigList = []
         for role in RoleSequence:
@@ -2940,6 +3048,8 @@ def Digger_F(Role): #(0,0,0)
                 RoleStatuses[Role][37] = True
 
 def Herman_F(Role): #(1,0,1)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         if RoleStats[Role][34] and Night != 1:
@@ -2968,6 +3078,8 @@ def Herman_F(Role): #(1,0,1)
                         Attack(Role, Target)
 
 def Token_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     RoleStats[Role][24]= []
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare:
         if CPUGame:
@@ -2983,6 +3095,8 @@ def Token_F(Role): #(0,0,0)
                     Attack(Role, Target)
 
 def Agent_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare:
         if isInGame("FBI", False, True) and RoleStats[LinkRoles("FBI", None, True)][24] == [Role] and not Control(Role):
             RoleStats[Role][26] = [RoleStats[LinkRoles("FBI", None, True)][26][0]]
@@ -2993,6 +3107,8 @@ def Agent_F(Role): #(0,0,0)
             Attack(Role, Target, False, False, True, True)
 
 def Agent_ZK_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare:
         if CPUGame:
             FindTarget(Role)
@@ -3001,6 +3117,8 @@ def Agent_ZK_F(Role): #(0,0,0)
             Attack(Role, Target, False, False)
 
 def Coven_hunter_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -3010,6 +3128,8 @@ def Coven_hunter_F(Role): #(0,0,0)
             Attack(Role, Target, False, False)
 
 def FBI_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare:
         if isInGame("Agent", True, True) and not CheckRoleblock(LinkRoles("Agent", None, True)):
             RoleStats[Role][24] = [LinkRoles("Agent", None, True)]
@@ -3023,6 +3143,8 @@ def FBI_F(Role): #(0,0,0)
                         FindTarget(Role)
 
 def Cooler_F(Role): #(0,0,1)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         for role in RoleSequence:
@@ -3041,6 +3163,8 @@ def Cooler_F(Role): #(0,0,1)
                 RoleStatuses[Target][9] = True
 
 def Eskimo_F(Role): #(0,0,1)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         if RoleStats[Role][1]:
@@ -3057,6 +3181,8 @@ def Eskimo_F(Role): #(0,0,1)
                 RoleStatuses[Target][7] = RoleStats[Target][3] + 2
 
 def Freezer_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare:
         if CPUGame:
             FindTarget(Role)
@@ -3065,6 +3191,8 @@ def Freezer_F(Role): #(0,0,0)
             Attack(Role, Target)
 
 def Polar_bear_F(Role): #(0,0,2)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     global PBRampageTrigger
     if RoleStats[Role][23] == 2:
         RoleStats[Role][23] = 1
@@ -3094,6 +3222,8 @@ def Polar_bear_F(Role): #(0,0,2)
                         Attack(Role, role, True)
 
 def Sculpturer_F(Role): #(3,0,1)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         for role in RoleSequence:
@@ -3103,7 +3233,7 @@ def Sculpturer_F(Role): #(3,0,1)
         if RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][21] > 0:
             if CPUGame and not Control(Role):
                 if isInGame("Freezer", True, True) and RoleStats[LinkRoles("Freezer", None, True)][26] != []:
-                    RoleStats[Role][26] = RoleStats[LinkRoles("Mafioso", None, True)][26]
+                    RoleStats[Role][26] = RoleStats[LinkRoles("Freezer", None, True)][26]
                 elif isInGame("Freezer", True):
                     for Amne in AmneList:
                         if RoleStats[Amne][0] == "Freezer" and RoleStats[Amne][26] != []:
@@ -3113,10 +3243,12 @@ def Sculpturer_F(Role): #(3,0,1)
             if RoleStats[Role][26] != []:
                 Target, Rampage = ExecuteTarget(Role, RoleStats[Role][26][0], False)
                 if CheckAction(Role, Target):
-                    RoleStats[Target][42] = True
+                    RoleStatuses[Target][42] = True
                     RoleStats[Role][21] -= 1
 
 def Terrorist_hunter_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -3126,6 +3258,8 @@ def Terrorist_hunter_F(Role): #(0,0,0)
             Attack(Role, Target)
 
 def Archer_F(Role, Attacked = False): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if (RoleStats[Role][1] or Attacked) and not CheckRoleblock(Role) and not Nightmare and not RoleStats[Role][34]:
         if isInGame("Queen", False, True) and RoleStats[LinkRoles("Queen", None, True)][24] == [Role] and not Control(Role) and RoleStats[LinkRoles("King", None, True)][26] != []:
             RoleStats[Role][26] = [RoleStats[LinkRoles("Queen", None, True)][26][0]]
@@ -3139,6 +3273,8 @@ def Archer_F(Role, Attacked = False): #(0,0,0)
     RoleStats[Role][34] = False
 
 def King_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare:
         if isInGame("Knight", True, True) and not CheckRoleblock(LinkRoles("Knight", None, True)):
             RoleStats[Role][24] = [LinkRoles("Knight", None, True)]
@@ -3162,6 +3298,8 @@ def King_F(Role): #(0,0,0)
                         FindTarget(Role)
         
 def Knight_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare:
         if isInGame("King", False, True) and RoleStats[LinkRoles("King", None, True)][24] == [Role] and not Control(Role) and RoleStats[LinkRoles("King", None, True)][26] != []:
             RoleStats[Role][26] = [RoleStats[LinkRoles("King", None, True)][26][0]]
@@ -3174,6 +3312,8 @@ def Knight_F(Role): #(0,0,0)
             Attack(Role, Target)
 
 def Lifeguard1_F(Role): #(0,0,0) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1]:
         for role in RoleSequence:
             if RoleStats[role][0] == "King":
@@ -3182,6 +3322,8 @@ def Lifeguard1_F(Role): #(0,0,0) CEI
                 break
 
 def Lifeguard2_F(Role): #(0,0,0) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1]:
         for role in RoleSequence:
             if RoleStats[role][0] == "Queen":
@@ -3190,6 +3332,8 @@ def Lifeguard2_F(Role): #(0,0,0) CEI
                 break
 
 def Police_hunter_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -3199,6 +3343,8 @@ def Police_hunter_F(Role): #(0,0,0)
             Attack(Role, Target)
 
 def Queen_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare:
         if isInGame("Archer", True, True) and not CheckRoleblock(LinkRoles("Archer", None, True)):
             RoleStats[Role][24] = [LinkRoles("Archer", None, True)]
@@ -3222,6 +3368,8 @@ def Queen_F(Role): #(0,0,0)
                         FindTarget(Role)
 
 def Ambusher_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -3230,6 +3378,8 @@ def Ambusher_F(Role): #(0,0,0)
             RoleStatuses[Target][14] = True
 
 def Consigliere_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -3239,6 +3389,8 @@ def Consigliere_F(Role): #(0,0,0)
             RoleStats[Role][24].append(Target)
 
 def Consort_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -3247,6 +3399,8 @@ def Consort_F(Role): #(0,0,0)
             Roleblock(Role, Target)
 
 def Framer_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -3255,6 +3409,8 @@ def Framer_F(Role): #(0,0,0)
             RoleStatuses[Target][27] = True
 
 def Godfather_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare:
         if isInGame("Mafioso", True, True) and not CheckRoleblock(LinkRoles("Mafioso", None, True)):
             RoleStats[Role][24] = [LinkRoles("Mafioso", None, True)]
@@ -3275,6 +3431,8 @@ def Godfather_F(Role): #(0,0,0)
                 Attack(Role, Target, False, True, True, True)
 
 def Hypnotist_F(Role): #(0,0,1) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         if RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][21] == 1:
@@ -3298,6 +3456,8 @@ def Hypnotist_F(Role): #(0,0,1) CEI
                 RoleStats[Role][21] = 1
 
 def Janitor_F(Role): #(3,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][21] > 0:
         if CPUGame and not Control(Role):
             if isInGame("Godfather", True, True) and RoleStats[LinkRoles("Godfather", None, True)][26] != []:
@@ -3317,6 +3477,8 @@ def Janitor_F(Role): #(3,0,0)
                 RoleStats[Role][21] -= 1
             
 def Mafioso_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare:
         if isInGame("Godfather", False, True) and RoleStats[LinkRoles("Godfather", None, True)][24] == [Role] and not Control(Role):
             RoleStats[Role][26] = [RoleStats[LinkRoles("Godfather", None, True)][26][0]]
@@ -3327,6 +3489,8 @@ def Mafioso_F(Role): #(0,0,0)
             Attack(Role, Target, False, True, True, True)
 
 def Mafiturner_F(Role): #(3,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][21] > 0:
         if CPUGame:
             FindTarget(Role)
@@ -3340,6 +3504,8 @@ def Mafiturner_F(Role): #(3,0,0)
                 RoleStats[Role][24].append(RoleStats[Role][26][0])
 
 def Murderer_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     for role in RoleSequence:
         if role not in RoleStats[Role][24] and RoleStats[role][32]:
             RoleStats[Role][24].append(role)
@@ -3354,6 +3520,8 @@ def Murderer_F(Role): #(0,0,0)
                 Attack(Role, Target, False, False)
 
 def SK_hunter_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -3363,6 +3531,8 @@ def SK_hunter_F(Role): #(0,0,0)
             Attack(Role, Target)
 
 def Unframer_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -3371,6 +3541,8 @@ def Unframer_F(Role): #(0,0,0)
             RoleStatuses[Target][28]
 
 def Mafia_hunter_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -3380,6 +3552,8 @@ def Mafia_hunter_F(Role): #(0,0,0)
             Attack(Role, Target)
 
 def Poisoner_F(Role): #(0,0,1)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         for role in RoleSequence:
@@ -3399,12 +3573,16 @@ def Poisoner_F(Role): #(0,0,1)
                     print(f"{RoleStats[Target][0]} poisoned")
 
 def Poisoner_saver_F(Role): #(3,0,0) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     global PoisonerSaver
     if RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][21] > 0 and RoleStats[Role][22] == 0:
         PoisonerSaver = True
         RoleStats[Role][21] -= 1
 
 def Pollutifier_F(Role): #(1,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare and RoleStats[Role][21] > 0 and RoleStats[Role][22] == 0:
         if CPUGame:
             FindTarget(Role)
@@ -3416,6 +3594,8 @@ def Pollutifier_F(Role): #(1,0,0)
             RoleStats[Role][21] = 0
 
 def General_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare:
         if isInGame("Soldier", True, True) and not CheckRoleblock(LinkRoles("Soldier", None, True)) and not RoleStats[LinkRoles("Soldier", None, True)][34]:
             RoleStats[Role][24] = [LinkRoles("Soldier", None, True)]
@@ -3429,6 +3609,8 @@ def General_F(Role): #(0,0,0)
                         FindTarget(Role)
 
 def Identifier_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     RoleStats[Role][34] = False
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
@@ -3464,6 +3646,8 @@ def Identifier_F(Role): #(0,0,0)
                         RoleStats[Role][34] = True
 
 def Police_F(Role): #(1,0,2) (3)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 2:
         RoleStats[Role][23] = 1
         if RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][21] > 0 and RoleStats[Role][22] == 0 and not Control(Role):
@@ -3490,6 +3674,8 @@ def Police_F(Role): #(1,0,2) (3)
                 RoleStats[Role][36] -= 1
 
 def Sniper_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][34] and RoleStats[Role][1]:
         Attack(Role, None, False, False, False, False, False, False, None, True)
     elif RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare and not RoleStats[Role][34]:
@@ -3503,6 +3689,8 @@ def Sniper_F(Role): #(0,0,0)
                 RoleStats[Role][34] = True
 
 def Soldier_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare and not RoleStats[Role][34]:
         if isInGame("General", False, True) and RoleStats[LinkRoles("General", None, True)][24] == [Role] and not Control(Role):
             RoleStats[Role][26] = [RoleStats[LinkRoles("General", None, True)][26][0]]
@@ -3516,6 +3704,8 @@ def Soldier_F(Role): #(0,0,0)
                 RoleStats[Role][34] = True
 
 def Stupido_hunter_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -3525,6 +3715,8 @@ def Stupido_hunter_F(Role): #(0,0,0)
             Attack(Role, Target, False, False)
 
 def Tankman_F(Role): #(3,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare and RoleStats[Role][21] > 0:
         if CPUGame:
             FindTarget(Role)
@@ -3534,6 +3726,8 @@ def Tankman_F(Role): #(3,0,0)
             RoleStats[Role][21] -= 1
 
 def Crazy_hunter_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -3543,6 +3737,8 @@ def Crazy_hunter_F(Role): #(0,0,0)
             Attack(Role, Target)
 
 def Daylight_killer_F(Role): #(0,0,0) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1]:
         if CPUGame:
             FindTarget(Role)
@@ -3550,6 +3746,8 @@ def Daylight_killer_F(Role): #(0,0,0) CEI
         RoleStats[Role][26] = []
 
 def Nikkiller_F(Role): #(3,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and Night%3 == 0 and not Nightmare:
         if CPUGame:
             FindTarget(Role)
@@ -3574,9 +3772,13 @@ def Nikkiller_F(Role): #(3,0,0)
     RoleStats[Role][21] = 3
 
 def Robber_F(Role): #(0,0,0) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     pass
 
 def Serial_killer_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare:
         if CPUGame:
             FindTarget(Role)
@@ -3585,6 +3787,8 @@ def Serial_killer_F(Role): #(0,0,0)
             Attack(Role, Target)
 
 def Clown_F(Role): #(0,0,1)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         for role in RoleSequence:
@@ -3599,6 +3803,8 @@ def Clown_F(Role): #(0,0,1)
             RoleStatuses[Target][10] = True
 
 def Hunter_hunter_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -3608,6 +3814,8 @@ def Hunter_hunter_F(Role): #(0,0,0)
             Attack(Role, Target)
 
 def Idiot_F(Role): #(3,0,0) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][21] > 0 and RoleStats[Role][22] == 0:
         if CPUGame:
             FindTarget(Role)
@@ -3615,6 +3823,8 @@ def Idiot_F(Role): #(3,0,0) CEI
         RoleStats[Role][21] -= 1
 
 def Remover_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -3623,6 +3833,8 @@ def Remover_F(Role): #(0,0,0)
             RoleStatuses[Target][34] = True
 
 def Stupido_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare:
         if CPUGame:
             FindTarget(Role)
@@ -3631,6 +3843,8 @@ def Stupido_F(Role): #(0,0,0)
             Attack(Role, Target)
 
 def Armorer_F(Role): #(1,0,1)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         if RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][21] > 0 and RoleStats[Role][22] == 0 and not Control(Role):
@@ -3654,11 +3868,15 @@ def Armorer_F(Role): #(1,0,1)
             RoleStats[Role][34] = False
 
 def Bulleter_F(Role): #(0,0,0) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     global Bulleter
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         Bulleter = True
 
 def Combo_hunter_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -3668,6 +3886,8 @@ def Combo_hunter_F(Role): #(0,0,0)
             Attack(Role, Target)
 
 def Grenadethrower_F(Role): #(0,0,1)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     global GRampageTrigger
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
@@ -3689,6 +3909,8 @@ def Grenadethrower_F(Role): #(0,0,1)
         RoleStats[Role][34] = False
 
 def Suicide_bomber_F(Role): #(0,0,1) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         if RoleStats[Role][1] and not CheckRoleblock(Role):
@@ -3698,6 +3920,8 @@ def Suicide_bomber_F(Role): #(0,0,1) CEI
             Attack(Role, None, False, False, False, False, False, False, None, True)
 
 def Terrorist_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     RoleStats[Role][34] = False
     RoleStats[Role][21] += 1
     if Bulleter:
@@ -3720,6 +3944,8 @@ def Terrorist_F(Role): #(0,0,0)
         RoleStats[Role][24] = []
 
 def Bodyguard_F(Role): #(1,0,1)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         if RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][21] > 0 and RoleStats[Role][22] == 0 and not Control(Role):
@@ -3740,6 +3966,8 @@ def Bodyguard_F(Role): #(1,0,1)
             RoleStats[Role][34] = False
 
 def Crusader_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -3748,6 +3976,8 @@ def Crusader_F(Role): #(0,0,0)
             RoleStatuses[Target][15] = True
 
 def Dayriff_F(Role): #(0,0,0) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -3760,6 +3990,8 @@ def Dayriff_F(Role): #(0,0,0) CEI
         RoleStats[Role][27].append([Target, RoleStats[Target][11]])
 
 def Doctor_F(Role): #(1,0,1)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         if RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][21] > 0 and RoleStats[Role][22] == 0 and not Control(Role):
@@ -3778,6 +4010,8 @@ def Doctor_F(Role): #(1,0,1)
             RoleStats[Role][34] = False
 
 def Escort_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -3786,11 +4020,15 @@ def Escort_F(Role): #(0,0,0)
             Roleblock(Role, Target)
 
 def Haunter_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
 
 def Huntrustiff_F(Role): #(3,3,1) #Next (0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         if RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][21] > 0:
@@ -3826,6 +4064,8 @@ def Huntrustiff_F(Role): #(3,3,1) #Next (0)
         RoleStats[Role][36] = 0
 
 def Immunist_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role, [0])
@@ -3843,6 +4083,8 @@ def Immunist_F(Role): #(0,0,0)
         RoleStats[Role][38] = []
 
 def Investigator_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -3853,6 +4095,8 @@ def Investigator_F(Role): #(0,0,0)
             RoleStats[Role][27].append([Target, [RoleStats[Target][9], RoleStats[Target][12]]])
 
 def Jailor_F(Role): #(3,0,2) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 2:
         RoleStats[Role][23] = 1
         if RoleStats[Role][1] and not CheckRoleblock(Role):
@@ -3883,6 +4127,8 @@ def Jailor_F(Role): #(3,0,2) CEI
             Attack(RoleStats[Role][26][0], Role, True)
 
 def Journalist_F(Role): #(1,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][21] > 0:
         if CPUGame:
             FindTarget(Role)
@@ -3895,6 +4141,8 @@ def Journalist_F(Role): #(1,0,0)
                 RoleStats[Role][34] = True
 
 def Lookout_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -3903,6 +4151,8 @@ def Lookout_F(Role): #(0,0,0)
             RoleStats[Role][29] = [Target]
 
 def Mayor_F(Role): #(0,0,0) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1]:
         if CPUGame:
             FindTarget(Role)
@@ -3910,6 +4160,8 @@ def Mayor_F(Role): #(0,0,0) CEI
         RoleStats[Role][26] = []
 
 def Mayorguarder_F(Role): #(0,0,0) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1]:
         if isInGame("Mayor", True, True):
             Mayor = LinkRoles("Mayor", None, True)
@@ -3917,9 +4169,13 @@ def Mayorguarder_F(Role): #(0,0,0) CEI
             RoleStatuses[Mayor][7] = 4
 
 def Medium_F(Role): #(0,0,0) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     pass
 
 def Pestilence_hunter_H_F(Role): #(0,0,1)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         if not PestilenceInGame and RoleStats[Role][1] and not CheckRoleblock(Role):
@@ -3938,6 +4194,8 @@ def Pestilence_hunter_H_F(Role): #(0,0,1)
                 Attack(Role, Target)
 
 def Pestilence_hunter_K_F(Role): #(3,0,1)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         if RoleStats[Role][1] and not CheckRoleblock(Role) and PestilenceInGame:
@@ -3959,6 +4217,8 @@ def Pestilence_hunter_K_F(Role): #(3,0,1)
                     RoleStats[Role][21] = 0
 
 def Pestilence_hunter_R_F(Role): #(0,0,1)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         if RoleStats[Role][1] and not CheckRoleblock(Role) and not PestilenceInGame:
@@ -3979,6 +4239,8 @@ def Pestilence_hunter_R_F(Role): #(0,0,1)
                 Attack(Role, Target)
 
 def Retributionist_F(Role): #(1,0,1) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     global PlayerRevived
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
@@ -3996,6 +4258,8 @@ def Retributionist_F(Role): #(1,0,1) CEI
             print(f"{RoleStats[Role][26][0]} revived")
             
 def Security_guard_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -4004,6 +4268,8 @@ def Security_guard_F(Role): #(0,0,0)
             RoleStatuses[Target][12] = True
 
 def Sheriff_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -4016,6 +4282,8 @@ def Sheriff_F(Role): #(0,0,0)
             RoleStats[Role][27].append([Target, (RoleStats[Target][11] or CheckFramed(Target))])
 
 def Spy_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -4026,6 +4294,8 @@ def Spy_F(Role): #(0,0,0)
             RoleStats[Role][27].append([Target, RoleStats[Target][8]])
 
 def Statuschecker_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -4038,6 +4308,8 @@ def Statuschecker_F(Role): #(0,0,0)
             RoleStats[Role][27].append([Target, [RoleStats[Target][9], RoleStats[Target][10]]])
 
 def Tracker_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -4046,6 +4318,8 @@ def Tracker_F(Role): #(0,0,0)
             RoleStats[Role][29] = [Target]
 
 def Transporter_F(Role): #(0,0,0) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not RoleStats[Role][34]:
         if CPUGame:
             FindTarget(Role, [0,3])
@@ -4065,6 +4339,8 @@ def Transporter_F(Role): #(0,0,0) CEI
             RoleStats[Role][34] = False
 
 def Trapper_F(Role): #(0,0,1)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         if RoleStats[Role][34] and RoleStats[Role][1] and not CheckRoleblock(Role):
@@ -4087,6 +4363,8 @@ def Trapper_F(Role): #(0,0,1)
         RoleStats[Role][21] = 0
 
 def Vampire_hunter_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -4096,11 +4374,15 @@ def Vampire_hunter_F(Role): #(0,0,0)
             Attack(Role, Target, False, False)
 
 def Veteran_F(Role): #(3,0,0) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][21] > 0 and RoleStats[Role][22] == 0:
         RoleStatuses[Role][13] = True
         RoleStats[Role][21] -= 1
 
 def Vigilante_F(Role): #(1,0,1)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][34]:
         RoleStats[Role][34] = False
         Attack(Role, None, False, False, False, False, False, False, None, True)
@@ -4125,6 +4407,8 @@ def Vigilante_F(Role): #(1,0,1)
             RoleStats[Role][22] = 0
 
 def Waller_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -4133,6 +4417,8 @@ def Waller_F(Role): #(0,0,0)
             RoleStatuses[Target][4] = True
 
 def Worker_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and Night%2 == 0:
         if CPUGame:
             FindTarget(Role)
@@ -4141,6 +4427,8 @@ def Worker_F(Role): #(0,0,0)
             Attack(Role, Target, False, False)
 
 def Dracula_F(Role): #(3,1,0) (1)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][22] != 0:
         RoleStats[Role][22] -= 1
     if RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][22] == 0:
@@ -4156,6 +4444,8 @@ def Dracula_F(Role): #(3,1,0) (1)
         RoleStats[Role][21] -= 1
 
 def Frenzied_thrall_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -4164,6 +4454,8 @@ def Frenzied_thrall_F(Role): #(0,0,0)
             RoleStatuses[Target][16] = True
 
 def Vampire_F(Role): #(3,0,1)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][31]:
         if RoleStats[Role][22] != 0:
             RoleStats[Role][22] -= 1
@@ -4186,6 +4478,8 @@ def Vampire_F(Role): #(3,0,1)
         RoleStats[Role][22] = 2
 
 def Werewolf_hunter_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -4195,6 +4489,8 @@ def Werewolf_hunter_F(Role): #(0,0,0)
             Attack(Role, Target)
 
 def Dog_mauler_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -4204,6 +4500,8 @@ def Dog_mauler_F(Role): #(0,0,0)
             Attack(Role, Target)
 
 def Firefighter_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -4213,6 +4511,8 @@ def Firefighter_F(Role): #(0,0,0)
             Attack(Role, Target)
 
 def Jailwolf_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare:
         if CPUGame:
             FindTarget(Role)
@@ -4221,6 +4521,8 @@ def Jailwolf_F(Role): #(0,0,0)
             Attack(Role, Target)
 
 def Poisoner_hunter_F(Role): #(0,0,0)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][1] and not CheckRoleblock(Role):
         if CPUGame:
             FindTarget(Role)
@@ -4230,6 +4532,8 @@ def Poisoner_hunter_F(Role): #(0,0,0)
             Attack(Role, Target)
 
 def Werepup_F(Role):
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     if RoleStats[Role][21] == 3 and RoleStats[Role][1]:
         PromoteList.append((Role, "Werewolf"))
     elif RoleStats[Role][1]:
@@ -4238,11 +4542,15 @@ def Werepup_F(Role):
             RoleStats[Role][3] += 1
 
 def Werewolf_F(Role): #(0,0,2)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     global WRampageTrigger
     if RoleStats[Role][23] == 2:
         RoleStats[Role][23] = 1
         if RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][34]:
             RoleStatuses[Role][13] = True
+            if (CPUGame):
+                print(f"{RoleStats[Role][0]} stays at home")
     elif RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
         if RoleStats[Role][1] and not CheckRoleblock(Role) and not RoleStats[Role][34] and not Nightmare:
@@ -4268,6 +4576,8 @@ def Werewolf_F(Role): #(0,0,2)
             RoleStats[Role][34] = False
 
 def Drage_F(Role): #(0,0,0) CEI
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     global DrageTrigger
     if RoleStats[Role][1] and not CheckRoleblock(Role) and DrageTrigger >= 3:
         RoleStats[Role][2] = 5
@@ -4292,6 +4602,8 @@ def Drage_F(Role): #(0,0,0) CEI
         DrageTrigger = 0
     
 def Pestilence_F(Role): #(0,0,1)
+    if (DebugGame and RoleStats[Role][1]):
+        print(f"Running {RoleStats[Role][0]}")
     global PRampageTrigger
     if RoleStats[Role][23] == 1:
         RoleStats[Role][23] = 0
@@ -4311,7 +4623,8 @@ def Pestilence_F(Role): #(0,0,1)
                 if RoleStatuses[role][20]:
                     Attack(Role, role, True)
             RoleStats[Role][21] = 0
-
-#mainMenu()
-runGame(SpamTest)
+if (not DebugGame):
+    mainMenu()
+# runGame(SpamTest)
 print("The code is finished")
+sys.stdout.close()

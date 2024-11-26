@@ -194,7 +194,7 @@ TotalRoleStats = {
     "Terrorist" : ["Terrorist", True, 4, 0, "Terrorists", False, "", False, "Killing", "Neutral", "Killing", True, ["Vigilante", "Terrorist", "Mafioso"], [7], False, True, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Bodyguard" : ["Bodyguard", True, 0, 0, "Town", False, "", False, "Protecting", "Town", "Protective", False, ["Kristian", "Bodyguard", "Police"], [3], False, False, False, False, False, True, False, 1, 0, 1, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Crusader" : ["Crusader", True, 1, 0, "Town", False, "", False, "Protecting", "Town", "Protective", False, ["Crusader", "Serial_killer", "Knight"], [3], False, False, False, False, False, True, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
-    "Dayriff" : ["Dayriff", True, 0, 0, "Town", False, "", False, "Investigating", "Town", "Investigative", False, ["Mayor", "Dayriff", "Daylight_killer"], [0], False, False, True, True, False, True, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
+    "Dayriff" : ["Dayriff", True, 0, 0, "Town", False, "", False, "Investigating", "Town", "Investigative", False, ["Mayor", "Dayriff", "Daylight_killer"], [6], False, False, True, True, False, True, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Doctor" : ["Doctor", True, 0, 0, "Town", False, "", False, "Protecting", "Town", "Protective", False, ["Doctor", "Potion_master", "Pollutifier"], [3], False, False, False, False, False, True, False, 1, 0, 1, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Escort" : ["Escort", True, 0, 0, "Town", False, "", False, "Supporting", "Town", "Support", False, ["Escort", "Consort", "Thief"], [0], True, False, False, False, False, True, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Haunter" : ["Haunter", True, 7, 0, "Town", False, "", False, "Killing", "Town", "Killing", False, ["Haunter", "Crazy", "Assisting_dog"], [0], False, False, False, False, False, True, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
@@ -350,7 +350,7 @@ RoleStats = {
     "Terrorist" : ["Terrorist", True, 4, 0, "Terrorists", False, "", False, "Killing", "Neutral", "Killing", True, ["Vigilante", "Terrorist", "Mafioso"], [7], False, True, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Bodyguard" : ["Bodyguard", True, 0, 0, "Town", False, "", False, "Protecting", "Town", "Protective", False, ["Kristian", "Bodyguard", "Police"], [3], False, False, False, False, False, True, False, 1, 0, 1, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Crusader" : ["Crusader", True, 1, 0, "Town", False, "", False, "Protecting", "Town", "Protective", False, ["Crusader", "Serial_killer", "Knight"], [3], False, False, False, False, False, True, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
-    "Dayriff" : ["Dayriff", True, 0, 0, "Town", False, "", False, "Investigating", "Town", "Investigative", False, ["Mayor", "Dayriff", "Daylight_killer"], [0], False, False, True, True, False, True, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
+    "Dayriff" : ["Dayriff", True, 0, 0, "Town", False, "", False, "Investigating", "Town", "Investigative", False, ["Mayor", "Dayriff", "Daylight_killer"], [6], False, False, True, True, False, True, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Doctor" : ["Doctor", True, 0, 0, "Town", False, "", False, "Protecting", "Town", "Protective", False, ["Doctor", "Potion_master", "Pollutifier"], [3], False, False, False, False, False, True, False, 1, 0, 1, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Escort" : ["Escort", True, 0, 0, "Town", False, "", False, "Supporting", "Town", "Support", False, ["Escort", "Consort", "Thief"], [0], True, False, False, False, False, True, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Haunter" : ["Haunter", True, 7, 0, "Town", False, "", False, "Killing", "Town", "Killing", False, ["Haunter", "Crazy", "Assisting_dog"], [0], False, False, False, False, False, True, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
@@ -1132,7 +1132,7 @@ def ResetPlayer(Role): #Resets the given player
     RoleStats[Role][25] = 0
     RoleStats[Role][26] = []
     RoleStats[Role][29] = []
-    NonResetList = [0, 9, 10, 25, 26, 32, 33, 35, 36, 42, 43, 44, 45, 46, 47]
+    NonResetList = [0, 9, 10, 25, 26, 32, 33, 35, 36, 42, 43, 44, 45, 46]
     for i in range(0,48):
         if i not in NonResetList:
             RoleStatuses[Role][i] = copy.deepcopy(Template[i])
@@ -1199,7 +1199,7 @@ def runDay(): #Runs the day
                 Dayriff_F(Amne)
 
         for vote in VoteList2:
-            print(f"{vote[1]} claims {vote[2]} and accuses {LinkPerson(vote[0])} ({vote[0]}) of treason!")
+            print(f"{vote[1]} claims {vote[2]} and accuses {LinkPerson(vote[0])} ({RoleStats[vote[0]][0]}) of treason!")
         VoteList2 = []
 
         runVote()
@@ -1254,9 +1254,10 @@ def runVote():
             print("Trying to vote from votelist")
             for vote in VoteList:
                 if RoleStats[vote[0]][1] and RoleStatuses[vote[0]][25] == False and CheckMajority(RoleStats[vote[0]][4]) == None:
-                    print(f"{vote[1]} claims {vote[2]} and accuses {LinkPerson(vote[0])} ({vote[0]}) of being evil!")
+                    #print(f"{vote[1]} claims {vote[2]} and accuses {LinkPerson(vote[0])} ({vote[0]}) of being evil!")
                     Attack(None, vote[0], False, False, False, False, False, True)
                     VoteList.remove(vote)
+                    break
                 elif RoleStats[vote[0]][1] and RoleStatuses[vote[0]][25] == False:
                     return
         else:
@@ -1768,6 +1769,7 @@ def Attack(Attacker, Defender, FromVisit = False, Votable = True, Ranged = False
         FromVisit = True
 
     if Day and RoleStatuses[Defender][25] == False:
+        print(f"{LinkPerson(Defender)} ({RoleStats[Defender][0]}) is voted out")
         RoleStats[Defender][1] = False
         if RoleStats[Defender][0] == "Magicmaker":
             NightmareTrigger = True
@@ -2366,13 +2368,20 @@ Test14 = ["Armorer", "Librarian", "Arsonist", "Identifier", "Nighter", "Herman",
 
 '''Following are all of the functions for the roles. Prepare yourself'''
 
-SpamTest = ['Freezer', 'Mayor', 'Pollutifier', 'Digger', 'Necromancer', 'Crusader', 'Soldier', 'Investigator', 'Pestilence', 'Queen', 'Worker', 'Mafiturner', 'Polar_bear', 'Writer', 'Washer', 'Lifeguard2', 'Crazy_king', 'Creator_hunter', 'Revengetaker', 'Amnescriff', 'Knight', 'Drage', 'Pestilence_hunter_K', 'Elias', 'Retributionist', 'Ambusher', 'Werewolf_hunter', 'Amneshiff', 'Jailor', 'Mayorguarder', 'Tankman', 'Veteran', 'Assisting_dog', 'Medium', 'Pestilence_hunter_H', 'Snorre', 'Escort', 'Immunist', 'Idiot', 'Armorer', 'Crazy_knight_hunter', 'Waller', 'Journalist', 'Clown', 'Ingenting', 'Mafia_hunter', 'Amnesiac', 'Jester', 'Targeter', 'Pirate', 'Lookout', 'Doctor', 'Nikkiller', 'FBI', 'Coven_leader', 'Daylight_killer', 'Dayriff', 'Statuschecker', 'Haunter', 'Cooler', 'Agent', 'Villargeter', 'Medusa', 'Nighter', 'Killager', 'Firefighter', 'Security_guard', 'Vampire_hunter', 'Assassin_dog', 'Johannes', 'Herman', 'Robber', 'Potion_master', 'Freezer_hunter', 'Spy', 'Oliver', 'Thief', 'Archer', 'Police_hunter', 'Combo_hunter', 'Grenadethrower', 'SK_hunter', 'Poisoner_hunter', 'Murderer', 'Scared', 'Survivor', 'Poisoner', 'Bodyguard', 'Hex_master', 'Remover', 'Magicmaker', 'King', 'Sculpturer', 'Framer', 'Sheriff', 'Vigilante', 'Bulleter', 'Pestilence_hunter_R', 'Werewolf', 'Mafioso', 'Arsonist', 'Jailwolf', 'Godfather', 'Incinerator', 'Crazy_hunter', 'Lifeguard1', 'Sniper', 'Stupido_hunter', 'Villager', 'Agent_ZK', 'Poisoner_saver', 'Guardian_angel', 'Frenzied_thrall', 'Identifier', 'Dog_mauler', 'Token', 'Hunter_hunter', 'Coven_hunter', 'Gasthrower', 'Werepup', 'Kristian', 'Tracker', 'Mikael', 'FBI_hunter', 'Dracula', 'Nightmare', 'Huntrustiff', 'Serial_killer', 'Crazy', 'Transporter', 'Suicide_bomber', 'Terrorist', 'Trapper', 'Ole_bjorn', 'Consort', 'Police', 'Consigliere', 'Stupido', 'Terrorist_hunter', 'Hypnotist', 'Jesper', 'Librarian', 'Vampire', 'Eskimo', 'Janitor', 'General', 'Unframer']
+SpamTest = ['Nighter', 'Lifeguard2', 'Terrorist_hunter', 'Necromancer', 'Clown', 'Bulleter', 'General', 'Pestilence_hunter_H', 'Librarian', 'Murderer', 'Writer', 'Crazy_king', 'Washer', 'Pestilence', 'Ingenting', 'Guardian_angel', 'Huntrustiff', 'Villargeter', 'Pollutifier', 'Terrorist', 'Cooler', 'SK_hunter', 'Werewolf', 'Revengetaker', 'Sheriff', 'Killager', 'Potion_master', 'Jester', 'Mikael', 'Snorre', 'Amnesiac', 'King', 'Ole_bjorn', 'Vampire_hunter', 'Doctor', 'Targeter', 'Lifeguard1', 'Tracker', 'Retributionist', 'Security_guard', 'Eskimo', 'Armorer', 'Dayriff', 'Oliver', 'Worker', 'Mafioso', 'Unframer', 'Frenzied_thrall', 'Villager', 'Poisoner', 'Vampire', 'Framer', 'FBI_hunter', 'Escort', 'Mayor', 'Herman', 'Mafiturner', 'Transporter', 'Godfather', 'Crazy_knight_hunter', 'Coven_hunter', 'Incinerator', 'Consigliere', 'Police_hunter', 'Janitor', 'Johannes', 'Veteran', 'Scared', 'Werewolf_hunter', 'Mayorguarder', 'Immunist', 'Elias', 'Arsonist', 'Stupido', 'Vigilante', 'Freezer', 'Werepup', 'Kristian', 'Crazy', 'Medusa', 'Statuschecker', 'Tankman', 'Trapper', 'Nikkiller', 'Thief', 'Crazy_hunter', 'Stupido_hunter', 'Dog_mauler', 'Haunter', 'Sculpturer', 'Journalist', 'Digger', 'Agent_ZK', 'Queen', 'Police', 'Identifier', 'Coven_leader', 'Medium', 'Lookout', 'Combo_hunter', 'Hex_master', 'Waller', 'Ambusher', 'Assassin_dog', 'Robber', 'Jailwolf', 'Hunter_hunter', 'Poisoner_saver', 'Amnescriff', 'Serial_killer', 'Jesper', 'Drage', 'Remover', 'Pirate', 'Creator_hunter', 'Hypnotist', 'Knight', 'Archer', 'Jailor', 'Crusader', 'Sniper', 'Polar_bear', 'Gasthrower', 'FBI', 'Pestilence_hunter_R', 'Agent', 'Amneshiff', 'Spy', 'Daylight_killer', 'Suicide_bomber', 'Nightmare', 'Idiot', 'Magicmaker', 'Token', 'Bodyguard', 'Soldier', 'Freezer_hunter', 'Grenadethrower', 'Pestilence_hunter_K', 'Mafia_hunter', 'Dracula', 'Poisoner_hunter', 'Investigator', 'Consort', 'Firefighter', 'Assisting_dog', 'Survivor']
 #Used for brute-force testing a bunch of games
 
 def Arsonist_F(Role): #(1,0,2)
+    NextList = []
+    NonList = []
+    for role in RoleSequence:
+        if RoleStatuses[role][26]:
+            NextList.append(role)
+        elif RoleStats[role][4] != "Arsonists":
+            NonList.append(role)
     if RoleStats[Role][23] == 2:
         RoleStats[Role][23] = 1
-        if RoleStats[Role][21] == 0 and not CheckRoleblock(Role) and RoleStats[Role][1] and not Control(Role) and not isInGame("Incinerator", True):
+        if (RoleStats[Role][21] == 0 or NonList == []) and not CheckRoleblock(Role) and RoleStats[Role][1] and not Control(Role) and not isInGame("Incinerator", True):
             if CPUGame:
                 print("Incineration started")
             RoleStats[Role][22] = 1
@@ -2380,11 +2389,7 @@ def Arsonist_F(Role): #(1,0,2)
             RoleStats[Role][21] = 1
 
     elif RoleStats[Role][23] == 1:
-        if (RoleStats[Role][21] == 1 or Control(Role)) and not CheckRoleblock(Role) and RoleStats[Role][1]:
-            NextList = []
-            for role in RoleSequence:
-                if RoleStatuses[role][26]:
-                    NextList.append(role)
+        if (RoleStats[Role][21] == 1 or Control(Role)) and not CheckRoleblock(Role) and RoleStats[Role][1] and NonList != []:
             if CPUGame:
                 FindTarget(Role, None, NextList)
             Target, Rampage = ExecuteTarget(Role, RoleStats[Role][26][0])
@@ -2646,11 +2651,11 @@ def Coven_leader_F(Role): #(0,0,2) CEI
             if CheckAction(Role, Target):
                 Check = NonLethalAttack(Role, Target)
                 if not Check:
-                    RoleStats[Role][26] = [Target]
+                    RoleStats[Role][26] = [Target, RoleStats[Role][26][1]]
                     RoleStats[Role][34] = True
     
     elif RoleStats[Role][23] == 0:
-        if RoleStats[Role][34]:
+        if RoleStats[Role][34] and RoleStats[RoleStats[Role][26][0]][1]:
             Attack(Role, RoleStats[Role][26][0], True)
             RoleStats[Role][34]= False
 
@@ -3098,7 +3103,7 @@ def Sculpturer_F(Role): #(3,0,1)
         if RoleStats[Role][1] and not CheckRoleblock(Role) and RoleStats[Role][21] > 0:
             if CPUGame and not Control(Role):
                 if isInGame("Freezer", True, True) and RoleStats[LinkRoles("Freezer", None, True)][26] != []:
-                    RoleStats[Role][26] = RoleStats[LinkRoles("Mafioso", None, True)][26]
+                    RoleStats[Role][26] = RoleStats[LinkRoles("Freezer", None, True)][26]
                 elif isInGame("Freezer", True):
                     for Amne in AmneList:
                         if RoleStats[Amne][0] == "Freezer" and RoleStats[Amne][26] != []:
@@ -3122,7 +3127,7 @@ def Terrorist_hunter_F(Role): #(0,0,0)
 
 def Archer_F(Role, Attacked = False): #(0,0,0)
     if (RoleStats[Role][1] or Attacked) and not CheckRoleblock(Role) and not Nightmare and not RoleStats[Role][34]:
-        if isInGame("Queen", False, True) and RoleStats[LinkRoles("Queen", None, True)][24] == [Role] and not Control(Role) and RoleStats[LinkRoles("King", None, True)][26] != []:
+        if isInGame("Queen", False, True) and RoleStats[LinkRoles("Queen", None, True)][24] == [Role] and not Control(Role) and RoleStats[LinkRoles("Queen", None, True)][26] != []:
             RoleStats[Role][26] = [RoleStats[LinkRoles("Queen", None, True)][26][0]]
         elif isInGame("King", False, True) and RoleStats[LinkRoles("King", None, True)][24] == [Role] and not Control(Role) and RoleStats[LinkRoles("King", None, True)][26] != []:
             RoleStats[Role][26] = [RoleStats[LinkRoles("King", None, True)][26][0]]
@@ -3440,20 +3445,16 @@ def Identifier_F(Role): #(0,0,0)
                         RoleStats[Role][38][i][1] = 1
                     elif RoleStats[Target][9] == "Mafia" or CheckFramed(Target):
                         RoleStats[Role][34] = True
-                        RoleStats[Role][38].remove(RoleStats[Role][38][i])
                         RoleStats[Role][24].append(Target)
                     elif RoleStats[Target][9] == "Town" and not CheckFramed(Target):
-                        RoleStats[Role][38].remove(RoleStats[Role][38][i])
                         RoleStats[Role][24].append(Target)
                     RoleStats[Role][27].append([Target, RoleStats[Target][9]])
                 elif List[1] == 1 and not CheckFramed(Target):
                     RoleStats[Role][38][i][1] = 2
                 elif List[1] == 1:
                     RoleStats[Role][34] = True
-                    RoleStats[Role][38].remove(RoleStats[Role][38][i])
                     RoleStats[Role][24].append(Target)
-                elif List[1] == 2:
-                    RoleStats[Role][38].remove(RoleStats[Role][38][i])
+                elif List[1] >= 2:
                     RoleStats[Role][24].append(Target)
                     if not RoleStats[Target][19] or CheckFramed(Target):
                         RoleStats[Role][34] = True
@@ -4007,7 +4008,6 @@ def Sheriff_F(Role): #(0,0,0)
             RoleStats[Role][24].append(RoleStats[Role][26][0])
             if RoleStats[Target][11] or CheckFramed(Target):
                 RoleStats[Role][34] = True
-            print(RoleStats[Role][34])
             RoleStats[Role][28].append((RoleStats[Target][11] or CheckFramed(Target)))
             RoleStats[Role][27].append([Target, (RoleStats[Target][11] or CheckFramed(Target))])
 
@@ -4309,6 +4309,8 @@ def Pestilence_F(Role): #(0,0,1)
             RoleStats[Role][21] = 0
 
 #mainMenu()
-print(SpamTest)
-runGame(SpamTest)
+List = ['Guardian_angel', 'Consort', 'Frenzied_thrall', 'Haunter', 'Bulleter', 'Stupido_hunter', 'Washer', 'Vampire', 'Nightmare', 'Amneshiff', 'Security_guard', 'Magicmaker', 'Hex_master', 'Dayriff', 'Unframer', 'Tankman', 'Identifier', 'Remover', 'Hunter_hunter', 'Huntrustiff', 'Knight', 'Medium', 'Worker', 'Police_hunter', 'Sculpturer', 'Drage', 'Poisoner', 'Creator_hunter', 'Polar_bear', 'Arsonist', 'Ole_bjorn', 'Idiot', 'Sniper', 'Snorre', 'Werewolf', 'Journalist', 'Pirate', 'General', 'Transporter', 'Mafiturner', 'Pestilence_hunter_R', 'Janitor', 'Waller', 'Jailor', 'Killager', 'Pestilence', 'Jailwolf', 'Coven_leader', 'Oliver', 'Crazy_hunter', 'Digger', 'Coven_hunter', 'Doctor', 'Veteran', 'Escort', 'Mayor', 'Elias', 'Token', 'Crazy_king', 'Thief', 'Immunist', 'Police', 'Villargeter', 'Vampire_hunter', 'Firefighter', 'Assassin_dog', 'Writer', 'Daylight_killer', 'Amnesiac', 'Jesper', 'Incinerator', 'Mafioso', 'Revengetaker', 'Agent', 'Tracker', 'Assisting_dog', 'Soldier', 'Johannes', 'FBI_hunter', 'Consigliere', 'Eskimo', 'Bodyguard', 'Mafia_hunter', 'Medusa', 'Vigilante', 'Investigator', 'Werepup', 'Ambusher', 'Murderer', 'Crazy_knight_hunter', 'Freezer', 'Herman', 'Pestilence_hunter_K', 'Librarian', 'Clown', 'FBI', 'Statuschecker', 'Dog_mauler', 'Sheriff', 'Cooler', 'Scared', 'Grenadethrower', 'Mikael', 'Retributionist', 'Hypnotist', 'Necromancer', 'Pestilence_hunter_H', 'Robber', 'Dracula', 'Nighter', 'Mayorguarder', 'Stupido', 'Archer', 'Targeter', 'Queen', 'Godfather', 'Crusader', 'Crazy', 'Terrorist_hunter', 'Werewolf_hunter', 'SK_hunter', 'Armorer', 'Terrorist', 'Ingenting', 'Combo_hunter', 'Poisoner_hunter', 'King', 'Jester', 'Lifeguard1', 'Serial_killer', 'Trapper', 'Poisoner_saver', 'Gasthrower', 'Lifeguard2', 'Freezer_hunter', 'Spy', 'Kristian', 'Survivor', 'Framer', 'Nikkiller', 'Lookout', 'Potion_master', 'Amnescriff', 'Villager', 'Pollutifier', 'Agent_ZK', 'Suicide_bomber']
+#List = r.sample(RoleList, 147)
+print(List)
+runGame(List)
 print("The code is finished")

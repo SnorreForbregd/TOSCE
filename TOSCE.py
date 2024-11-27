@@ -1975,6 +1975,7 @@ def Turn(Role, Target, Dracula = False):
             RoleStatuses[Target][8] = True
             RoleStats[Target][22] = 2
             RoleStats[Target][4] = "Vampires"
+            RoleStats[Target][35] = False
             if Dracula:
                 RoleStatuses[Target][43] = True
             return True
@@ -2306,13 +2307,14 @@ def ExecuteTarget(Role, Target, Attacking = True, Visiting = True, IgnoreTrans =
     return Target, Rampage
 
     
-def runGame(List): #Runs the game
+def runGame(List = None): #Runs the game
     global PestilenceInGame
     global RoleSequence
     global PlayerSequence
     global PlayersAlive
-    RoleSequence = List
-    PlayerSequence = r.sample(PlayerNames, len(RoleSequence))
+    if CPUGame:
+        RoleSequence = List
+        PlayerSequence = r.sample(PlayerNames, len(RoleSequence))
     # print("The following players are in the game:")
     # for name in PlayerSequence:
     #     print(name)
@@ -2352,10 +2354,160 @@ def runGame(List): #Runs the game
             runDay()
             if Win:
                 return
+    else:
+        print("These players are in the game:")
+        for i in PlayerSequence:
+            print(i)
+        print("Good luck!")
+        input()
+        while True:
+            for player in Players.keys():
+                for i in range(15):
+                    print("\n")
+                print(f"It is {player}'s turn to choose target")
+                input()
+                PreNightCheck(player)
+
+            for role in List:
+                TargetCPU(List)
+            runNight()
+
+            #Controlling and hypnotizing
+
+            for player in Players.keys():
+                for i in range(15):
+                    print("\n")
+                print(f"It is {player}'s turn to check results")
+                input()
+                PostNightCheck(player)
+            
+            Promote()
+            RunTurn()
+            WinCheck()
+            if Win:
+                return
+            
+            runDay()
+            if Win:
+                return
+
+
+StandardTargetList = ["Gasthrower", "Freezer_hunter", "Washer", "Amneshiff", "Creator_hunter", "Librarian", "Pirate", "Scared", 
+                      "Writer", "FBI_hunter", "Hex_master", "Crazy", "Crazy_king", "Crazy_knight_hunter", "Targeter", "Thief", 
+                      "Elias", "Jesper", "Johannes", "Kristian", "Ole_bjorn", "Assassin_dog", "Digger", "Herman", "Token", 
+                      "Agent", "Agent_ZK", "Coven_hunter", "FBI", "Cooler", "Eskimo", "Freezer", "Polar_bear", "Sculpturer", 
+                      "Terrorist_hunter", "Archer", "King", "Knight", "Police_hunter", "Queen", "Ambusher", "Consigliere", 
+                      "Consort", "Framer", "Godfather", "Hypnotist", "Janitor", "Mafioso", "Mafiturner", "Murderer", "SK_hunter", 
+                      "Unframer", "Mafia_hunter", "Poisoner", "Pollutifier", "General", "Identifier", "Sniper", "Soldier", 
+                      "Stupido_hunter", "Tankman", "Crazy_hunter", "Serial_killer", "Clown", "Hunter_hunter", "Idiot", "Remover", 
+                      "Stupido", "Combo_hunter", "Grenadethrower", "Crusader", "Escort", "Haunter", "Immunist", "Investigator", 
+                      "Journalist", "Lookout", "Pestilence_hunter_R", "Pestilence_hunter_K", "Pestilence_hunter_H", "Security_guard", 
+                      "Sheriff", "Spy", "Statuschecker", "Tracker", "Trapper", "Vampire_hunter", "Waller", "Worker", "Dracula", 
+                      "Frenzied_thrall", "Vampire", "Werewolf_hunter", "Dog_mauler", "Firefighter", "Jailwolf", "Poisoner_hunter", 
+                      "Pestilence"]
+
+AlertList = []
+
+NoActionList = []
         
+def PreNightCheck(Player):
+    '''
+    Runs the targetting for players before the night begins
+    '''
+    Players[Player][2] = RoleStats[Players[Player][1]][0]
+    Name = Players[Player][0]
+    Ref = Players[Player][1]
+    Role = Players[Player][2]
+    print(f"Your alias is {Name}, keep it secret!")
+    print(f"Your role is {Role}")
+    print("\n")
+    #Hunters
+    #Librarian, guardian angel
+    #The following must be checked if they can target this night:
+    #Writer, Elias, Jesper, Mafiturner, Polar bear, Sculpturer, Janitor, Suicidal, Soldier
+    #Tankman, Idiot, Journalist, PHK, Trapper, Worker, Dracula, Vampire
+    Teammates = []
+    for role in RoleSequence:
+        if RoleStats[role][4] == RoleStats[Ref][4] and role != Ref and RoleStats[role][1]:
+            Teammates.append(LinkPerson(role))
+    
+    if Teammates != [] and HasTeammate(Ref) and Role != "Murderer":
+        if Night == 0:
+            print("You are not alone! You have teammates to help you")
+            print("They are:")
+        else:
+            print("Your teammates are:")
+        for role in Teammates:
+            print(f"{LinkPerson(role)} ({RoleStats[role][0]})")
+    
+    elif HasTeammate(Ref) and Role != "Murderer":
+        print("Unfortunately, all your teammates are dead. You have to do this on your own")
+
+    #Special case murderer
+
+    input()
+
+    if Role in StandardTargetList:
+        print("Who do you want to target tonight?")
+        TargetList = []
+        NextList = []
+        #Hex_master, Digger, Cooler, Hypnotist, Murderer, Immunist, Kristian
+
+        if RoleStats[Ref][13][0] in [0, 3, 6, 9]:
+            ct = 0
+            for role in RoleSequence:
+                if RoleStats[role][1] and Ref != role:
+                    ct += 1
+                    print(f"{ct} - {LinkPerson(role)}")
+                    TargetList.append(role)
+
+        elif RoleStats[Ref][13][0] in [1, 4, 7, 10]:
+            ct = 0
+            for role in RoleSequence:
+                if RoleStats[role][1] and Role != role and RoleStats[role][4] != RoleStats[Ref][4]:
+                    ct += 1
+                    print(f"{ct} - {LinkPerson(role)}")
+                    TargetList.append(role)
+
+        elif RoleStats[Ref][13][0] in [2, 5, 11]:
+            ct = 0
+            for role in RoleSequence:
+                if RoleStats[role][1] and Role != role and RoleStats[Ref][4] == RoleStats[role][4]:
+                    ct += 1
+                    print(f"{ct} - {LinkPerson(role)}")
+                    TargetList.append(role)
+
+        Target = input()
+        try:
+            int(Target)
+            TargetList[Target-1]
+            RoleStats[Ref][26] = [TargetList[Target-1]]
+            Players[Player][3] = [TargetList[Target-1]]
+        except:
+            RoleStats[Ref][26] = [1]
+            Players[Player][3] = [1]
+
+
+def PostNightCheck(Player):
+    '''
+    Runs the part after the night is over, where the players get their information
+    '''
+    pass
+
+
+def TargetCPU(Role):
+    '''
+    Function that chooses targets for the CPUs in a non-cpu game
+    '''
+    pass
+
+
+
 
 def mainMenu():
     global CPUGame
+    global RoleSequence
+    global PlayerSequence
     print("Town of salem, chaos edition.")
     print("What do you wish to play?")
     print('''
@@ -2383,6 +2535,26 @@ def mainMenu():
             print(SpamTest)
             input()
             runGame(SpamTest)
+
+    elif Ans == "2":
+        Amount = int(input("How many players wish to play?"))
+        for i in range(Amount):
+            Player = input(f"What is the name of player {i+1}?")
+            Players[Player] = []
+        CPUAmount = int(input("How many CPUs do you wish to play with?"))
+        RoleSequence = r.sample(RoleList, Amount+CPUAmount)
+        PlayerSequence = r.sample(PlayerNames, len(RoleSequence))
+        Aliases = r.sample(PlayerSequence, Amount)
+        NonCPUList = []
+        CPUList = []
+        for i in range(len(Players.keys())):
+            Players[Players.keys()[i]] = [Aliases[i], RoleSequence[PlayerSequence.index(Aliases[i])], RoleSequence[PlayerSequence.index(Aliases[i])], []]
+            NonCPUList.append(RoleSequence[PlayerSequence.index(Aliases[i])])
+        for role in RoleSequence:
+            if role not in NonCPUList:
+                RoleStats[role][20] = True
+                CPUList.append(role)
+        runGame(CPUList)
 
 Test0 = ['Haunter', 'Ambusher', 'Agent', 'Security_guard', 'Werewolf', 'Consigliere', 'Pirate', 'SK_hunter', 'Thief', 'Sniper',
           'Retributionist', 'Mafioso', 'Arsonist', 'Frenzied_thrall', 'Crazy_hunter', 'Coven_hunter', 'Mayor', 'Jailwolf',
@@ -2631,10 +2803,11 @@ def Pirate_F(Role): #(0,0,1) CEI
             if Target != 1:
                 RoleStatuses[Target][8] = True
                 if CPUGame:
-                    #Random = r.randint(1,3)
                     Random = 3
-                    if Random == 3:
-                        RoleStats[Role][34] = True
+                else:
+                    Random = r.randint(1,3)
+                if Random == 3:
+                    RoleStats[Role][34] = True
     
     elif RoleStats[Role][23] == 0:
         if RoleStats[Role][34] and RoleStats[Role][1]:
@@ -2968,7 +3141,17 @@ def Assassin_dog_F(Role): #(0,0,0)
             Attack(Role, Target)
             if RoleStats[Target][1] and AssistingDog:
                 RoleStats[Role][26] = []
-                FindTarget(Role, None, [Target])
+                if CPUGame:
+                    FindTarget(Role, None, [Target])
+                else:
+                    TargetList = []
+                    for role in CreateCurrentRoleList():
+                        if RoleStats[role][4] != "Dogs" and role != Target:
+                            TargetList.append(role)
+                    if TargetList != []:
+                        RoleStats[Role][26] = [r.choice(TargetList)]
+                    else:
+                        RoleStats[Role][26] = [1]
                 Target, Rampage = ExecuteTarget(Role, RoleStats[Role][26][0], True, False)
                 if CheckAction(Role, Target):
                     Attack(Role, Target)
@@ -3015,7 +3198,17 @@ def Herman_F(Role): #(1,0,1)
                 Attack(Role, Target)
                 if RoleStats[Target][1] and AssistingDog:
                     RoleStats[Role][26] = []
-                    FindTarget(Role, None, [Target])
+                    if CPUGame:
+                        FindTarget(Role, None, [Target])
+                    else:
+                        TargetList = []
+                        for role in CreateCurrentRoleList():
+                            if RoleStats[role][4] != "Dogs" and role != Target:
+                                TargetList.append(role)
+                        if TargetList != []:
+                            RoleStats[Role][26] = [r.choice(TargetList)]
+                        else:
+                            RoleStats[Role][26] = [1]
                     Target, Rampage = ExecuteTarget(Role, RoleStats[Role][26][0])
                     if CheckAction(Role, Target):
                         Attack(Role, Target)
@@ -3030,7 +3223,17 @@ def Token_F(Role): #(0,0,0)
             Attack(Role, Target)
             if RoleStats[Target][1] and AssistingDog:
                 RoleStats[Role][26] = []
-                FindTarget(Role, None, [Target])
+                if CPUGame:
+                    FindTarget(Role, None, [Target])
+                else:
+                    TargetList = []
+                    for role in CreateCurrentRoleList():
+                        if RoleStats[role][4] != "Dogs" and role != Target:
+                            TargetList.append(role)
+                    if TargetList != []:
+                        RoleStats[Role][26] = [r.choice(TargetList)]
+                    else:
+                        RoleStats[Role][26] = [1]
                 Target, Rampage = ExecuteTarget(Role, RoleStats[Role][26][0])
                 if CheckAction(Role, Target):
                     Attack(Role, Target)

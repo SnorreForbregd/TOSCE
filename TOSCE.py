@@ -783,6 +783,8 @@ VoteList2 = [] #Used for printing
 
 TurnList = [] #List of players supposed to be turned into vampires. Tuple with (Player, 36)
 
+WinnerList = []
+
 
 
 def FindIndex(Role): #Finds the index of the Role in Rolesequence
@@ -1773,6 +1775,7 @@ def endGame(Winner):
             print(win)
     print("These players were alive at the end:")
     print(AlivePlayers())
+    WinnerList.append(Winner)
     #input()
     return
     
@@ -4392,13 +4395,15 @@ def Pestilence_F(Role): #(0,0,1)
                     Attack(Role, role, True)
             RoleStats[Role][21] = 0
 
-#mainMenu()
-Listlol = ["Hypnotist", "Framer", "Vigilante", "Tracker", "Sheriff", "Medium", "Journalist", "Doctor", "Pestilence_hunter_H", "Mafioso", "Villager"]
-List = ['Mafiturner', 'Jailor', 'Dog_mauler', 'Medusa', 'Snorre', 'Werepup', 'Doctor', 'Archer', 'Freezer', 'King', 'Herman', 'Poisoner_hunter', 'Huntrustiff', 'Vampire_hunter', 'Agent', 'Immunist', 'Consigliere', 'Villargeter', 'Johannes', 'Polar_bear', 'Ambusher', 'Janitor', 'Clown', 'Mikael', 'Kristian', 'Robber', 'Hex_master', 'Eskimo', 'Stupido_hunter', 'Drage', 'Crazy_king', 'Elias', 'Godfather', 'Investigator', 'Transporter', 'Bulleter', 'General', 'Trapper', 'Lifeguard1', 'Medium', 'FBI_hunter', 'Police', 'Digger', 'Werewolf', 'Pollutifier', 'Writer', 'Oliver', 'Serial_killer', 'Murderer', 'Hunter_hunter', 'Haunter', 'Terrorist', 'Hypnotist', 'Vigilante', 'Werewolf_hunter', 'Sheriff', 'Mayor', 'Worker', 'FBI', 'Librarian', 'Vampire', 'Combo_hunter', 'Daylight_killer', 'Mafia_hunter', 'Remover', 'Journalist', 'Assassin_dog', 'Statuschecker', 'Retributionist', 'Jesper', 'Survivor', 'Incinerator', 'Tankman', 'Sculpturer', 'Jailwolf', 'Bodyguard', 'Ole_bjorn', 'Stupido', 'Grenadethrower', 'Pestilence', 'Police_hunter', 'Freezer_hunter', 'Amnesiac', 'Nikkiller', 'Armorer', 'Jester', 'Guardian_angel', 'Amnescriff', 'Terrorist_hunter', 'Tracker', 'Washer', 'Scared', 'Identifier', 'Lifeguard2', 'Nightmare', 'Assisting_dog', 'Crazy', 'SK_hunter', 'Crazy_hunter', 'Mayorguarder', 'Pestilence_hunter_K', 'Magicmaker', 'Pirate', 'Revengetaker', 'Dracula', 'Coven_leader', 'Framer', 'Security_guard', 'Cooler', 'Nighter', 'Knight', 'Sniper', 'Lookout', 'Crusader', 'Poisoner_saver', 'Coven_hunter', 'Poisoner', 'Consort', 'Arsonist', 'Villager', 'Agent_ZK', 'Necromancer', 'Pestilence_hunter_R', 'Creator_hunter', 'Mafioso', 'Amneshiff', 'Token', 'Soldier', 'Crazy_knight_hunter', 'Killager', 'Gasthrower', 'Suicide_bomber', 'Waller', 'Pestilence_hunter_H', 'Dayriff', 'Veteran', 'Spy', 'Potion_master', 'Queen', 'Targeter', 'Frenzied_thrall', 'Ingenting', 'Firefighter', 'Escort', 'Thief', 'Unframer', 'Idiot']
-for i in range(100):
-    List = r.sample(RoleList, 147)
-    print(List)
-    runGame(List)
-    ResetEntirely()
-#runGame(List)
+mainMenu()
+# WinnerList
+# Listlol = ["Hypnotist", "Framer", "Vigilante", "Tracker", "Sheriff", "Medium", "Journalist", "Doctor", "Pestilence_hunter_H", "Mafioso", "Villager"]
+# List = ['Mafiturner', 'Jailor', 'Dog_mauler', 'Medusa', 'Snorre', 'Werepup', 'Doctor', 'Archer', 'Freezer', 'King', 'Herman', 'Poisoner_hunter', 'Huntrustiff', 'Vampire_hunter', 'Agent', 'Immunist', 'Consigliere', 'Villargeter', 'Johannes', 'Polar_bear', 'Ambusher', 'Janitor', 'Clown', 'Mikael', 'Kristian', 'Robber', 'Hex_master', 'Eskimo', 'Stupido_hunter', 'Drage', 'Crazy_king', 'Elias', 'Godfather', 'Investigator', 'Transporter', 'Bulleter', 'General', 'Trapper', 'Lifeguard1', 'Medium', 'FBI_hunter', 'Police', 'Digger', 'Werewolf', 'Pollutifier', 'Writer', 'Oliver', 'Serial_killer', 'Murderer', 'Hunter_hunter', 'Haunter', 'Terrorist', 'Hypnotist', 'Vigilante', 'Werewolf_hunter', 'Sheriff', 'Mayor', 'Worker', 'FBI', 'Librarian', 'Vampire', 'Combo_hunter', 'Daylight_killer', 'Mafia_hunter', 'Remover', 'Journalist', 'Assassin_dog', 'Statuschecker', 'Retributionist', 'Jesper', 'Survivor', 'Incinerator', 'Tankman', 'Sculpturer', 'Jailwolf', 'Bodyguard', 'Ole_bjorn', 'Stupido', 'Grenadethrower', 'Pestilence', 'Police_hunter', 'Freezer_hunter', 'Amnesiac', 'Nikkiller', 'Armorer', 'Jester', 'Guardian_angel', 'Amnescriff', 'Terrorist_hunter', 'Tracker', 'Washer', 'Scared', 'Identifier', 'Lifeguard2', 'Nightmare', 'Assisting_dog', 'Crazy', 'SK_hunter', 'Crazy_hunter', 'Mayorguarder', 'Pestilence_hunter_K', 'Magicmaker', 'Pirate', 'Revengetaker', 'Dracula', 'Coven_leader', 'Framer', 'Security_guard', 'Cooler', 'Nighter', 'Knight', 'Sniper', 'Lookout', 'Crusader', 'Poisoner_saver', 'Coven_hunter', 'Poisoner', 'Consort', 'Arsonist', 'Villager', 'Agent_ZK', 'Necromancer', 'Pestilence_hunter_R', 'Creator_hunter', 'Mafioso', 'Amneshiff', 'Token', 'Soldier', 'Crazy_knight_hunter', 'Killager', 'Gasthrower', 'Suicide_bomber', 'Waller', 'Pestilence_hunter_H', 'Dayriff', 'Veteran', 'Spy', 'Potion_master', 'Queen', 'Targeter', 'Frenzied_thrall', 'Ingenting', 'Firefighter', 'Escort', 'Thief', 'Unframer', 'Idiot']
+# for i in range(100):
+#     List = r.sample(RoleList, 147)
+#     print(List)
+#     runGame(List)
+#     ResetEntirely()
+# #runGame(List)
 print("The code is finished")
+print(WinnerList)

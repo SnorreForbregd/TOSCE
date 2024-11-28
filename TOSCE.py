@@ -1177,7 +1177,7 @@ def ResetPlayer(Role): #Resets the given player
     RoleStats[Role][25] = 0
     RoleStats[Role][26] = []
     RoleStats[Role][29] = []
-    NonResetList = [0, 9, 10, 25, 26, 32, 33, 35, 36, 42, 43, 44, 45, 46]
+    NonResetList = [0, 9, 10, 25, 26, 31, 32, 33, 35, 36, 42, 43, 44, 45, 46]
     for i in range(0,48):
         if i not in NonResetList:
             RoleStatuses[Role][i] = copy.deepcopy(Template[i])
@@ -1824,7 +1824,7 @@ def Attack(Attacker, Defender, FromVisit = False, Votable = True, Ranged = False
             RoleStats[Defender][30] = True
         elif RoleStats[Defender][0] == "Jester":
             RoleStats[Defender][30] = True
-            Jester = True
+            RoleStats[Defender][34] = True
         elif RoleStats[Defender][0] == "Nightmare":
             RoleStats[Defender][30] = True
             return True
@@ -2392,7 +2392,7 @@ def runGame(List = None): #Runs the game
                 return
 
 
-StandardTargetList = ["Gasthrower", "Freezer_hunter", "Washer", "Amneshiff", "Creator_hunter", "Librarian", "Pirate", "Scared", 
+StandardTargetList = ["Gasthrower", "Freezer_hunter", "Washer", "Amneshiff", "Creator_hunter", "Jester", "Librarian", "Pirate", "Scared", 
                       "Writer", "FBI_hunter", "Hex_master", "Crazy", "Crazy_king", "Crazy_knight_hunter", "Targeter", "Thief", 
                       "Elias", "Jesper", "Johannes", "Kristian", "Ole_bjorn", "Assassin_dog", "Digger", "Herman", "Token", 
                       "Agent", "Agent_ZK", "Coven_hunter", "FBI", "Cooler", "Eskimo", "Freezer", "Polar_bear", "Sculpturer", 
@@ -2406,9 +2406,11 @@ StandardTargetList = ["Gasthrower", "Freezer_hunter", "Washer", "Amneshiff", "Cr
                       "Frenzied_thrall", "Vampire", "Werewolf_hunter", "Dog_mauler", "Firefighter", "Jailwolf", "Poisoner_hunter", 
                       "Pestilence"]
 
-AlertList = []
+AlertList = ["Incinerator", "Guardian_angel", ""]
 
 NoActionList = []
+
+SpecialList = []
         
 def PreNightCheck(Player):
     '''
@@ -2425,7 +2427,7 @@ def PreNightCheck(Player):
     #Librarian, guardian angel
     #The following must be checked if they can target this night:
     #Writer, Elias, Jesper, Mafiturner, Polar bear, Sculpturer, Janitor, Suicidal, Soldier
-    #Tankman, Idiot, Journalist, PHK, Trapper, Worker, Dracula, Vampire
+    #Tankman, Idiot, Journalist, PHK, Trapper, Worker, Dracula, Vampire, Jester
     Teammates = []
     for role in RoleSequence:
         if RoleStats[role][4] == RoleStats[Ref][4] and role != Ref and RoleStats[role][1]:
@@ -2756,10 +2758,11 @@ def Guardian_angel_F(Role): #(2,0,0) CEI
             RoleStats[Role][21] -= 1
 
 def Jester_F(Role):
-    if Jester:
+    if RoleStats[Role][34]:
         if CPUGame:
             FindTarget(Role)
         Attack(Role, RoleStats[Role][26][0], True, False)
+        RoleStats[Role][34] = False
 
 def Killager_F(Role): #(1,3,1)
     if RoleStats[Role][23] == 1:
@@ -4598,15 +4601,15 @@ def Pestilence_F(Role): #(0,0,1)
                     Attack(Role, role, True)
             RoleStats[Role][21] = 0
 
-mainMenu()
+#mainMenu()
 # WinnerList
 # Listlol = ["Hypnotist", "Framer", "Vigilante", "Tracker", "Sheriff", "Medium", "Journalist", "Doctor", "Pestilence_hunter_H", "Mafioso", "Villager"]
-# List = ['Mafiturner', 'Jailor', 'Dog_mauler', 'Medusa', 'Snorre', 'Werepup', 'Doctor', 'Archer', 'Freezer', 'King', 'Herman', 'Poisoner_hunter', 'Huntrustiff', 'Vampire_hunter', 'Agent', 'Immunist', 'Consigliere', 'Villargeter', 'Johannes', 'Polar_bear', 'Ambusher', 'Janitor', 'Clown', 'Mikael', 'Kristian', 'Robber', 'Hex_master', 'Eskimo', 'Stupido_hunter', 'Drage', 'Crazy_king', 'Elias', 'Godfather', 'Investigator', 'Transporter', 'Bulleter', 'General', 'Trapper', 'Lifeguard1', 'Medium', 'FBI_hunter', 'Police', 'Digger', 'Werewolf', 'Pollutifier', 'Writer', 'Oliver', 'Serial_killer', 'Murderer', 'Hunter_hunter', 'Haunter', 'Terrorist', 'Hypnotist', 'Vigilante', 'Werewolf_hunter', 'Sheriff', 'Mayor', 'Worker', 'FBI', 'Librarian', 'Vampire', 'Combo_hunter', 'Daylight_killer', 'Mafia_hunter', 'Remover', 'Journalist', 'Assassin_dog', 'Statuschecker', 'Retributionist', 'Jesper', 'Survivor', 'Incinerator', 'Tankman', 'Sculpturer', 'Jailwolf', 'Bodyguard', 'Ole_bjorn', 'Stupido', 'Grenadethrower', 'Pestilence', 'Police_hunter', 'Freezer_hunter', 'Amnesiac', 'Nikkiller', 'Armorer', 'Jester', 'Guardian_angel', 'Amnescriff', 'Terrorist_hunter', 'Tracker', 'Washer', 'Scared', 'Identifier', 'Lifeguard2', 'Nightmare', 'Assisting_dog', 'Crazy', 'SK_hunter', 'Crazy_hunter', 'Mayorguarder', 'Pestilence_hunter_K', 'Magicmaker', 'Pirate', 'Revengetaker', 'Dracula', 'Coven_leader', 'Framer', 'Security_guard', 'Cooler', 'Nighter', 'Knight', 'Sniper', 'Lookout', 'Crusader', 'Poisoner_saver', 'Coven_hunter', 'Poisoner', 'Consort', 'Arsonist', 'Villager', 'Agent_ZK', 'Necromancer', 'Pestilence_hunter_R', 'Creator_hunter', 'Mafioso', 'Amneshiff', 'Token', 'Soldier', 'Crazy_knight_hunter', 'Killager', 'Gasthrower', 'Suicide_bomber', 'Waller', 'Pestilence_hunter_H', 'Dayriff', 'Veteran', 'Spy', 'Potion_master', 'Queen', 'Targeter', 'Frenzied_thrall', 'Ingenting', 'Firefighter', 'Escort', 'Thief', 'Unframer', 'Idiot']
+List = ['Idiot', 'Guardian_angel', 'Hex_master', 'Nightmare', 'Eskimo', 'Unframer', 'Drage', 'Hunter_hunter', 'Polar_bear', 'Werewolf_hunter', 'Medusa', 'Police_hunter', 'Villager', 'Pestilence_hunter_H', 'Stupido', 'Vigilante', 'Jesper', 'Washer', 'Mayor', 'Statuschecker', 'Security_guard', 'Lifeguard2', 'Librarian', 'Retributionist', 'Agent_ZK', 'Gasthrower', 'Crusader', 'Veteran', 'Villargeter', 'Killager', 'Jester', 'Sniper', 'Amneshiff', 'SK_hunter', 'Murderer', 'Spy', 'Identifier', 'Waller', 'Frenzied_thrall', 'Coven_hunter', 'Creator_hunter', 'Poisoner_saver', 'Grenadethrower', 'Arsonist', 'Queen', 'Bodyguard', 'Dracula', 'Consigliere', 'Elias', 'Knight', 'Vampire', 'Pestilence_hunter_K', 'Werepup', 'Incinerator', 'Stupido_hunter', 'Mafioso', 'Escort', 'Serial_killer', 'Werewolf', 'Necromancer', 'Nighter', 'Mikael', 'Poisoner', 'Worker', 'Ole_bjorn', 'Mafiturner', 'Lookout', 'Freezer_hunter', 'Freezer', 'Transporter', 'Ingenting', 'Coven_leader', 'Tracker', 'Pollutifier', 'Trapper', 'Terrorist', 'Nikkiller', 'Dog_mauler', 'Medium', 'Jailor', 'Terrorist_hunter', 'General', 'Journalist', 'Clown', 'Digger', 'Framer', 'Sculpturer', 'Token', 'Herman', 'Archer', 'Amnesiac', 'Soldier', 'Pestilence_hunter_R', 'FBI', 'Revengetaker', 'Writer', 'Daylight_killer', 'Kristian', 'Amnescriff', 'Crazy_hunter', 'Dayriff', 'Agent', 'Crazy', 'Poisoner_hunter', 'Tankman', 'Ambusher', 'Johannes', 'Firefighter', 'Pestilence', 'Combo_hunter', 'Magicmaker', 'Consort', 'Suicide_bomber', 'Crazy_knight_hunter', 'Sheriff', 'Police', 'Haunter', 'Scared', 'King', 'Remover', 'Oliver', 'Robber', 'Cooler', 'Potion_master', 'Targeter', 'Mafia_hunter', 'Godfather', 'Huntrustiff', 'Pirate', 'Mayorguarder', 'Jailwolf', 'Doctor', 'Vampire_hunter', 'Assassin_dog', 'Crazy_king', 'Armorer', 'Investigator', 'Hypnotist', 'Lifeguard1', 'Immunist', 'Janitor', 'Thief', 'Assisting_dog', 'Survivor', 'Bulleter', 'FBI_hunter', 'Snorre']
 # for i in range(100):
 #     List = r.sample(RoleList, 147)
 #     print(List)
 #     runGame(List)
 #     ResetEntirely()
-# #runGame(List)
+runGame(List)
 print("The code is finished")
 print(WinnerList)

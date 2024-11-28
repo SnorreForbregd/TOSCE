@@ -6,36 +6,95 @@ from time import sleep
 import sys
 
 
-CPUGame = True
-DebugGame = False
-Cycles = 0
-NightmareTrigger = False
-Nightmare = False
-ERampageTrigger = False
-WRampageTrigger = False
-PRampageTrigger = False
-GRampageTrigger = False
-PBRampageTrigger = False
-PoisonerSaver = False
-Snorre = False
-PlayersAlive = 0
-DrawCount = 0
-PlayerRevived = False
-Day = 1
-Night = 0
-Win = False
-Jester = False
-AssistingDog = False
-Bulleter = False
-PestilenceInGame = False
-DrageTrigger = 0
+def setGlobals(debug = False):
 
-HunterList = ["Freezer_hunter", "Creator_hunter", "FBI_hunter", "Crazy_knight_hunter", "Coven_hunter",
+    global CPUGame
+    global DebugGame
+    global Cycles
+    global NightmareTrigger
+    global Nightmare
+    global ERampageTrigger
+    global WRampageTrigger
+    global PRampageTrigger
+    global GRampageTrigger
+    global PBRampageTrigger
+    global PoisonerSaver
+    global Snorre
+    global PlayersAlive
+    global DrawCount
+    global PlayerRevived
+    global Day
+    global Night
+    global Win
+    global Jester
+    global AssistingDog
+    global Bulleter
+    global PestilenceInGame
+    global DrageTrigger
+    global HunterList
+    global TotalRoleStats
+    global RoleStats
+    global Template
+    global RoleStatuses
+    global RoleList
+    global Teams
+    global MainKillingRoles
+    global ArsonistKilling
+    global CrazyKilling
+    global DogKilling
+    global FreezerKilling
+    global MafiaKilling
+    global PoisonerKilling
+    global SerialKilling
+    global StupidoKilling
+    global TerroristKilling
+    global VampireKilling
+    global WerewolfKilling
+    global AmneList
+    global InvestList
+    global NonVisitList
+    global GoodList
+    global SurvivalList
+    global Night_action_order
+    global Players
+    global PlayerNames
+    global PlayerSequence
+    global RoleSequence
+    global PromoteList
+    global VoteList
+    global VoteList2
+    global TurnList
+    
+    CPUGame = True
+    DebugGame = debug
+    Cycles = 0
+    NightmareTrigger = False
+    Nightmare = False
+    ERampageTrigger = False
+    WRampageTrigger = False
+    PRampageTrigger = False
+    GRampageTrigger = False
+    PBRampageTrigger = False
+    PoisonerSaver = False
+    Snorre = False
+    PlayersAlive = 0
+    DrawCount = 0
+    PlayerRevived = False
+    Day = 1
+    Night = 0
+    Win = False
+    Jester = False
+    AssistingDog = False
+    Bulleter = False
+    PestilenceInGame = False
+    DrageTrigger = 0
+
+    HunterList = ["Freezer_hunter", "Creator_hunter", "FBI_hunter", "Crazy_knight_hunter", "Coven_hunter",
             "Terrorist_hunter", "Police_hunter", "SK_hunter", "Mafia_hunter", "Stupido_hunter",
             "Crazy_hunter", "Hunter_hunter", "Combo_hunter", "Pestilence_hunter_H", "Pestilence_hunter_K",
             "Pestilence_hunter_R", "Vampire_hunter", "Werewolf_hunter", "Dog_mauler", "Firefighter", "Poisoner_hunter"]
 
-'''Dictionary with all of the info tied to the specific roles. Indexes and explanations below:
+    '''Dictionary with all of the info tied to the specific roles. Indexes and explanations below:
 0 - Current role
 1 - Alive?
 2 - Attack
@@ -93,7 +152,7 @@ Target-type defines who the role will choose as a target in a CPU-game:
 This is a list, as roles can have multiple targets.
 '''
 
-TotalRoleStats = {
+    TotalRoleStats = {
     "Arsonist" : ["Arsonist", True, 5, 2, "Arsonists", False, "", False, "Killing", "Neutral", "Killing", True, ["Arsonist", "Poisoner", "Transporter"], [7], False, False, False, False, False, False, False, 1, 0, 2, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Gasthrower" : ["Gasthrower", True, 0, 0, "Arsonists", False, "", False, "Support", "Neutral", "Evil", True, ["Revengetaker", "Agent", "Gasthrower"], [7], False, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Incinerator" : ["Incinerator", True, 5, 0, "Arsonists", False, "", False, "Killing", "Neutral", "Killing", True, ["Guardian_angel", "Incinerator", "Bulleter", "Eskimo"], [0], False, False, True, True, False, False, False, 0, 0, 1, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
@@ -247,9 +306,9 @@ TotalRoleStats = {
 
 
 
-'''Same as above, but will change during the game'''
+    '''Same as above, but will change during the game'''
 
-RoleStats = {
+    RoleStats = {
     "Arsonist" : ["Arsonist", True, 5, 2, "Arsonists", False, "", False, "Killing", "Neutral", "Killing", True, ["Arsonist", "Poisoner", "Transporter"], [7], False, False, False, False, False, False, False, 1, 0, 2, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Gasthrower" : ["Gasthrower", True, 0, 0, "Arsonists", False, "", False, "Support", "Neutral", "Evil", True, ["Revengetaker", "Agent", "Gasthrower"], [7], False, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Incinerator" : ["Incinerator", True, 5, 0, "Arsonists", False, "", False, "Killing", "Neutral", "Killing", True, ["Guardian_angel", "Incinerator", "Bulleter", "Eskimo"], [0], False, False, True, True, False, False, False, 0, 0, 1, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
@@ -405,7 +464,7 @@ RoleStats = {
 
 
 
-'''Dictionary that tracks the statuses of the roles during nights. Mostly resets every night. Indexes and explanation below:
+    '''Dictionary that tracks the statuses of the roles during nights. Mostly resets every night. Indexes and explanation below:
 0 - Votable death (if target died that night by anything that could interest Tracker or Lookout)
 1 - Protected
 2 - ProtectedBy (list)
@@ -455,9 +514,9 @@ RoleStats = {
 46 - Trapped by
 47 - Huntrustiff found evil (list with True, Target)'''
 
-Template = [False, False, [], 0, False, False, False, 0, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, "", False, False, False, False, False, "", False, False, False, False, False, False, False, False, False, "", []]
+    Template = [False, False, [], 0, False, False, False, 0, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, "", False, False, False, False, False, "", False, False, False, False, False, False, False, False, False, "", []]
 
-RoleStatuses = {
+    RoleStatuses = {
     "Arsonist" : [False, False, [], 0, False, False, False, 0, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, "", False, False, False, False, False, "", False, False, False, False, False, False, False, False, False, "", []],
     "Gasthrower" : [False, False, [], 0, False, False, False, 0, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, "", False, False, False, False, False, "", False, False, False, False, False, False, False, False, False, "", []],
     "Incinerator" : [False, False, [], 0, False, False, False, 0, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, "", False, False, False, False, False, "", False, False, False, False, False, False, False, False, False, "", []],
@@ -612,9 +671,9 @@ RoleStatuses = {
 
 
 
-'''List that contains all of the roles in the game'''
+    '''List that contains all of the roles in the game'''
 
-RoleList = ["Arsonist", "Gasthrower", "Incinerator", "Freezer_hunter", "Washer", "Amnescriff", "Amneshiff", "Amnesiac", "Creator_hunter",
+    RoleList = ["Arsonist", "Gasthrower", "Incinerator", "Freezer_hunter", "Washer", "Amnescriff", "Amneshiff", "Amnesiac", "Creator_hunter",
             "Guardian_angel", "Jester", "Killager", "Librarian", "Magicmaker", "Nighter", "Nightmare", "Pirate", "Scared", "Survivor",
             "Villager", "Villargeter", "Writer", "Coven_leader", "FBI_hunter", "Hex_master", "Medusa", "Necromancer", "Potion_master",
             "Crazy", "Crazy_king", "Crazy_knight_hunter", "Targeter", "Thief", "Elias", "Jesper", "Johannes", "Kristian", "Mikael",
@@ -632,9 +691,9 @@ RoleList = ["Arsonist", "Gasthrower", "Incinerator", "Freezer_hunter", "Washer",
             "Dog_mauler", "Firefighter", "Jailwolf", "Poisoner_hunter", "Werepup", "Werewolf", "Ingenting", "Drage", "Pestilence"]
 
 
-'''Dictionary with all the teams and their respective roles. Is also used as a promotion-sequence'''
+    '''Dictionary with all the teams and their respective roles. Is also used as a promotion-sequence'''
 
-Teams = { "Arsonists" : ["Arsonist", "Gasthrower", "Incinerator", "Freezer_hunter", "Washer"],
+    Teams = { "Arsonists" : ["Arsonist", "Gasthrower", "Incinerator", "Freezer_hunter", "Washer"],
           "Combo" : ["Amnescriff", "Amneshiff", "Amnesiac", "Creator_hunter", "Guardian_angel", "Jester",
                     "Killager", "Librarian", "Magicmaker", "Nighter", "Nightmare", "Pirate", "Scared", "Survivor",
                     "Villager", "Villargeter", "Writer", "Ingenting"],
@@ -662,9 +721,9 @@ Teams = { "Arsonists" : ["Arsonist", "Gasthrower", "Incinerator", "Freezer_hunte
           "Dragons" : ["Drage"]
 }
 
-'''Dictionary with the main killing roles on each team in order. Used in voting'''
+    '''Dictionary with the main killing roles on each team in order. Used in voting'''
 
-MainKillingRoles = { "Arsonists" : ["Arsonist", "Freezer_hunter"],
+    MainKillingRoles = { "Arsonists" : ["Arsonist", "Freezer_hunter"],
 "Combo" : [],
 "Coven" : ["Coven_leader", "Hex_master","Medusa", "Necromancer", "Potion_master", "FBI_hunter"],
 "Crazies" : ["Crazy_king", "Crazy", "Targeter", "Crazy_knight_hunter"],
@@ -688,36 +747,36 @@ MainKillingRoles = { "Arsonists" : ["Arsonist", "Freezer_hunter"],
 
 }
 
-ArsonistKilling = ["Arsonist"]
-CrazyKilling = ["Crazy_king", "Crazy", "Targeter"]
-DogKilling = ["Herman", "Assassin_dog", "Token"]
-FreezerKilling = ["Freezer"]
-MafiaKilling = ["Godfather", "Mafioso", "Murderer"]
-PoisonerKilling = ["Poisoner", "Pollutifier"]
-SerialKilling = ["Serial_killer", "Daylight_killer", "Nikkiller"]
-StupidoKilling = ["Stupido"]
-TerroristKilling = ["Terrorist", "Grenadethrower"]
-VampireKilling = ["Dracula", "Vampire"]
-WerewolfKilling = ["Werewolf", "Jailwolf", "Werepup"]
+    ArsonistKilling = ["Arsonist"]
+    CrazyKilling = ["Crazy_king", "Crazy", "Targeter"]
+    DogKilling = ["Herman", "Assassin_dog", "Token"]
+    FreezerKilling = ["Freezer"]
+    MafiaKilling = ["Godfather", "Mafioso", "Murderer"]
+    PoisonerKilling = ["Poisoner", "Pollutifier"]
+    SerialKilling = ["Serial_killer", "Daylight_killer", "Nikkiller"]
+    StupidoKilling = ["Stupido"]
+    TerroristKilling = ["Terrorist", "Grenadethrower"]
+    VampireKilling = ["Dracula", "Vampire"]
+    WerewolfKilling = ["Werewolf", "Jailwolf", "Werepup"]
 
 
-AmneList = ["Amnescriff", "Amneshiff", "Amnesiac"]
+    AmneList = ["Amnescriff", "Amneshiff", "Amnesiac"]
 
-InvestList = ["Huntrustiff", "Identifier", "Journalist", "Lookout", "Pestilence_hunter_R", "Statuschecker", "Sheriff", "Tracker"]
+    InvestList = ["Huntrustiff", "Identifier", "Journalist", "Lookout", "Pestilence_hunter_R", "Statuschecker", "Sheriff", "Tracker"]
 
-NonVisitList = ["Sniper", "Archer", "Murderer", "Assassin_dog"]
+    NonVisitList = ["Sniper", "Archer", "Murderer", "Assassin_dog"]
 
-GoodList = ["Town", "Police", "FBI"]
+    GoodList = ["Town", "Police", "FBI"]
 
-SurvivalList = ["Creator_hunter", "Killager", "Survivor", "Villager", "Writer"]
-
-
+    SurvivalList = ["Creator_hunter", "Killager", "Survivor", "Villager", "Writer"]
 
 
 
-'''The order in which the roles perform their actions during the night'''
 
-Night_action_order = ["Werepup", "Herman", "Eskimo", "Lifeguard1", "Lifeguard2", "Mayorguarder", "Sculpturer", "Washer", "Cooler",
+
+    '''The order in which the roles perform their actions during the night'''
+
+    Night_action_order = ["Werepup", "Herman", "Eskimo", "Lifeguard1", "Lifeguard2", "Mayorguarder", "Sculpturer", "Washer", "Cooler",
                       "Jailor", "Pirate", "Huntrustiff", "Suicide_bomber", "Assisting_dog", "Medusa",
                       "Poisoner_saver", "Veteran", "Werewolf", "Transporter", "Idiot", "Coven_leader",
                       "Hypnotist", "Security_guard", "Ambusher", "Frenzied_thrall", "Elias",
@@ -749,13 +808,13 @@ Night_action_order = ["Werepup", "Herman", "Eskimo", "Lifeguard1", "Lifeguard2",
 
 
 
-'''Dictionary that contains the players and their roles. Will maybe not be used'''
+    '''Dictionary that contains the players and their roles. Will maybe not be used'''
 
-Players = {
+    Players = {
 
-}
+    }
 
-PlayerNames = [
+    PlayerNames = [
     "Alice", "Bob", "Charlie", "Daisy", "Ethan", "Fiona", "George", "Hannah", "Ian", "Jenny",
     "Kevin", "Lily", "Mike", "Nina", "Oscar", "Penny", "Quinn", "Rachel", "Sam", "Tina",
     "Uma", "Victor", "Wendy", "Xander", "Yara", "Zane", "Andy", "Bella", "Chris", "Diana",
@@ -775,17 +834,17 @@ PlayerNames = [
 ]
 
 
-'''The sequence of the players and their roles in game. The lists are in the same order'''
+    '''The sequence of the players and their roles in game. The lists are in the same order'''
 
-PlayerSequence = []
-RoleSequence = []
+    PlayerSequence = []
+    RoleSequence = []
 
-PromoteList = [] #This list stores tuples that are supposed to be ran into the PromoteSpecific-function
+    PromoteList = [] #This list stores tuples that are supposed to be ran into the PromoteSpecific-function
 
-VoteList = [] #List that stores the people that are supposed to be voted out. Stores the information in tuples, (Player to be voted, Accuser, Role of accuser)
-VoteList2 = [] #Used for printing
+    VoteList = [] #List that stores the people that are supposed to be voted out. Stores the information in tuples, (Player to be voted, Accuser, Role of accuser)
+    VoteList2 = [] #Used for printing
 
-TurnList = [] #List of players supposed to be turned into vampires. Tuple with (Player, 36)
+    TurnList = [] #List of players supposed to be turned into vampires. Tuple with (Player, 36)
 
 
 
@@ -2253,7 +2312,7 @@ def ExecuteTarget(Role, Target, Attacking = True, Visiting = True, IgnoreTrans =
             
     return Target, Rampage
 
-    
+
 def runGame(List): #Runs the game
     global PestilenceInGame
     global RoleSequence
@@ -2343,6 +2402,7 @@ Do you want to input your own CPUs or just pick randomly?
         for i in range(Cycles):
             print("STARTING GAME")
             print(f"Cycle {i+1}")
+            setGlobals(True)
             DebugTest = r.sample(RoleList, len(RoleList))
             print(DebugTest)
             runGame(DebugTest)
@@ -4623,8 +4683,9 @@ def Pestilence_F(Role): #(0,0,1)
                 if RoleStatuses[role][20]:
                     Attack(Role, role, True)
             RoleStats[Role][21] = 0
-if (not DebugGame):
-    mainMenu()
+
+setGlobals()
+mainMenu()
 # runGame(SpamTest)
 print("The code is finished")
 sys.stdout.close()

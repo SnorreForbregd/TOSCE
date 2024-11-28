@@ -5,7 +5,8 @@ import copy
 from time import sleep
 import sys
 
-
+winDictTeam = {}
+winDictRole = {}
 def setGlobals(debug = False):
 
     global CPUGame
@@ -1794,6 +1795,11 @@ def WinCheck():
 def endGame(Winner):
     global Win
     Win = True
+    global winDictTeam
+    if Winner in winDictTeam:
+        winDictTeam[Winner] += 1
+    else:
+        winDictTeam[Winner] = 1
     GoodList = ["Town", "Police", "FBI"]
     WinList = []
     if Winner == "Draw":
@@ -1835,16 +1841,21 @@ def endGame(Winner):
 
     if len(VillargeterList) == 1 and len(ConditionWinList) == 0:
         ConditionWinList.append(RoleStats[VillargeterList[0]][0])
-
     if len(ConditionWinList) != 0:
         print("The following won because of their own conditions:")
+        global winDictRole
         for win in ConditionWinList:
+            if win in winDictRole:
+                winDictRole[win] += 1
+            else:
+                winDictRole[win] = 1
             print(win)
     print("These players were alive at the end:")
     print(AlivePlayers())
     if (not DebugGame):
         input()
     WinnerList.append(Winner)
+    sys.stdout = open('./log.txt', 'a')
     return
     
     
@@ -2618,7 +2629,8 @@ Do you want to input your own CPUs or just pick randomly?
             DebugTest = r.sample(RoleList, len(RoleList))
             print(DebugTest)
             runGame(DebugTest)
-            sleep(0.5)
+        print(winDictRole)
+        print(winDictTeam)
 
 
     elif Ans == "2":

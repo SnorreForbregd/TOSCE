@@ -3000,19 +3000,19 @@ def PreNightCheck(Player, bot = False):
             else:
                 if Target == "1":
                     RoleStats[Ref][21] = 2
-                    if RoleStats[Ref][24] != [] and Night >= RoleStats[Ref][24][1] + 2:
+                    if RoleStats[Ref][24] != [] and Night >= RoleStats[Ref][24][0][1] + 2:
                         RoleStats[Ref][24].remove(RoleStats[Ref][24][0])
                         RoleStats[Ref][24].append([1, Night])
                     Special = 1
                 elif Target == "2":
                     RoleStats[Ref][21] = 1
-                    if RoleStats[Ref][24] != [] and Night >= RoleStats[Ref][24][1] + 2:
+                    if RoleStats[Ref][24] != [] and Night >= RoleStats[Ref][24][0][1] + 2:
                         RoleStats[Ref][24].remove(RoleStats[Ref][24][0])
                         RoleStats[Ref][24].append([2, Night])
                     Special = 1
                 elif Target == "3":
                     RoleStats[Ref][21] = 0
-                    if RoleStats[Ref][24] != [] and Night >= RoleStats[Ref][24][1] + 2:
+                    if RoleStats[Ref][24] != [] and Night >= RoleStats[Ref][24][0][1] + 2:
                         RoleStats[Ref][24].remove(RoleStats[Ref][24][0])
                         RoleStats[Ref][24].append([3, Night])
                     Special = 1
@@ -4329,7 +4329,7 @@ def Potion_master_F(Role): #(2,0,2)
             if CheckAction(Role, Target):
                 RoleStats[Role][28].append(RoleStats[Target][0])
                 RoleStats[Role][27].append(RoleStats[Target][0])
-                if RoleStats[Role][20] or CPUGame:
+                if CPUGame:
                     RoleStats[Role][24].append(Target)
                 RoleStats[Role][34] = True
 

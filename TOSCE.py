@@ -91,7 +91,7 @@ This is a list, as roles can have multiple targets.
 
 TotalRoleStats = {
     "Arsonist" : ["Arsonist", True, 5, 2, "Arsonists", False, "", False, "Killing", "Neutral", "Killing", True, ["Arsonist", "Poisoner", "Transporter"], [7], False, False, False, False, False, False, False, 1, 0, 2, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
-    "Gasthrower" : ["Gasthrower", True, 0, 0, "Arsonists", False, "", False, "Support", "Neutral", "Evil", True, ["Revengetaker", "Agent", "Gasthrower"], [7], False, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
+    "Gasthrower" : ["Gasthrower", True, 1, 0, "Arsonists", False, "", False, "Support", "Neutral", "Evil", True, ["Revengetaker", "Agent", "Gasthrower"], [7], False, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Incinerator" : ["Incinerator", True, 5, 0, "Arsonists", False, "", False, "Killing", "Neutral", "Killing", True, ["Guardian_angel", "Incinerator", "Bulleter", "Eskimo"], [0], False, False, True, True, False, False, False, 0, 0, 1, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Freezer_hunter" : ["Freezer_hunter", True, 0, 0, "Arsonists", True, "Freezers", False, "Hunting", "Neutral", "Evil", True, HunterList, [7], False, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Washer" : ["Washer", True, 0, 0, "Arsonists", False, "", False, "Protective", "Neutral", "Evil", False, ["Washer", "Security_guard", "Mikael"], [2], False, False, True, True, False, False, False, 0, 0, 1, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [],[]],
@@ -218,7 +218,7 @@ TotalRoleStats = {
     "Statuschecker" : ["Statuschecker", True, 0, 0, "Town", False, "", False, "Investigating", "Town", "Investigative", False, ["Statuschecker", "Herman", "Werewolf"], [6], False, False, False, False, False, True, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Tracker" : ["Tracker", True, 0, 0, "Town", False, "", False, "Investigating", "Town", "Investigative", False, ["Tracker", "Freezer", "Ambusher"], [0], False, False, False, False, False, True, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Transporter" : ["Transporter", True, 0, 0, "Town", False, "", False, "Supporting", "Town", "Support", False, ["Arsonist", "Poisoner", "Transporter"], [6], True, False, True, True, True, True, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
-    "Trapper" : ["Trapper", True, 0, 0, "Town", False, "", False, "Protecting", "Town", "Protective", False, ["Nightmare", "Trapper", "Targeter", "Digger"], [6], False, False, False, False, False, True, False, 0, 0, 1, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
+    "Trapper" : ["Trapper", True, 0, 0, "Town", False, "", False, "Protecting", "Town", "Protective", False, ["Nightmare", "Trapper", "Targeter", "Digger"], [6], False, False, False, False, False, True, False, 0, 0, 2, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Vampire_hunter" : ["Vampire_hunter", True, 0, 0, "Town", True, "Vampires", False, "Hunting", "Town", "Killing", False, HunterList, [6], False, False, False, False, False, True, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Veteran" : ["Veteran", True, 6, 0, "Town", False, "", False, "Killing", "Town", "Killing", False, ["Veteran", "Medusa", "Pestilence"], [0], False, False, True, True, True, True, False, 3, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Vigilante" : ["Vigilante", True, 3, 0, "Town", False, "", False, "Killing", "Town", "Killing", False, ["Vigilante", "Terrorist", "Mafioso"], [0], False, False, False, False, False, True, False, 1, 0, 1, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
@@ -247,7 +247,7 @@ TotalRoleStats = {
 
 RoleStats = {
     "Arsonist" : ["Arsonist", True, 5, 2, "Arsonists", False, "", False, "Killing", "Neutral", "Killing", True, ["Arsonist", "Poisoner", "Transporter"], [7], False, False, False, False, False, False, False, 1, 0, 2, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
-    "Gasthrower" : ["Gasthrower", True, 0, 0, "Arsonists", False, "", False, "Support", "Neutral", "Evil", True, ["Revengetaker", "Agent", "Gasthrower"], [7], False, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
+    "Gasthrower" : ["Gasthrower", True, 1, 0, "Arsonists", False, "", False, "Support", "Neutral", "Evil", True, ["Revengetaker", "Agent", "Gasthrower"], [7], False, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Incinerator" : ["Incinerator", True, 5, 0, "Arsonists", False, "", False, "Killing", "Neutral", "Killing", True, ["Guardian_angel", "Incinerator", "Bulleter", "Eskimo"], [0], False, False, True, True, False, False, False, 0, 0, 1, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Freezer_hunter" : ["Freezer_hunter", True, 0, 0, "Arsonists", True, "Freezers", False, "Hunting", "Neutral", "Evil", True, HunterList, [7], False, False, False, False, False, False, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Washer" : ["Washer", True, 0, 0, "Arsonists", False, "", False, "Protective", "Neutral", "Evil", False, ["Washer", "Security_guard", "Mikael"], [2], False, False, True, True, False, False, False, 0, 0, 1, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [],[]],
@@ -374,7 +374,7 @@ RoleStats = {
     "Statuschecker" : ["Statuschecker", True, 0, 0, "Town", False, "", False, "Investigating", "Town", "Investigative", False, ["Statuschecker", "Herman", "Werewolf"], [6], False, False, False, False, False, True, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Tracker" : ["Tracker", True, 0, 0, "Town", False, "", False, "Investigating", "Town", "Investigative", False, ["Tracker", "Freezer", "Ambusher"], [0], False, False, False, False, False, True, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Transporter" : ["Transporter", True, 0, 0, "Town", False, "", False, "Supporting", "Town", "Support", False, ["Arsonist", "Poisoner", "Transporter"], [6], True, False, True, True, True, True, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
-    "Trapper" : ["Trapper", True, 0, 0, "Town", False, "", False, "Protecting", "Town", "Protective", False, ["Nightmare", "Trapper", "Targeter", "Digger"], [6], False, False, False, False, False, True, False, 0, 0, 1, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
+    "Trapper" : ["Trapper", True, 0, 0, "Town", False, "", False, "Protecting", "Town", "Protective", False, ["Nightmare", "Trapper", "Targeter", "Digger"], [6], False, False, False, False, False, True, False, 0, 0, 2, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Vampire_hunter" : ["Vampire_hunter", True, 0, 0, "Town", True, "Vampires", False, "Hunting", "Town", "Killing", False, HunterList, [6], False, False, False, False, False, True, False, 0, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Veteran" : ["Veteran", True, 6, 0, "Town", False, "", False, "Killing", "Town", "Killing", False, ["Veteran", "Medusa", "Pestilence"], [0], False, False, True, True, True, True, False, 3, 0, 0, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
     "Vigilante" : ["Vigilante", True, 3, 0, "Town", False, "", False, "Killing", "Town", "Killing", False, ["Vigilante", "Terrorist", "Mafioso"], [0], False, False, False, False, False, True, False, 1, 0, 1, [], 0, [], [], [], [], False, False, False, False, False, True, 0, [], []],
@@ -713,7 +713,7 @@ List27 = ["Investigator", "Identifier", "Journalist", "Pestilence_hunter_R", "Sh
 
 '''The order in which the roles perform their actions during the night'''
 
-Night_action_order = ["Werepup", "Herman", "Eskimo", "Lifeguard1", "Lifeguard2", "Mayorguarder", "Sculpturer", "Washer", "Cooler",
+Night_action_order = ["Werepup", "Herman", "Eskimo", "Lifeguard1", "Lifeguard2", "Mayorguarder", "Sculpturer", "Washer", "Trapper", "Cooler",
                       "Jailor", "Pirate", "Huntrustiff", "Suicide_bomber", "Assisting_dog", "Medusa",
                       "Poisoner_saver", "Veteran", "Werewolf", "Transporter", "Idiot", "Coven_leader",
                       "Hypnotist", "Security_guard", "Ambusher", "Frenzied_thrall", "Elias",
@@ -1958,7 +1958,7 @@ def endGame(Winner):
     
     VillargeterList = []
     for role in RoleSequence:
-        if RoleStats[role][0] == "Villargeter":
+        if RoleStats[role][0] == "Villargeter" and RoleStats[role][1]:
             VillargeterList.append(role)
 
     if len(VillargeterList) == 1 and len(ConditionWinList) == 0:
@@ -2744,7 +2744,7 @@ def PreNightCheck(Player, bot = False):
 
     Teammates = []
     for role in RoleSequence:
-        if RoleStats[role][4] == RoleStats[Ref][4] and role != Ref and RoleStats[role][1]:
+        if RoleStats[role][4] == RoleStats[Ref][4] and role != Ref and RoleStats[role][1] and not (RoleStats[role][0] == "Murderer" and not RoleStats[Ref][32]):
             Teammates.append(role)
     if Skip:
         if Teammates != [] and HasTeammate(Ref) and Role != "Murderer":
@@ -3016,6 +3016,13 @@ def PreNightCheck(Player, bot = False):
                         RoleStats[Ref][24].remove(RoleStats[Ref][24][0])
                         RoleStats[Ref][24].append([3, Night])
                     Special = 1
+        else:
+            RoleStats[Ref][21] = 1
+            if RoleStats[Ref][24] != [] and Night >= RoleStats[Ref][24][0][1] + 2:
+                RoleStats[Ref][24].remove(RoleStats[Ref][24][0])
+                RoleStats[Ref][24].append([2, Night])
+            Special = 1
+
     
     elif Role == "Huntrustiff":
         if RoleStats[Ref][21] > 3:
@@ -3083,7 +3090,6 @@ def PreNightCheck(Player, bot = False):
                     NextList.append(role)
 
         elif Role == "Kristian":
-            print("Kristian has 24 ", RoleStats[Ref][24])
             for role in RoleStats[Ref][24]:
                 NextList.append(role)
 
@@ -3287,6 +3293,7 @@ def PreNightCheck(Player, bot = False):
                 if TargetList[Target-1] == Ref:
                     RoleStats[Ref][34] = True
                     RoleStats[Ref][21] = 0
+                    RoleStats[Ref][26] = [1]
                     if Skip:
                         Players[Player][3] = [1]
                 else:
@@ -3565,7 +3572,9 @@ def PreNightCheck(Player, bot = False):
                     Players[Player][3] = [1]
 
     if Skip:
-        input()   
+        input()  
+    if RoleStats[Ref][26] == []:
+        RoleStats[Ref][26] = [1] 
 
 
 
@@ -5805,9 +5814,12 @@ def Transporter_F(Role): #(0,0,0) CEI
             RoleStatuses[Role][11] = True
             RoleStats[Role][34] = False
 
-def Trapper_F(Role): #(0,0,1)
-    if RoleStats[Role][23] == 1:
+def Trapper_F(Role): #(0,0,2)
+    if RoleStats[Role][23] == 2:
         RoleStats[Role][27].append([])
+        RoleStats[Role][23] = 1
+    if RoleStats[Role][23] == 1:
+        print("Trapper", Night, RoleStats[Role][27])
         RoleStats[Role][23] = 0
         if RoleStats[Role][34] and RoleStats[Role][1] and not CheckRoleblock(Role):
             NextList = []

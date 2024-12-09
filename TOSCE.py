@@ -707,7 +707,7 @@ GoodList = ["Town", "Police", "FBI"]
 
 SurvivalList = ["Creator_hunter", "Killager", "Survivor", "Villager", "Writer"]
 
-List27 = ["Investigator", "Identifier", "Journalist", "Pestilence_hunter_R", "Sheriff", "Spy", "Statuschecker", "Trapper"]
+List27 = ["Investigator", "Identifier", "Journalist", "Pestilence_hunter_R", "Sheriff", "Spy", "Statuschecker", "Trapper", "Coven_leader"]
 
 
 
@@ -1056,6 +1056,11 @@ def Control(Role): #Returns true if the given Role is controlled in any way
 
 def NumbersToList(String): #Takes in a string with two or more numbers separated by space. Returns a list with each number as an element.
     String = String.split(" ")
+    for i in range(len(String)):
+        try:
+            String[i] = int(String[i])
+        except:
+            return None
     return String
 
 def DeadRoles(): #Returns a list of CURRENT ROLES that are dead
@@ -1075,6 +1080,7 @@ def DeadPlayers(): #Returns a list of current players that are dead
 def runControlCheck(): #Handles controlling and hypnotizing
     for role in RoleSequence:
         print("Checking", role, RoleStatuses[role][29], RoleStatuses[role][30], RoleStatuses[role][35], RoleStatuses[role][36])
+        print(RoleStats[role][26])
         if RoleStats[role][0] != "Nikkiller" and RoleStats[role][0] != "Oliver" and RoleStats[role][0] != "Terrorist":
             if RoleStatuses[role][29] and not RoleStats[role][17]:
                 print(f"{RoleStats[role][0]} is controlled")
@@ -2709,6 +2715,7 @@ def PreNightCheck(Player, bot = False):
     '''
     Runs the targetting for players before the night begins
     '''
+    Check = True
     if bot:
         Name = LinkPerson(Player)
         Ref = Player
@@ -2803,7 +2810,6 @@ def PreNightCheck(Player, bot = False):
         input()
     List21 = ["Jesper", "Mafiturner", "Sculpturer", "Janitor", "Tankman", "Idiot", "Journalist", "Pestilence_hunter_K"]
 
-    Check = True
     Special = 0
     Hunt = False
 
@@ -3155,7 +3161,6 @@ def PreNightCheck(Player, bot = False):
 
         elif RoleStats[Ref][13][0] in [2, 5, 11]:
             ct = 0
-            print("Running ")
             for role in RoleSequence:
                 if RoleStats[role][1] and Ref != role and RoleStats[Ref][4] == RoleStats[role][4] and role not in NextList:
                     ct += 1
@@ -3505,6 +3510,7 @@ def PreNightCheck(Player, bot = False):
                     if TargetList[role-1] not in RoleStats[Ref][26]:
                         RoleStats[Ref][26].append(TargetList[role-1])
             except:
+                print("No target found for terrorist")
                 RoleStats[Ref][26] = [1]
 
         elif Role == "Nikkiller":
@@ -3891,9 +3897,9 @@ def mainMenu():
             runGame(CPUList)
         elif Ans == "2":
             CPUList = r.sample(RoleList, Amount)
-            print(SpamTest)
+            print(CPUList)
             input()
-            runGame(SpamTest)
+            runGame(CPUList)
 
     elif Ans == "2":
         CPUGame = False
@@ -3903,20 +3909,63 @@ def mainMenu():
             Players[Player] = []
         CPUAmount = input("How many CPUs do you wish to play with? ")
         Hax = False
+        Cheat = False
+        List = []
+        NameList = []
         while CPUAmount == "hax":
             index = input("Which index do you want to modify?")
             amount = input("What do you want to set the index as?")
             Hax = True
             CPUAmount = input("How many CPUs do you wish to play with? ")
+        while CPUAmount == "rolehax":
+            NewRole = input("Which role do you want to be?")
+            Name = input("Which player is getting this role?")
+            if NewRole not in List and Name not in NameList:
+                List.append(NewRole)
+                NameList.append(Name)
+            Cheat = True
+            CPUAmount = input("How many CPUs do you wish to play with?")
         CPUAmount = int(CPUAmount)
-        RoleSequence = r.sample(RoleList, Amount+CPUAmount)
+
+        if not Cheat:
+            RoleSequence = r.sample(RoleList, Amount+CPUAmount)
+        else:
+            MidRoleList = copy.deepcopy(RoleList)
+            RoleSequence = copy.deepcopy(List)
+            while len(RoleSequence) < Amount+CPUAmount and len(MidRoleList) != 0:
+                MidRole = r.choice(MidRoleList)
+                if MidRole not in RoleSequence:
+                    RoleSequence.append(MidRole)
+                MidRoleList.remove(MidRole)
+            r.shuffle(RoleSequence)
+            
         PlayerSequence = r.sample(PlayerNames, len(RoleSequence))
-        Aliases = r.sample(PlayerSequence, Amount)
         NonCPUList = []
         CPUList = []
-        for i in range(len(Players.keys())):
-            Players[list(Players.keys())[i]] = [Aliases[i], RoleSequence[PlayerSequence.index(Aliases[i])], RoleSequence[PlayerSequence.index(Aliases[i])], []]
-            NonCPUList.append(RoleSequence[PlayerSequence.index(Aliases[i])])
+        if not Cheat:
+            Aliases = r.sample(PlayerSequence, Amount)
+            for i in range(len(Players.keys())):
+                Players[list(Players.keys())[i]] = [Aliases[i], RoleSequence[PlayerSequence.index(Aliases[i])], RoleSequence[PlayerSequence.index(Aliases[i])], []]
+                NonCPUList.append(RoleSequence[PlayerSequence.index(Aliases[i])])
+        else:
+            for i in range(len(NameList)):
+                if NameList[i] in Players.keys():
+                    Players[NameList[i]] = [PlayerSequence[RoleSequence.index(List[i])], List[i], List[i], []]
+                    NonCPUList.append(List[i])
+            PlayerNameList = []
+            for role in List:
+                PlayerNameList.append(PlayerSequence[RoleSequence.index(role)])
+            MidPlayerNames = copy.deepcopy(PlayerSequence)
+            Aliases = []
+            while len(Aliases) < Amount - len(List):
+                MidName = r.choice(MidPlayerNames)
+                if MidName not in PlayerNameList:
+                    Aliases.append(MidName)
+                MidPlayerNames.remove(MidName)
+            for i in range(len(Players.keys())):
+                if list(Players.keys())[i] not in NameList:
+                    Players[list(Players.keys())[i]] = [Aliases[i], RoleSequence[PlayerSequence.index(Aliases[i])], RoleSequence[PlayerSequence.index(Aliases[i])], []]
+                    NonCPUList.append(RoleSequence[PlayerSequence.index(Aliases[i])])
         if Hax:
             TotalRoleStats[Players[list(Players.keys())[i]][2]][int(index)] = int(amount)
             RoleStats[Players[list(Players.keys())[i]][2]][int(index)] = int(amount)
@@ -4515,7 +4564,7 @@ def Oliver_F(Role): #(0,0,0)
     RoleStats[Role][24] = []
     if Night%2 == 0:
         RoleStats[Role][21] += 1
-    while RoleStats[Role][1] and not CheckRoleblock(Role) and (RoleStats[Role][21] > 0 or (RoleStats[Role][26] != [] and not CPUGame)) and not Nightmare:
+    while RoleStats[Role][1] and not CheckRoleblock(Role) and (RoleStats[Role][21] > 0 or (RoleStats[Role][26] != [1] and not CPUGame)) and not Nightmare:
         print("while oliver")
         RoleStats[Role][21] -= 1
         if CPUGame:
@@ -5196,7 +5245,7 @@ def Police_F(Role): #(1,0,2) (3)
         if not RoleStats[Role][34] and not CheckRoleblock(Role) and (RoleStats[Role][21] == 0 or (RoleStats[Role][22]== 0 and not CPUGame) or Control(Role)) and RoleStats[Role][1]:
             if CPUGame:
                 FindTarget(Role)
-            Target, Rampage = ExecuteTarget(Role, RoleStats[Role][0], False)
+            Target, Rampage = ExecuteTarget(Role, RoleStats[Role][26][0], False)
             if CheckAction(Role, Target) and Target != Role:
                 RoleStatuses[Target][1] = True
                 RoleStatuses[Target][2].append(Role)
@@ -5429,8 +5478,9 @@ def Terrorist_F(Role): #(0,0,0)
     if Bulleter:
         RoleStats[Role][21] += 1
     if RoleStats[Role][1] and not CheckRoleblock(Role) and not Nightmare:
-        while RoleStats[Role][21] > 0 and not RoleStats[Role][34] and (CPUGame or RoleStats[Role][26] != []):
+        while RoleStats[Role][21] > 0 and not RoleStats[Role][34] and (CPUGame or RoleStats[Role][26] != [1]):
             print("while terrorist")
+            print(RoleStats[Role][26])
             if CPUGame:
                 FindTarget(Role)
                 Target = RoleStats[Role][26][0]
